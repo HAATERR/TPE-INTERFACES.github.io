@@ -4,21 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ninja Game</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- ===== Loader (5s exactos) ===== -->
+  <!-- ===== Loader (5s exactos con logo) ===== -->
   <div id="loader" aria-live="polite">
     <div class="loader-box">
       <div class="logo-inline">
-        <div class="mark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a0f2e" aria-hidden="true">
-            <path d="M7 14h2v-2H7v2zm8 0h2v-2h-2v2z"></path>
-            <path d="M21 7h-3.586l-1.707-1.707A.996.996 0 0 0 15 5H9c-.265 0-.52.105-.707.293L6.586 7H3c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h2a3 3 0 0 0 6 0h6a3 3 0 0 0 6 0h2a1 1 0 0 0 1-1V9c0-1.103-.897-2-2-2zM8 20a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm8 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM21 17h-1.142a3.001 3.001 0 0 0-5.716 0H9.858a3.001 3.001 0 0 0-5.716 0H3V9h4c.265 0 .52-.105.707-.293L9.414 7h5.172l1.707 1.707c.187.188.442.293.707.293H21v8z"/>
-          </svg>
-        </div>
+        <div class="mark"><img src="assets/logo.png" alt="Ninja Game"></div>
         <div class="loader-title">Cargando Ninja Game…</div>
       </div>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -28,27 +24,33 @@
     </div>
   </div>
 
-  <!-- ===== Header (versión original) ===== -->
-  <header>
+  <!-- ===== Header (flex centrado) ===== -->
+  <header class="site-header">
     <div class="bar">
-      <button class="menu-btn" aria-label="Menú">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M3 6h18M3 12h18M3 18h18" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
+      <div class="bar-left">
+        <button class="menu-btn" aria-label="Menú" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <a class="brand" href="#">
+          <div class="mark"><img src="assets/logo.png" alt="Ninja Game"></div>
+          <strong>Ninja Game</strong>
+        </a>
+      </div>
 
-      <a class="brand" href="#">
-        <div class="mark"><img src="assets/logo.png" alt="Ninja Game logo"></div>
-        <strong>Ninja Game</strong>
-      </a>
+      <div class="bar-center">
+        <label class="search" aria-label="Buscar en Ninja Games">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="searchInput" type="search" placeholder="Buscar en Ninja Games…" />
+        </label>
+      </div>
 
-      <label class="search" aria-label="Buscar en Ninja Games">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="searchInput" type="search" placeholder="Buscar en Ninja Games…" />
-      </label>
-
-      <div class="icons">
-        <button class="icon-btn" aria-label="Perfil">
+      <div class="bar-right">
+        <button class="icon-btn search-toggle" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#cfc9dd" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button id="profileBtn" class="icon-btn" aria-label="Perfil" aria-haspopup="menu" aria-expanded="false" aria-controls="profileMenu">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="8" r="4" stroke="#cfc9dd" stroke-width="2"/>
             <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
@@ -64,12 +66,79 @@
     </div>
   </header>
 
+  <!-- Profile menu popover -->
+  <div id="profileMenu" class="profile-menu" role="menu" aria-hidden="true" hidden>
+    <button class="pm-item" role="menuitem">
+      <span class="pm-ico">👤</span><span>Mi perfil</span>
+    </button>
+    <button class="pm-item" role="menuitem">
+      <span class="pm-ico">⚙️</span><span>Configuración</span>
+    </button>
+    <button class="pm-item danger" role="menuitem">
+      <span class="pm-ico">↩︎</span><span>Cerrar sesión</span>
+    </button>
+  </div>
+
+
+  <!-- Mobile search sheet -->
+  <div id="searchSheet" class="search-sheet" hidden aria-hidden="true">
+    <div class="search-row">
+      <label class="search inline" aria-label="Buscar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="searchInputMobile" type="search" placeholder="Buscar juegos…" />
+      </label>
+      <button class="icon-btn close-search" aria-label="Cerrar búsqueda">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#d8d3e6" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ===== Side Drawer / Menú ===== -->
+  <div class="scrim" data-close-drawer hidden></div>
+  <aside id="drawer" class="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <div class="drawer-head">
+      <div class="brand-mini">
+        <img src="assets/logo.png" alt="" />
+        <strong id="drawerTitle">Ninja Game</strong>
+      </div>
+      <button class="close-btn" aria-label="Cerrar menú" data-close-drawer>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#d8d3e6" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" tabindex="0">
+      <div class="drawer-search"><label class="search inline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg><input id="searchInputDrawer" type="search" placeholder="Buscar juegos…"></label></div>
+      <section class="group">
+        <h3>Categorías</h3>
+        <nav>
+          <button class="item"><span class="ico">🔥</span><span>Tendencias</span></button>
+          <button class="item"><span class="ico">👑</span><span>Estrategia</span></button>
+          <button class="item"><span class="ico">⚽</span><span>Deportes</span></button>
+          <button class="item"><span class="ico">🏎️</span><span>Carreras</span></button>
+          <button class="item"><span class="ico">🔫</span><span>Acción</span></button>
+          <button class="item"><span class="ico">👻</span><span>Terror</span></button>
+          <button class="item"><span class="ico">🧭</span><span>Aventura</span></button>
+          <button class="item"><span class="ico">🌐</span><span>Todas las categorías</span></button>
+        </nav>
+      </section>
+      <section class="group">
+        <h3>Perfil</h3>
+        <nav>
+          <button class="item"><span class="ico">👤</span><span>Mi cuenta</span></button>
+          <button class="item"><span class="ico">♡</span><span>Favoritos</span></button>
+          <button class="item"><span class="ico">🏆</span><span>Trofeos</span></button>
+          <button class="item"><span class="ico">⚙️</span><span>Configuración</span></button>
+        </nav>
+      </section>
+    </div>
+  </aside>
+
+
   <main>
-    <!-- ===== Carrusel principal (v1) ===== -->
+    <!-- ===== Carrusel principal (API v1) ===== -->
     <div class="row">
       <div class="section-title">DESTACADOS Y RECOMENDADOS</div>
     </div>
-
     <div class="carousel-wrap">
       <button class="car-btn car-prev" aria-label="Anterior">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -80,52 +149,41 @@
       </button>
     </div>
 
-    <!-- ===== Carrusel inferior (v2) ===== -->
-    <div class="row" style="margin-top:34px">
-      <h2>Juegos Más Vendidos</h2>
-    </div>
+    <!-- ===== Carrusel: Más vendidos (API v2) ===== -->
+    <div class="row" style="margin-top:34px"><h2>Juegos Más Vendidos</h2></div>
     <div class="hcar-wrap">
-      <button class="hcar-btn prev" data-target="#carousel-popular" aria-label="Anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="hcar-btn prev" data-target="#carousel-popular" aria-label="Anterior">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <div class="hcarousel" id="carousel-popular" aria-label="Carrusel de juegos"></div>
-      <button class="hcar-btn next" data-target="#carousel-popular" aria-label="Siguiente"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="hcar-btn next" data-target="#carousel-popular" aria-label="Siguiente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
-  
-    <!-- ===== Carrusel: Juegos en Oferta ===== -->
-    <div class="row" style="margin-top:38px">
-      <h2>Juegos en Oferta</h2>
-    </div>
+
+    <!-- ===== Carrusel: Ofertas ===== -->
+    <div class="row" style="margin-top:38px"><h2>Juegos en Oferta</h2></div>
     <div class="hcar-wrap">
       <button class="hcar-btn prev" data-target="#carousel-offers" aria-label="Anterior">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="hcarousel" id="carousel-offers" aria-label="Juegos en oferta"></div>
       <button class="hcar-btn next" data-target="#carousel-offers" aria-label="Siguiente">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
 
-    <!-- ===== Carrusel: Juegos Gratis ===== -->
-    <div class="row" style="margin-top:38px">
-      <h2>Juegos Gratis</h2>
-    </div>
+    <!-- ===== Carrusel: Gratis ===== -->
+    <div class="row" style="margin-top:38px"><h2>Juegos Gratis</h2></div>
     <div class="hcar-wrap">
       <button class="hcar-btn prev" data-target="#carousel-free" aria-label="Anterior">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="hcarousel" id="carousel-free" aria-label="Juegos gratis"></div>
       <button class="hcar-btn next" data-target="#carousel-free" aria-label="Siguiente">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#2b1f49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
-
   </main>
 
   <script src="app.js"></script>

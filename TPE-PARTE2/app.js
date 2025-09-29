@@ -70,21 +70,28 @@ function renderFeatured(games){
 }
 
 // ===== Popular (v2) =====
+function cardActionsHTML(){
+  return `
+    <div class="actions">
+      <button class="pill btn-fav" aria-pressed="false" aria-label="Favorito">
+        <img class="heart" src="assets/heart.svg" alt=""><img class="heart-fill" src="assets/heart-fill.svg" alt="">
+      </button>
+      <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart.svg" alt=""><img class="cart-check" src="assets/cart-check.svg" alt=""></button>
+    </div>`;
+}
+
 function renderPopular(games){
   const cont = document.getElementById('carousel-popular');
   cont.innerHTML = '';
   games.slice(0,18).forEach(g=>{
     const item = document.createElement('article');
-    item.className = 'pitem'; item.setAttribute("data-id", g.id);
+    item.className = 'pitem'; item.setAttribute('data-id', g.id);
     const img = g.background_image_low_res || g.background_image;
     item.innerHTML = `
       <div class="thumb"><img src="${img}" alt="${g.name}" onerror="this.src='https://placehold.co/600x400/1d1926/ffffff?text=Sin+imagen'"></div>
       <div class="meta">
         <div class="title">${g.name}</div>
-        <div class="actions">
-          <button class="pill btn-fav" aria-pressed="false" aria-label="Favorito"><img class="heart" src="assets/heart.svg" alt=""><img class="heart-fill" src="assets/heart-fill.svg" alt=""></button>
-          <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart.svg" alt=""><img class="cart-check" src="assets/cart-check (1).svg" alt=""></button>
-        </div>
+        ${cardActionsHTML()}
         <div class="price">$${computePrice(g.id)}</div>
       </div>`;
     cont.appendChild(item);
@@ -92,8 +99,6 @@ function renderPopular(games){
   const prev = document.querySelector('.hcar-btn.prev[data-target="#carousel-popular"]');
   const next = document.querySelector('.hcar-btn.next[data-target="#carousel-popular"]');
   wireCarousel(cont, prev, next, {center:false});
-  refreshStates(cont);
-  refreshStates(cont);
   refreshStates(cont);
 }
 
@@ -110,7 +115,7 @@ function renderOffers(games){
     const base = parseFloat(computePrice(g.id).replace(',','.'));
     const d = discountFor(g.id); const newP = base*(1-d);
     const item = document.createElement('article');
-    item.className = 'pitem promo'; item.setAttribute("data-id", g.id);
+    item.className = 'pitem promo'; item.setAttribute('data-id', g.id);
     item.innerHTML = `
       <div class="thumb">
         <img src="${img}" alt="${g.name}">
@@ -118,10 +123,7 @@ function renderOffers(games){
       </div>
       <div class="meta">
         <div class="title">${g.name}</div>
-        <div class="actions">
-          <button class="pill btn-fav" aria-pressed="false" aria-label="Favorito"><img class="heart" src="assets/heart.svg" alt=""><img class="heart-fill" src="assets/heart-fill.svg" alt=""></button>
-          <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart.svg" alt=""><img class="cart-check" src="assets/cart-check (1).svg" alt=""></button>
-        </div>
+        ${cardActionsHTML()}
         <div class="price">
           <span class="old">$${formatPrice(base)}</span>
           <span class="new">$${formatPrice(newP)}</span>
@@ -147,7 +149,7 @@ function renderFree(games){
   chosen.forEach(g=>{
     const img = g.background_image_low_res || g.background_image;
     const item = document.createElement('article');
-    item.className = 'pitem free'; item.setAttribute("data-id", g.id);
+    item.className = 'pitem free'; item.setAttribute('data-id', g.id);
     item.innerHTML = `
       <div class="thumb">
         <img src="${img}" alt="${g.name}">
@@ -155,10 +157,7 @@ function renderFree(games){
       </div>
       <div class="meta">
         <div class="title">${g.name}</div>
-        <div class="actions">
-          <button class="pill btn-fav" aria-pressed="false" aria-label="Favorito"><img class="heart" src="assets/heart.svg" alt=""><img class="heart-fill" src="assets/heart-fill.svg" alt=""></button>
-          <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart.svg" alt=""><img class="cart-check" src="assets/cart-check (1).svg" alt=""></button>
-        </div>
+        ${cardActionsHTML()}
         <div class="price"><span class="new">FREE</span></div>
       </div>`;
     cont.appendChild(item);
@@ -168,20 +167,6 @@ function renderFree(games){
   wireCarousel(cont, prev, next, {center:false});
   refreshStates(cont);
 }
-
-// ===== Search =====
-function wireSearch(allGamesV2){
-  const input=document.getElementById('searchInput');
-  if(!input) return;
-  input.addEventListener('input', () => {
-    const q=input.value.trim().toLowerCase();
-    const filtered = q ? allGamesV2.filter(g => (g.name||'').toLowerCase().includes(q)) : allGamesV2;
-    renderPopular(filtered);
-    renderOffers(filtered);
-    renderFree(filtered);
-  });
-}
-
 
 // ===== Interactions: favorites & cart (persisted) =====
 const FAV_KEY='ng_favs', CART_KEY='ng_cart';
@@ -196,32 +181,37 @@ function applyStateToCard(card){
   if (favBtn){ const pressed = favs.has(id); favBtn.setAttribute('aria-pressed', pressed); }
   if (cartBtn){ const pressed = cart.has(id); cartBtn.setAttribute('aria-pressed', pressed); }
 }
+function refreshStates(scope=document){ scope.querySelectorAll('.pitem').forEach(applyStateToCard); }
 
-function refreshStates(scope=document){
-  scope.querySelectorAll('.pitem').forEach(applyStateToCard);
-}
-
-// Delegate clicks
 document.addEventListener('click', (e)=>{
   const favBtn = e.target.closest('.btn-fav');
   const cartBtn = e.target.closest('.btn-cart');
   if (favBtn){
-    const card = favBtn.closest('.pitem');
-    const id = String(card.getAttribute('data-id'));
+    const card = favBtn.closest('.pitem'); const id = String(card.getAttribute('data-id'));
     const pressed = favBtn.getAttribute('aria-pressed') === 'true';
     favBtn.setAttribute('aria-pressed', !pressed);
     if (pressed) favs.delete(id); else favs.add(id);
     saveSet(FAV_KEY, favs);
   }
   if (cartBtn){
-    const card = cartBtn.closest('.pitem');
-    const id = String(card.getAttribute('data-id'));
+    const card = cartBtn.closest('.pitem'); const id = String(card.getAttribute('data-id'));
     const pressed = cartBtn.getAttribute('aria-pressed') === 'true';
     cartBtn.setAttribute('aria-pressed', !pressed);
     if (pressed) cart.delete(id); else cart.add(id);
     saveSet(CART_KEY, cart);
   }
 });
+
+// ===== Search =====
+function wireSearch(allGamesV2){
+  const input=document.getElementById('searchInput');
+  if(!input) return;
+  input.addEventListener('input', () => {
+    const q=input.value.trim().toLowerCase();
+    const filtered = q ? allGamesV2.filter(g => (g.name||'').toLowerCase().includes(q)) : allGamesV2;
+    renderPopular(filtered); renderOffers(filtered); renderFree(filtered);
+  });
+}
 
 // ===== Init =====
 (async()=>{
@@ -235,4 +225,138 @@ document.addEventListener('click', (e)=>{
   }catch(err){
     console.error(err);
   }
+})();
+
+
+// ===== Drawer (hamburger) =====
+(function(){
+  const drawer = document.getElementById('drawer');
+  const scrim = document.querySelector('.scrim');
+  const menuBtn = document.querySelector('.menu-btn');
+  if (!drawer || !scrim || !menuBtn) return;
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    scrim.hidden = false;
+    // small delay to allow transition
+    requestAnimationFrame(()=> scrim.classList.add('show'));
+    document.body.classList.add('drawer-open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden','false');
+    // focus first item
+    const first = drawer.querySelector('.item, .close-btn');
+    first && first.focus();
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    scrim.classList.remove('show');
+    document.body.classList.remove('drawer-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden','true');
+    // hide scrim after transition
+    setTimeout(()=>{scrim.hidden = true;}, 200);
+    menuBtn.focus();
+  }
+
+  menuBtn.addEventListener('click', ()=>{
+    if (drawer.classList.contains('open')) closeDrawer(); else openDrawer();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+  scrim.addEventListener('click', closeDrawer);
+  drawer.addEventListener('click', (e)=>{
+    if (e.target.matches('[data-close-drawer]')) closeDrawer();
+  });
+})();
+
+
+// ===== Mobile search sheet toggle =====
+(function(){
+  const sheet = document.getElementById('searchSheet');
+  const openBtn = document.querySelector('.search-toggle');
+  const closeBtn = sheet ? sheet.querySelector('.close-search') : null;
+  const drawerInput = document.getElementById('searchInputDrawer');
+  const mobileInput = document.getElementById('searchInputMobile');
+  if(!sheet || !openBtn) return;
+
+  function openSheet(){
+    sheet.hidden = false;
+    requestAnimationFrame(()=> sheet.classList.add('open'));
+    (mobileInput||drawerInput||document.getElementById('searchInput'))?.focus();
+    document.body.classList.add('drawer-open'); // prevent jump
+  }
+  function closeSheet(){
+    sheet.classList.remove('open');
+    setTimeout(()=>{ sheet.hidden = true; }, 200);
+    document.body.classList.remove('drawer-open');
+  }
+
+  openBtn.addEventListener('click', ()=>{
+    if(sheet.classList.contains('open')) closeSheet(); else openSheet();
+  });
+  closeBtn && closeBtn.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && sheet.classList.contains('open')) closeSheet(); });
+
+  // Hook search inputs to the main search behavior if present
+  function proxyInput(src){
+    if(!src) return;
+    src.addEventListener('input', () => {
+      const base = document.getElementById('searchInput');
+      if(base){ base.value = src.value; base.dispatchEvent(new Event('input', {bubbles:true})); }
+    });
+  }
+  proxyInput(mobileInput);
+  proxyInput(drawerInput);
+})();
+
+
+// ===== Profile menu popover =====
+(function(){
+  const btn = document.getElementById('profileBtn');
+  const menu = document.getElementById('profileMenu');
+  if(!btn || !menu) return;
+  function place(){
+    const r = btn.getBoundingClientRect();
+    const top = r.bottom + 10; // fixed positioning => no scrollY
+    const left = Math.min(window.innerWidth - menu.offsetWidth - 12, r.right - menu.offsetWidth); // no scrollX
+    menu.style.top = top+'px';
+    menu.style.left = left+'px';
+  }
+  function open(){
+    menu.hidden = false; place();
+    requestAnimationFrame(()=> menu.classList.add('show'));
+    btn.setAttribute('aria-expanded','true');
+    menu.setAttribute('aria-hidden','false');
+  }
+  function close(){
+    menu.classList.remove('show');
+    btn.setAttribute('aria-expanded','false');
+    menu.setAttribute('aria-hidden','true');
+    setTimeout(()=> menu.hidden = true, 160);
+  }
+  btn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(menu.classList.contains('show')) close(); else open();
+  });
+  window.addEventListener('resize', ()=>{ if(menu.classList.contains('show')) place(); });
+  document.addEventListener('click', (e)=>{
+    if(!menu.contains(e.target) && e.target !== btn && menu.classList.contains('show')) close();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape' && menu.classList.contains('show')) close();
+  });
+
+  // Demo actions
+  menu.addEventListener('click', (e)=>{
+    const item = e.target.closest('.pm-item'); if(!item) return;
+    const label = item.textContent.trim();
+    if(label.startsWith('Cerrar')){
+      alert('Sesión cerrada (demo).');
+      close();
+    }else{
+      alert('Abrir: '+label+' (demo)');
+      close();
+    }
+  });
 })();
