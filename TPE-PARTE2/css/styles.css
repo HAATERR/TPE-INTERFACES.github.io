@@ -1,6 +1,41 @@
 :root{
   --bg:#0c0810;--bg-elev:#15121b;--text:#e9e7ee;--muted:#b9b4c7;
   --accent:#c6a5ff;--accent-2:#8c7aff;--stroke:#2a2534;--shadow:0 8px 24px rgba(0,0,0,.35);
+
+  /* COLOR PRINCIPAL */
+  --PRIMARY_COLOR: #1E1B3A;
+
+  /* LUCES */
+  --PRIMARY_LIGHT: #342F5C;
+  --PRIMARY_LIGHT2: #4C4781;
+  --PRIMARY_LIGHT3: #6662A3;
+  --SECUNDARY_LIGHT: #33F0FF;
+  --SECUNDARY_LIGHT2: #66F5FF;
+  --SECUNDARY_LIGHT3: #99FAFF;
+  --ACCENT_LIGHT1: #FF338B;
+  --ACCENT_LIGHT2: #FF66A8;
+  --ACCENT_LIGHT3: #FF99C5;
+
+  /* SOMBRAS */
+  --PRIMARY_SHADOW: #181530;
+  --PRIMARY-SHADOW2: #0F0D1C;
+  --PRIMARY_SHADOW3: #07060D;
+  --SECUNDARY_SHADOW1: #216187;
+  --SECUNDARY_SHADOW2: #008593;
+  --SECUNDARY_SHADOW3: #00545F;
+  --ACCENT_SHADOW: #990041;
+  --ACCENT_SHADOW1: #CC0058;
+
+  --ACCENT_SHADOW3: #66002B;
+
+  /* ACENTO */
+  --ACENTO: #FF8329;
+  --ACCENT_COLOR: #FF006E;
+
+  /* NEUTROS */
+  --WHITE_NEUTRAL: #F0DDFF;
+  --BLACK_NEUTRAL: #090011;
+
 }
 *{box-sizing:border-box}html,body{height:100%}
 body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(1000px 600px at 20% -10%, #241a33 0%, transparent 60%),radial-gradient(900px 500px at 120% -20%, #1a1430 0%, transparent 60%),var(--bg);color:var(--text)}
@@ -450,4 +485,53 @@ body.drawer-open{ overflow:hidden; }
   width:14px; height:14px; transform:rotate(45deg);
   background:#5b2bff; border:1px solid rgba(255,255,255,.18); border-left:0; border-bottom:0;
   box-shadow: -2px -2px 12px rgba(0,0,0,.12);
+}
+
+footer {
+  background: linear-gradient(var(--PRIMARY-SHADOW2), var(--BLACK_NEUTRAL));
+  color: var(--WHITE_NEUTRAL);
+  width: 100%;
+  height: 500px;
+  border-top: 1px solid var(--WHITE_NEUTRAL);
+}
+
+.footer-inside{
+  display: flex;
+  justify-content: space-around;
+  font-size: larger;
+}
+.footer-inside div h3{
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.footer-contacto{
+  flex-direction: column;
+}
+
+footer div{
+  margin-top: 2%;
+}
+.button-contacto{
+  background-color: var(--PRIMARY_SHADOW); 
+  border: none;
+  border-radius: 20px;
+  align-items: center;
+  color: white;
+  display: flex;
+  gap: 6px;
+  height: 50px;
+  margin-top: 5px;
+  text-align: center;
+  padding: 10px;
+  width: 175px;
+}
+
+.footer-bottom{
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  align-items: center;
+  bottom: 0;
+  text-align: center;
 }
