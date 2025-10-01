@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ninja Game</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -24,47 +22,31 @@
     </div>
   </div>
 
-  <!-- ===== Header (flex centrado) ===== -->
-  <header class="site-header">
-    <div class="bar">
-      <div class="bar-left">
-        <button class="menu-btn" aria-label="Menú" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-        <a class="brand" href="#">
-          <div class="mark"><img src="assets/logo.png" alt="Ninja Game"></div>
-          <strong>Ninja Game</strong>
-        </a>
-      </div>
+  <header>
 
-      <div class="bar-center">
-        <label class="search" aria-label="Buscar en Ninja Games">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="searchInput" type="search" placeholder="Buscar en Ninja Games…" />
-        </label>
-      </div>
+        <div>
+            <div class="menu-hamburguesa">
+                <button id="btn-menu-hamburguesa"><img src="assets/menu_hamburguesa.png" alt=""></button>
+            </div>
+            <div class="logo-home">
+                <a href="index.html" class="logo-home-link">
+                    <img src="assets/logo.png" alt="Logo" id="logo">
+                    <h1 id="header-titulo">Ninja games</h1>
+                </a>
 
-      <div class="bar-right">
-        <button class="icon-btn search-toggle" aria-label="Buscar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#cfc9dd" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-        <button id="profileBtn" class="icon-btn" aria-label="Perfil" aria-haspopup="menu" aria-expanded="false" aria-controls="profileMenu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="4" stroke="#cfc9dd" stroke-width="2"/>
-            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-        <button class="icon-btn" aria-label="Carrito">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6h15l-1.5 9h-12L5 3H2" stroke="#cfc9dd" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="9" cy="20" r="1" fill="#cfc9dd"/><circle cx="18" cy="20" r="1" fill="#cfc9dd"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
+            </div>
+        </div>
+
+        <div class="buscar-header">
+            <input type="text" placeholder="Buscar en Ninja Games..." id="buscar-header-input">
+        </div>
+        <div class="atajos-header">
+            <button id="btn-usuario"><img src="assets/usuario.png" alt=""></button>
+            <button id="btn-carrito"><img src="assets/carrito.png" alt=""></button>
+        </div>
+
+    </header>
+
 
   <!-- Profile menu popover -->
   <div id="profileMenu" class="profile-menu" role="menu" aria-hidden="true" hidden>
