@@ -13,8 +13,48 @@
 })();
 
 // ===== API endpoints =====
-const API_V1 = 'https://vj.interfaces.jima.com.ar/api';     // high-res for featured
-const API_V2 = 'https://vj.interfaces.jima.com.ar/api/v2';  // low-res for rows
+const API_V1 = 'https://vj.interfaces.jima.com.ar/api';     // high-res 
+const API_V2 = 'https://vj.interfaces.jima.com.ar/api/v2';  // low-res 
+
+
+const FEATURED_IMAGE_OVERRIDE = {
+  imagePath: "assets/PegSolitaire.png",  
+  matchTitle: /peg\s*solitaire/i,          
+  useIndex: true,                          
+  index: 0                                  
+};
+
+function applyFeaturedOverride(container){
+  try{
+    if(!container) return;
+    const slides = Array.from(container.querySelectorAll('.slide'));
+    if(!slides.length) return;
+    // Try by title inside <img alt> or any text node around
+    let target = null;
+    for(const s of slides){
+      const img = s.querySelector('img');
+      const title = (img?.alt || s.getAttribute('aria-label') || s.getAttribute('data-title') || '').trim();
+      if(FEATURED_IMAGE_OVERRIDE.matchTitle && FEATURED_IMAGE_OVERRIDE.matchTitle.test(title)){
+        target = s; break;
+      }
+    }
+    if(!target && FEATURED_IMAGE_OVERRIDE.useIndex){
+      const idx = Math.max(0, Math.min(FEATURED_IMAGE_OVERRIDE.index, slides.length-1));
+      target = slides[idx];
+    }
+    if(!target) return;
+
+    const img = target.querySelector('img');
+    if(img){
+      img.src = FEATURED_IMAGE_OVERRIDE.imagePath;
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+      img.loading = "eager";
+      img.decoding = "sync";
+    }
+  }catch(e){ console.warn('applyFeaturedOverride error:', e); }
+}
+
 
 async function fetchJSON(url){ const r = await fetch(url, {cache:'no-store'}); if(!r.ok) throw new Error(url+': '+r.status); return r.json(); }
 function computePrice(id){ const base=19.99,range=60; const pseudo=(id*2654435761%997)/997; return (base+pseudo*range).toFixed(2).replace('.',','); }
@@ -63,10 +103,30 @@ function renderFeatured(games){
   games.slice(0,3).forEach((g,i)=>{
     const slide = document.createElement('article');
     slide.className = 'slide';
-    slide.innerHTML = `<img src="${g.background_image}" alt="${g.name}"><div class="badge">${i===0?'Jugar Ahora':'Comprar Ahora'}</div>`;
+    slide.innerHTML = `<img src="${g.background_image}" alt="${g.name}"><button class="badge cta-btn" type="button">${i===0?'Jugar Ahora':'Comprar Ahora'}</button>`;
     container.appendChild(slide);
   });
+  applyFeaturedOverride(container);
   wireCarousel(container, document.querySelector('.car-prev'), document.querySelector('.car-next'), {center:true});
+  // --- Anclar el título dentro del wrap y fijar posición estática ---
+  try{
+    const wrap = container.parentElement; // .carousel-wrap
+    const originalTitle = document.querySelector('.row .section-title');
+    if (wrap && originalTitle) {
+      originalTitle.classList.add('featured-title');
+      if (originalTitle.parentElement !== wrap) wrap.appendChild(originalTitle);
+    }
+    function positionFeaturedTitleStatic(){
+      if (!wrap || !originalTitle) return;
+      const firstCard = container.children && container.children[0];
+      if (!firstCard) return;
+      const left = (container.clientWidth - firstCard.clientWidth) / 2;
+      originalTitle.style.left = (left + 16) + 'px'; 
+    }
+    positionFeaturedTitleStatic();
+    window.addEventListener('resize', positionFeaturedTitleStatic);
+  }catch(e){ /* silencioso */ }
+
 }
 
 // ===== Popular (v2) =====
@@ -76,7 +136,7 @@ function cardActionsHTML(){
       <button class="pill btn-fav" aria-pressed="false" aria-label="Favorito">
         <img class="heart" src="assets/heart.svg" alt=""><img class="heart-fill" src="assets/heart-fill.svg" alt="">
       </button>
-      <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart.svg" alt=""><img class="cart-check" src="assets/cart-check.svg" alt=""></button>
+      <button class="pill btn-cart" aria-pressed="false" aria-label="Agregar al carrito"><img class="cart" src="assets/cart-add.png" alt=""><img class="cart-check" src="assets/cart-check.svg" alt=""></button>
     </div>`;
 }
 
@@ -227,50 +287,6 @@ function wireSearch(allGamesV2){
   }
 })();
 
-
-// ===== Drawer (hamburger) =====
-(function(){
-  const drawer = document.getElementById('drawer');
-  const scrim = document.querySelector('.scrim');
-  const menuBtn = document.querySelector('.menu-btn');
-  if (!drawer || !scrim || !menuBtn) return;
-
-  function openDrawer(){
-    drawer.classList.add('open');
-    scrim.hidden = false;
-    // small delay to allow transition
-    requestAnimationFrame(()=> scrim.classList.add('show'));
-    document.body.classList.add('drawer-open');
-    menuBtn.setAttribute('aria-expanded', 'true');
-    drawer.setAttribute('aria-hidden','false');
-    // focus first item
-    const first = drawer.querySelector('.item, .close-btn');
-    first && first.focus();
-  }
-  function closeDrawer(){
-    drawer.classList.remove('open');
-    scrim.classList.remove('show');
-    document.body.classList.remove('drawer-open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-    drawer.setAttribute('aria-hidden','true');
-    // hide scrim after transition
-    setTimeout(()=>{scrim.hidden = true;}, 200);
-    menuBtn.focus();
-  }
-
-  menuBtn.addEventListener('click', ()=>{
-    if (drawer.classList.contains('open')) closeDrawer(); else openDrawer();
-  });
-  document.addEventListener('keydown', (e)=>{
-    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
-  });
-  scrim.addEventListener('click', closeDrawer);
-  drawer.addEventListener('click', (e)=>{
-    if (e.target.matches('[data-close-drawer]')) closeDrawer();
-  });
-})();
-
-
 // ===== Mobile search sheet toggle =====
 (function(){
   const sheet = document.getElementById('searchSheet');
@@ -360,3 +376,10 @@ function wireSearch(allGamesV2){
     }
   });
 })();
+
+
+// Navigation for Featured CTA button
+document.addEventListener('click', (e)=>{
+  const cta = e.target.closest('.cta-btn');
+  if (cta) { window.location.href = 'game-page.html'; }
+});

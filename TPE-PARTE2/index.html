@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ninja Game</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -22,6 +24,7 @@
     </div>
   </div>
 
+  <!-- ===== Header (flex centrado) ===== -->
   <header>
 
         <div>
@@ -48,19 +51,6 @@
     </header>
 
 
-  <!-- Profile menu popover -->
-  <div id="profileMenu" class="profile-menu" role="menu" aria-hidden="true" hidden>
-    <button class="pm-item" role="menuitem">
-      <span class="pm-ico">👤</span><span>Mi perfil</span>
-    </button>
-    <button class="pm-item" role="menuitem">
-      <span class="pm-ico">⚙️</span><span>Configuración</span>
-    </button>
-    <button class="pm-item danger" role="menuitem">
-      <span class="pm-ico">↩︎</span><span>Cerrar sesión</span>
-    </button>
-  </div>
-
 
   <!-- Mobile search sheet -->
   <div id="searchSheet" class="search-sheet" hidden aria-hidden="true">
@@ -74,47 +64,6 @@
       </button>
     </div>
   </div>
-
-
-  <!-- ===== Side Drawer / Menú ===== -->
-  <div class="scrim" data-close-drawer hidden></div>
-  <aside id="drawer" class="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
-    <div class="drawer-head">
-      <div class="brand-mini">
-        <img src="assets/logo.png" alt="" />
-        <strong id="drawerTitle">Ninja Game</strong>
-      </div>
-      <button class="close-btn" aria-label="Cerrar menú" data-close-drawer>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#d8d3e6" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div class="drawer-body" tabindex="0">
-      <div class="drawer-search"><label class="search inline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#a79fbe" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#a79fbe" stroke-width="2" stroke-linecap="round"/></svg><input id="searchInputDrawer" type="search" placeholder="Buscar juegos…"></label></div>
-      <section class="group">
-        <h3>Categorías</h3>
-        <nav>
-          <button class="item"><span class="ico">🔥</span><span>Tendencias</span></button>
-          <button class="item"><span class="ico">👑</span><span>Estrategia</span></button>
-          <button class="item"><span class="ico">⚽</span><span>Deportes</span></button>
-          <button class="item"><span class="ico">🏎️</span><span>Carreras</span></button>
-          <button class="item"><span class="ico">🔫</span><span>Acción</span></button>
-          <button class="item"><span class="ico">👻</span><span>Terror</span></button>
-          <button class="item"><span class="ico">🧭</span><span>Aventura</span></button>
-          <button class="item"><span class="ico">🌐</span><span>Todas las categorías</span></button>
-        </nav>
-      </section>
-      <section class="group">
-        <h3>Perfil</h3>
-        <nav>
-          <button class="item"><span class="ico">👤</span><span>Mi cuenta</span></button>
-          <button class="item"><span class="ico">♡</span><span>Favoritos</span></button>
-          <button class="item"><span class="ico">🏆</span><span>Trofeos</span></button>
-          <button class="item"><span class="ico">⚙️</span><span>Configuración</span></button>
-        </nav>
-      </section>
-    </div>
-  </aside>
-
 
   <main>
     <!-- ===== Carrusel principal (API v1) ===== -->
