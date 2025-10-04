@@ -105,8 +105,6 @@ btn_compartir.addEventListener('click', () => {
     }, 3000)
 })
 
-
-
 /* AÑADIR A FAVORITOS */
 
 let btn_favoritos = document.getElementById('favoritos-game-bar');
