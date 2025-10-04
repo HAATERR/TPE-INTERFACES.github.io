@@ -1,4 +1,4 @@
-// ===== Loader 5s =====
+
 (function () {
   const loader = document.getElementById('loader');
   const percent = document.getElementById('loaderPercent');
@@ -12,9 +12,9 @@
   } requestAnimationFrame(step);
 })();
 
-// ===== API endpoints =====
-const API_V1 = 'https://vj.interfaces.jima.com.ar/api';     // high-res 
-const API_V2 = 'https://vj.interfaces.jima.com.ar/api/v2';  // low-res 
+
+const API_V1 = 'https://vj.interfaces.jima.com.ar/api';    
+const API_V2 = 'https://vj.interfaces.jima.com.ar/api/v2'; 
 
 
 const FEATURED_IMAGE_OVERRIDE = {
@@ -29,7 +29,6 @@ function applyFeaturedOverride(container){
     if(!container) return;
     const slides = Array.from(container.querySelectorAll('.slide'));
     if(!slides.length) return;
-    // Try by title inside <img alt> or any text node around
     let target = null;
     for(const s of slides){
       const img = s.querySelector('img');
@@ -56,10 +55,18 @@ function applyFeaturedOverride(container){
 }
 
 
-async function fetchJSON(url){ const r = await fetch(url, {cache:'no-store'}); if(!r.ok) throw new Error(url+': '+r.status); return r.json(); }
-function computePrice(id){ const base=19.99,range=60; const pseudo=(id*2654435761%997)/997; return (base+pseudo*range).toFixed(2).replace('.',','); }
+async function fetchJSON(url){ 
+  const r = await fetch(url, {cache:'no-store'}); 
+  if(!r.ok) 
+    throw new Error(url+': '+r.status); 
+  return r.json(); }
+function computePrice(id){ 
+  const base=19.99,range=60; 
+  const pseudo=(id*2654435761%997)/997; 
+  return (base+pseudo*range).toFixed(2).replace('.',',');
+ }
 
-// ===== Generic carousel wiring =====
+
 function wireCarousel(container, prevBtn, nextBtn, options={center:true}){
   const slides = Array.from(container.children);
   let index = Math.min(1, slides.length-1);
@@ -92,11 +99,11 @@ function wireCarousel(container, prevBtn, nextBtn, options={center:true}){
   container.addEventListener('pointerup', ()=>{ isPointer=false; if(options.center) centerTo(nearestIndex()); });
   container.addEventListener('scroll', ()=>{ if(options.center && !isPointer) setActive(nearestIndex()); });
 
-  // init
+  
   centerTo(index, false);
 }
 
-// ===== Featured (v1) =====
+
 function renderFeatured(games){
   const container = document.getElementById('carousel-featured');
   container.innerHTML = '';
@@ -108,9 +115,9 @@ function renderFeatured(games){
   });
   applyFeaturedOverride(container);
   wireCarousel(container, document.querySelector('.car-prev'), document.querySelector('.car-next'), {center:true});
-  // --- Anclar el título dentro del wrap y fijar posición estática ---
+  
   try{
-    const wrap = container.parentElement; // .carousel-wrap
+    const wrap = container.parentElement; 
     const originalTitle = document.querySelector('.row .section-title');
     if (wrap && originalTitle) {
       originalTitle.classList.add('featured-title');
@@ -125,11 +132,11 @@ function renderFeatured(games){
     }
     positionFeaturedTitleStatic();
     window.addEventListener('resize', positionFeaturedTitleStatic);
-  }catch(e){ /* silencioso */ }
+  }catch(e){ }
 
 }
 
-// ===== Popular (v2) =====
+
 function cardActionsHTML(){
   return `
     <div class="actions">
@@ -162,11 +169,11 @@ function renderPopular(games){
   refreshStates(cont);
 }
 
-// ===== Offers helpers =====
+
 function discountFor(id){ const pct = 35 + ((id * 97) % 31); return pct/100; } // 35..65%
 function formatPrice(n){ return n.toFixed(2).replace('.', ','); }
 
-// ===== Offers (v2) =====
+
 function renderOffers(games){
   const cont = document.getElementById('carousel-offers'); cont.innerHTML='';
   const pick = games.slice(10, 22);
@@ -197,7 +204,7 @@ function renderOffers(games){
   refreshStates(cont);
 }
 
-// ===== Free (v2) =====
+
 function isLikelyFree(name, id){
   const n = (name||'').toLowerCase();
   if (n.includes('fortnite') || n.includes('rocket league') || n.includes('efootball') || n.includes('apex') || n.includes('valorant')) return true;
@@ -228,10 +235,14 @@ function renderFree(games){
   refreshStates(cont);
 }
 
-// ===== Interactions: favorites & cart (persisted) =====
 const FAV_KEY='ng_favs', CART_KEY='ng_cart';
-function getSet(key){ try{ return new Set(JSON.parse(localStorage.getItem(key)||'[]')); }catch{ return new Set(); } }
-function saveSet(key,set){ localStorage.setItem(key, JSON.stringify([...set])); }
+function getSet(key){ 
+  try{ 
+    return new Set(JSON.parse(localStorage.getItem(key)||'[]')); 
+  }catch{ return new Set(); } }
+function saveSet(key,set){ 
+  localStorage.setItem(key, JSON.stringify([...set])); 
+}
 let favs=getSet(FAV_KEY), cart=getSet(CART_KEY);
 
 function applyStateToCard(card){
@@ -241,39 +252,12 @@ function applyStateToCard(card){
   if (favBtn){ const pressed = favs.has(id); favBtn.setAttribute('aria-pressed', pressed); }
   if (cartBtn){ const pressed = cart.has(id); cartBtn.setAttribute('aria-pressed', pressed); }
 }
-function refreshStates(scope=document){ scope.querySelectorAll('.pitem').forEach(applyStateToCard); }
+function refreshStates(scope=document){ 
+  scope.querySelectorAll('.pitem').forEach(applyStateToCard);
+ }
 
-document.addEventListener('click', (e)=>{
-  const favBtn = e.target.closest('.btn-fav');
-  const cartBtn = e.target.closest('.btn-cart');
-  if (favBtn){
-    const card = favBtn.closest('.pitem'); const id = String(card.getAttribute('data-id'));
-    const pressed = favBtn.getAttribute('aria-pressed') === 'true';
-    favBtn.setAttribute('aria-pressed', !pressed);
-    if (pressed) favs.delete(id); else favs.add(id);
-    saveSet(FAV_KEY, favs);
-  }
-  if (cartBtn){
-    const card = cartBtn.closest('.pitem'); const id = String(card.getAttribute('data-id'));
-    const pressed = cartBtn.getAttribute('aria-pressed') === 'true';
-    cartBtn.setAttribute('aria-pressed', !pressed);
-    if (pressed) cart.delete(id); else cart.add(id);
-    saveSet(CART_KEY, cart);
-  }
-});
 
-// ===== Search =====
-function wireSearch(allGamesV2){
-  const input=document.getElementById('searchInput');
-  if(!input) return;
-  input.addEventListener('input', () => {
-    const q=input.value.trim().toLowerCase();
-    const filtered = q ? allGamesV2.filter(g => (g.name||'').toLowerCase().includes(q)) : allGamesV2;
-    renderPopular(filtered); renderOffers(filtered); renderFree(filtered);
-  });
-}
 
-// ===== Init =====
 (async()=>{
   try{
     const [v1, v2] = await Promise.all([fetchJSON(API_V1), fetchJSON(API_V2)]);
@@ -286,8 +270,6 @@ function wireSearch(allGamesV2){
     console.error(err);
   }
 })();
-
-// ===== Mobile search sheet toggle =====
 (function(){
   const sheet = document.getElementById('searchSheet');
   const openBtn = document.querySelector('.search-toggle');
@@ -314,7 +296,7 @@ function wireSearch(allGamesV2){
   closeBtn && closeBtn.addEventListener('click', closeSheet);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && sheet.classList.contains('open')) closeSheet(); });
 
-  // Hook search inputs to the main search behavior if present
+
   function proxyInput(src){
     if(!src) return;
     src.addEventListener('input', () => {
@@ -325,60 +307,6 @@ function wireSearch(allGamesV2){
   proxyInput(mobileInput);
   proxyInput(drawerInput);
 })();
-
-
-// ===== Profile menu popover =====
-(function(){
-  const btn = document.getElementById('profileBtn');
-  const menu = document.getElementById('profileMenu');
-  if(!btn || !menu) return;
-  function place(){
-    const r = btn.getBoundingClientRect();
-    const top = r.bottom + 10; // fixed positioning => no scrollY
-    const left = Math.min(window.innerWidth - menu.offsetWidth - 12, r.right - menu.offsetWidth); // no scrollX
-    menu.style.top = top+'px';
-    menu.style.left = left+'px';
-  }
-  function open(){
-    menu.hidden = false; place();
-    requestAnimationFrame(()=> menu.classList.add('show'));
-    btn.setAttribute('aria-expanded','true');
-    menu.setAttribute('aria-hidden','false');
-  }
-  function close(){
-    menu.classList.remove('show');
-    btn.setAttribute('aria-expanded','false');
-    menu.setAttribute('aria-hidden','true');
-    setTimeout(()=> menu.hidden = true, 160);
-  }
-  btn.addEventListener('click', (e)=>{
-    e.stopPropagation();
-    if(menu.classList.contains('show')) close(); else open();
-  });
-  window.addEventListener('resize', ()=>{ if(menu.classList.contains('show')) place(); });
-  document.addEventListener('click', (e)=>{
-    if(!menu.contains(e.target) && e.target !== btn && menu.classList.contains('show')) close();
-  });
-  document.addEventListener('keydown', (e)=>{
-    if(e.key==='Escape' && menu.classList.contains('show')) close();
-  });
-
-  // Demo actions
-  menu.addEventListener('click', (e)=>{
-    const item = e.target.closest('.pm-item'); if(!item) return;
-    const label = item.textContent.trim();
-    if(label.startsWith('Cerrar')){
-      alert('Sesión cerrada (demo).');
-      close();
-    }else{
-      alert('Abrir: '+label+' (demo)');
-      close();
-    }
-  });
-})();
-
-
-// Navigation for Featured CTA button
 document.addEventListener('click', (e)=>{
   const cta = e.target.closest('.cta-btn');
   if (cta) { window.location.href = 'game-page.html'; }
