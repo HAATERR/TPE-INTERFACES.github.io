@@ -32,6 +32,10 @@
   /* NEUTROS */
   --WHITE_NEUTRAL: #F0DDFF;
   --BLACK_NEUTRAL: #090011;
+
+   /* OTROS */
+  --SECUNDARY_COLOR: #2D94D1;
+  --HEADER_BG: #212233;
 }
 
 * {
@@ -53,9 +57,13 @@ body {
   color: var(--WHITE_NEUTRAL);
 }
 
+button:hover{
+  cursor: pointer;
+}
+
 /* Header */
 header{
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   display: flex;
   justify-content: space-between;
   padding: 5px;
@@ -68,7 +76,7 @@ header div{
   gap: 8px;
 }
 #btn-menu-hamburguesa{
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   border: none;
 }
 
@@ -78,7 +86,7 @@ header div{
 }
 
 .logo-home{
-   background-color: #212233;
+   background-color: var(--HEADER_BG);
    border: none;
    height: 60%;
     
@@ -133,13 +141,13 @@ header div{
   margin: 3px;
 }
 
-#btn-usuario, #btn-carrito{
-  background-color: var(--WHITE_NEUTRAL);
+#btn-modo{
+  background-color: var(--HEADER_BG);
   border-radius: 100%;
   border: none;
 }
 
-#btn-usuario img, #btn-carrito img{
+#btn-modo img{
   height: 30px;
   width: 30px;
 }
