@@ -1,6 +1,6 @@
 const form = document.querySelector('form');
 const inputs = document.querySelectorAll('.formularios input');
-const captchaCheckbox = document.getElementById('captcha-check'); // ⬅️ ojo, en tu HTML es "captcha-check"
+const captchaCheckbox = document.getElementById('captcha-check');
 
 // Función para validar email
 function validarEmail(email) {
@@ -8,7 +8,7 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
-// Función para crear y mostrar tooltip
+// Mostrar tooltip de error
 function mostrarTooltip(input, mensaje) {
     ocultarTooltip(input);
 
@@ -26,7 +26,7 @@ function mostrarTooltip(input, mensaje) {
     input.classList.add('input-error');
 }
 
-// Función para ocultar tooltip
+// Ocultar tooltip
 function ocultarTooltip(input) {
     const wrapper = input.parentElement;
     const tooltip = wrapper.querySelector('.tooltip-error');
@@ -34,35 +34,23 @@ function ocultarTooltip(input) {
     input.classList.remove('input-error');
 }
 
-// Obtener mensaje según el placeholder
+// Obtener mensaje según el input
 function obtenerMensaje(input, vacio = true) {
     const placeholder = (input.placeholder || "").toLowerCase();
     const valor = input.value.trim();
 
     if (vacio) {
-        if (placeholder.includes('nombre') && !placeholder.includes('nickname')) {
-            return 'Escribe tu nombre.';
-        } else if (placeholder.includes('apellido')) {
-            return 'Escribe tu apellido.';
-        } else if (placeholder.includes('edad')) {
-            return 'Escribe tu edad.';
-        } else if (placeholder.includes('correo')) {
-            return 'Escribe tu correo electrónico.';
-        } else if (placeholder.includes('contraseña') && !placeholder.includes('repetir')) {
-            return 'La contraseña debe tener al menos 6 caracteres.';
-        } else if (placeholder.includes('repetir')) {
-            return 'Escribe tu contraseña nuevamente.';
-        }
+        if (placeholder.includes('nombre') && !placeholder.includes('nickname')) return 'Escribe tu nombre.';
+        if (placeholder.includes('apellido')) return 'Escribe tu apellido.';
+        if (placeholder.includes('edad')) return 'Escribe tu edad.';
+        if (placeholder.includes('correo')) return 'Escribe tu correo electrónico.';
+        if (placeholder.includes('contraseña') && !placeholder.includes('repetir')) return 'La contraseña debe tener al menos 6 caracteres.';
+        if (placeholder.includes('repetir')) return 'Escribe tu contraseña nuevamente.';
     } else {
-        if (input.type === 'email') {
-            return 'Email inválido. Verifica el formato.';
-        } else if (input.type === 'number') {
-            return 'Edad inválida. La edad mínima permitida es 18 años.';
-        } else if (placeholder.includes('contraseña') && !placeholder.includes('repetir')) {
-            return 'La contraseña debe tener al menos 6 caracteres.';
-        } else if (placeholder.includes('repetir')) {
-            return 'Las contraseñas no coinciden.';
-        }
+        if (input.type === 'email') return 'Email inválido. Verifica el formato.';
+        if (input.type === 'number') return 'Edad inválida. La edad mínima permitida es 18 años.';
+        if (placeholder.includes('contraseña') && !placeholder.includes('repetir')) return 'La contraseña debe tener al menos 6 caracteres.';
+        if (placeholder.includes('repetir')) return 'Las contraseñas no coinciden.';
     }
     return 'Este campo es obligatorio.';
 }
@@ -71,8 +59,6 @@ function obtenerMensaje(input, vacio = true) {
 inputs.forEach(input => {
     input.addEventListener('blur', function () {
         const valor = this.value.trim();
-
-        // Evitar validación si es nickname vacío
         if (this.name === 'nickname' && valor === '') {
             ocultarTooltip(this);
             return;
@@ -80,23 +66,18 @@ inputs.forEach(input => {
 
         if (valor === '') {
             mostrarTooltip(this, obtenerMensaje(this, true));
+        } else if (this.type === 'email' && !validarEmail(valor)) {
+            mostrarTooltip(this, obtenerMensaje(this, false));
+        } else if (this.type === 'number' && (valor < 18 || valor > 120)) {
+            mostrarTooltip(this, obtenerMensaje(this, false));
+        } else if (this.name === 'password' && valor.length < 6) {
+            mostrarTooltip(this, obtenerMensaje(this, false));
+        } else if (this.name === 'password2') {
+            const password = form.querySelector('input[name="password"]').value;
+            if (valor !== password) mostrarTooltip(this, obtenerMensaje(this, false));
+            else ocultarTooltip(this);
         } else {
-            if (this.type === 'email' && !validarEmail(valor)) {
-                mostrarTooltip(this, obtenerMensaje(this, false));
-            } else if (this.type === 'number' && (valor < 18 || valor > 120)) {
-                mostrarTooltip(this, obtenerMensaje(this, false));
-            } else if (this.name === 'password' && valor.length < 6) {
-                mostrarTooltip(this, obtenerMensaje(this, false));
-            } else if (this.name === 'password2') {
-                const password = form.querySelector('input[name="password"]').value;
-                if (valor !== password) {
-                    mostrarTooltip(this, obtenerMensaje(this, false));
-                } else {
-                    ocultarTooltip(this);
-                }
-            } else {
-                ocultarTooltip(this);
-            }
+            ocultarTooltip(this);
         }
     });
 });
@@ -142,11 +123,10 @@ form.addEventListener('submit', function (e) {
         }
     });
 
-    // Validar captcha
-    const captchaContainer = document.querySelector('.captcha-wrapper'); // FIX
-    let tooltipCaptcha = captchaContainer.querySelector('.tooltip-error');
-
-    if (!captchaCheckbox.checked) {
+    // Validar captcha solo si es registro
+    if (form.dataset.tipo === 'registro' && !captchaCheckbox.checked) {
+        const captchaContainer = document.querySelector('.captcha-wrapper');
+        let tooltipCaptcha = captchaContainer.querySelector('.tooltip-error');
         if (!tooltipCaptcha) {
             tooltipCaptcha = document.createElement('div');
             tooltipCaptcha.className = 'tooltip-error mostrar';
@@ -158,17 +138,24 @@ form.addEventListener('submit', function (e) {
     }
 
     if (formularioValido) {
-        alert('¡Registro exitoso!');
-        form.reset();
+        if (form.dataset.tipo === 'inicio') {
+            alert('¡Inicio de sesión exitoso!');
+            window.location.href = 'index.html';
+        } else {
+            alert('¡Registro exitoso!');
+            window.location.href = 'index.html';
+        }
     } else if (primerError) {
         primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 });
 
 // Quitar tooltip del captcha al marcarlo
-captchaCheckbox.addEventListener('change', function () {
-    if (this.checked) {
-        const tooltipCaptcha = document.querySelector('.captcha-wrapper .tooltip-error');
-        if (tooltipCaptcha) tooltipCaptcha.remove();
-    }
-});
+if (captchaCheckbox) {
+    captchaCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            const tooltipCaptcha = document.querySelector('.captcha-wrapper .tooltip-error');
+            if (tooltipCaptcha) tooltipCaptcha.remove();
+        }
+    });
+}
