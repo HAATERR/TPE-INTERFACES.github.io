@@ -117,3 +117,9 @@ btn_favoritos.addEventListener('click', () => {
     btn_favoritos.replaceWith(favorito)
 });
 
+/* MOSTRAR MENU PERFIL (HEADER) */
+let btn_perfil_header = document.getElementById('btn-usuario');
+btn_perfil_header.addEventListener('click' , () => {
+    let menu_perfil = document.querySelector('.menu-perfil')
+    menu_perfil.classList.toggle('menu-perfil-mostrar')
+})
