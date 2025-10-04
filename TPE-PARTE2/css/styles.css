@@ -1206,7 +1206,7 @@ main{
   font-size: 0;
   color: transparent;
   background: url("../assets/free.png") no-repeat center center / contain;
-  width: 110px;  /* tweak as needed */
+  width: 110px;  
   height: 40px;
   display: inline-block;
   vertical-align: middle;
@@ -1214,7 +1214,7 @@ main{
   margin-top: 2px;
 }
 
-/* Keep price block aligned */
+
 .pitem.free .meta .price{
   display: flex;
   flex-direction: column;
