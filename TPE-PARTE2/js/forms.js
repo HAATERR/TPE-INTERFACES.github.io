@@ -48,7 +48,7 @@ function obtenerMensaje(input, vacio = true) {
         if (placeholder.includes('repetir')) return 'Escribe tu contraseña nuevamente.';
     } else {
         if (input.type === 'email') return 'Email inválido. Verifica el formato.';
-        if (input.type === 'number') return 'Edad inválida. La edad mínima permitida es 18 años.';
+        if (input.type === 'number') return 'Edad inválida. La edad mínima permitida es 1 año.';
         if (placeholder.includes('contraseña') && !placeholder.includes('repetir')) return 'La contraseña debe tener al menos 6 caracteres.';
         if (placeholder.includes('repetir')) return 'Las contraseñas no coinciden.';
     }
@@ -68,7 +68,7 @@ inputs.forEach(input => {
             mostrarTooltip(this, obtenerMensaje(this, true));
         } else if (this.type === 'email' && !validarEmail(valor)) {
             mostrarTooltip(this, obtenerMensaje(this, false));
-        } else if (this.type === 'number' && (valor < 18 || valor > 120)) {
+        } else if (this.type === 'number' && (valor < 1 || valor > 120)) {
             mostrarTooltip(this, obtenerMensaje(this, false));
         } else if (this.name === 'password' && valor.length < 6) {
             mostrarTooltip(this, obtenerMensaje(this, false));
@@ -103,7 +103,7 @@ form.addEventListener('submit', function (e) {
         } else if (input.type === 'email' && !validarEmail(valor)) {
             mostrarTooltip(input, obtenerMensaje(input, false));
             tieneError = true;
-        } else if (input.type === 'number' && (valor < 18 || valor > 120)) {
+        } else if (input.type === 'number' && (valor < 1 || valor > 120)) {
             mostrarTooltip(input, obtenerMensaje(input, false));
             tieneError = true;
         } else if (input.name === 'password' && valor.length < 6) {
