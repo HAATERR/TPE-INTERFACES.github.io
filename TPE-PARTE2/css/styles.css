@@ -208,7 +208,6 @@ header div{
   height: 30px;
   width: 30px;
 }
-/* MENU HAMBURGUESA */
 .sidebar {
   display: none;
 }
@@ -226,7 +225,7 @@ header div{
   padding: 5px;
   top: 60px; 
   left: 0;
-  z-index: 10000; 
+  z-index: 9999; 
 }
 
 
@@ -246,7 +245,7 @@ header div{
   background-color: var(--PRIMARY_LIGHT2);
   color: var(--WHITE_NEUTRAL);
   border-radius: 20px;
-  transition: 0.7s;
+  transition: 0.3s;
   display: flex;
   gap: 5px;
   border: none;
