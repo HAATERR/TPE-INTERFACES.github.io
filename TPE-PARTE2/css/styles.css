@@ -1,7 +1,5 @@
 :root{
   --bg:#0c0810;
-
-  
   --PRIMARY_COLOR: #1E1B3A;
   
   --PRIMARY_LIGHT: #342F5C;
@@ -128,6 +126,61 @@ header div{
   gap: 8px;
 }
 
+/* MENU HAMBURGUESA */
+.sidebar {
+  display: none;
+}
+
+.sidebar-mostrar{
+  display: block;
+  position: absolute;
+  background-color: var(--PRIMARY_SHADOW);
+  color: var(--WHITE_NEUTRAL);
+  box-shadow: 0 0 15px var(--PRIMARY_COLOR);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 342px;
+  height: 736px;
+  padding: 5px;
+  top: 60px; 
+  left: 0;
+  z-index: 10000; 
+}
+
+
+.categorias-sidebar , .perfil-sidebar{
+  color: var(--WHITE_NEUTRAL);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.categorias-sidebar h2 , .perfil-sidebar h2{
+  border-bottom: 0.5px solid var(--WHITE_NEUTRAL);
+  text-align: start;
+}
+
+.menu-item {
+  background-color: var(--PRIMARY_LIGHT2);
+  color: var(--WHITE_NEUTRAL);
+  border-radius: 20px;
+  transition: 0.7s;
+  display: flex;
+  gap: 5px;
+  border: none;
+  width: 291px;
+  height: 36px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background-color: var(--PRIMARY_LIGHT2);
+  box-shadow: 0 0 10px var(--ACENTO);
+  color: var(--WHITE_NEUTRAL);
+}
 #btn-menu-hamburguesa{
   background-color: #212233;
   border: none;
@@ -243,6 +296,7 @@ header div{
 .menu-perfil button:hover , .menu-perfil a:hover{
   cursor: pointer;
 }
+
 @keyframes desp {
     from {opacity:0;}
     to {opacity:1;}
@@ -304,7 +358,7 @@ main{
   height:516px;
   border-radius:20px;
   overflow:hidden;
-  background:var(--bg-elev);
+  background:var(--WHITE_NEUTRAL);
   border:1px solid var(--stroke);
   box-shadow:var(--shadow);
   scroll-snap-align:center;
@@ -442,7 +496,8 @@ main{
 .pitem .title{
   grid-area:title;
   font-weight:600;
-  font-size:14px
+  font-size:14p;
+  color: var(--WHITE_NEUTRAL);
 }
 
 .pitem .price{
@@ -452,7 +507,8 @@ main{
   display:flex;
   flex-direction:column;
   gap:2px;
-  line-height:1.1
+  line-height:1.1;
+  color: var(--WHITE_NEUTRAL);
 }
 
 .pitem .price span{
@@ -803,8 +859,6 @@ body.drawer-open{
   display:block;
 }
 
-
-
 .profile-menu{
   position: fixed;
   
@@ -1072,16 +1126,13 @@ main{
   left: 10px;
   top: 10px;
   width: 64px;
-  
   height: 64px;
   background: url("../assets/Oferta.png") no-repeat center center / contain;
   border: none;
   box-shadow: none;
   padding: 0;
   display: block;
-  
   transform: none;
-  
   transition: none;
   
 }
@@ -1250,8 +1301,6 @@ main{
 }
 
 @media (max-width: 768px) {
-
-  
   html, body{
     overflow-x: hidden;
   }
@@ -1267,7 +1316,6 @@ main{
     padding: 0 6vw;       
   }
 
- 
   .carousel-track{
     display: flex;
     gap: 12px;
@@ -1288,8 +1336,6 @@ main{
     height: 100%;
     object-fit: cover;
   }
-
-  
   .car-btn{
     position: absolute;
     top: 50%;
@@ -1306,21 +1352,18 @@ main{
     right: 8px; 
   }
 
-
   .slide .badge{
     left: 14px;
     bottom: 14px;
     font-size: 12px;
     padding: 8px 12px;
   }
-
   
   .carousel-title{
     margin: 14px 6vw 10px;
     font-size: 18px;
     line-height: 1.2;
   }
-
   
   .header{
     padding: 12px 16px;
@@ -1340,6 +1383,37 @@ main{
   .card{
     height: auto;
   }
-  
-}
 
+  footer {
+    height: auto; 
+    padding: 20px 10px;
+  }
+
+  .footer-inside {
+    text-align: left;
+    gap: 20px;
+  }
+
+  .footer-inside div {
+    margin-top: 0; 
+
+  }
+
+  .footer-contacto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  }
+
+  .button-contacto {
+    width: 100%; 
+    max-width: 250px;
+
+  .footer-bottom {
+    gap: 5px;
+    font-size: smaller; 
+    margin-top: 5px;
+  }
+
+}
