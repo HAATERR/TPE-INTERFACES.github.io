@@ -21,7 +21,7 @@ const FEATURED_IMAGE_OVERRIDE = {
   imagePath: "assets/PegSolitaire.png",  
   matchTitle: /peg\s*solitaire/i,          
   useIndex: true,                          
-  index: 0                                  
+  index: 1                                  
 };
 
 function applyFeaturedOverride(container){
