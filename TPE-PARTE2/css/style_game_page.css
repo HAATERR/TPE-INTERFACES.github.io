@@ -42,9 +42,6 @@
 
 * {
   box-sizing: border-box;
-  animation: fade-in forwards;
-  animation-timeline: view();
-  animation-range: entry;
 }
 
 @keyframes fade-in {
@@ -71,6 +68,7 @@ body {
 
 /* Header */
 header{
+  position: relative;
   background-color: var(--HEADER_BG);
   display: flex;
   justify-content: space-between;
@@ -163,9 +161,10 @@ header div{
   margin: 3px;
 }
 
-.menu-hamburguesa{
-    position: relative;
-    z-index: 999;
+
+
+#btn-usuario{
+  position: relative;
 }
 
 #btn-usuario, #btn-carrito{
@@ -193,16 +192,17 @@ header div{
 .sidebar-mostrar{
   display: block;
   position: absolute;
-  top: 60px;
-  left: 0;
-  background-color: var(--PRIMARY_COLOR);
+  background-color: var(--PRIMARY_SHADOW);
   color: var(--WHITE_NEUTRAL);
-  box-shadow: 0 0 15px var(--PRIMARY_SHADOW);
-  width: 25%;
+  box-shadow: 0 0 15px var(--PRIMARY_COLOR);
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+  width: 342px;
   height: 736px;
   padding: 5px;
+  top: 60px; 
+  left: 0;
+  z-index: 9999; 
 }
 
 
@@ -339,7 +339,7 @@ header div{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+
 }
 
 #btn-pantalla-completa {
