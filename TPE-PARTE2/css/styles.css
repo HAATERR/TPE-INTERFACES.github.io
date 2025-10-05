@@ -1251,7 +1251,7 @@ main{
 
 @media (max-width: 768px) {
 
-  /* Base */
+  
   html, body{
     overflow-x: hidden;
   }
@@ -1299,8 +1299,12 @@ main{
     border-radius: 50%;
   }
 
-  .car-prev{ left: 8px; }
-  .car-next{ right: 8px; }
+  .car-prev{ 
+    left: 8px; 
+  }
+  .car-next{ 
+    right: 8px; 
+  }
 
 
   .slide .badge{
