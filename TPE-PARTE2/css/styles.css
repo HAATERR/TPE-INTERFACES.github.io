@@ -204,6 +204,53 @@ header div{
   width: 30px;
 }
 
+/* MOSTRAR MENU PERFIL */
+
+.menu-perfil{
+ display: none;
+}
+
+.menu-perfil-mostrar{
+  background-color: var(--MENU_PERFIL);
+  display: block;
+  position: absolute;
+  top: 100%;
+  width: 200px;
+  height: 150px;
+  border-radius: 20px;
+  padding: 5px;
+  right: 0;
+  z-index: 9999;
+}
+
+.menu-perfil button , .menu-perfil a{
+  display: flex;
+  gap: 3px;
+  color: var(--WHITE_NEUTRAL);
+  text-decoration: none;
+  background-color: #7329C1;
+  border: none;
+  border-radius: 20px;
+  font-size: small;
+  align-items: center;
+  margin: 2px;
+  width: 90%;
+  margin-left: auto;
+  margin-right:auto;
+  padding: 1px;
+}
+
+.menu-perfil button img , .menu-perfil a img{
+  height: 16px;
+  width: 16px;
+  margin-left: 7px;
+}
+
+.menu-perfil button:hover , .menu-perfil a:hover{
+  cursor: pointer;
+}
+
+
 main{
   padding:26px 18px 90px;
   max-width:1200px;

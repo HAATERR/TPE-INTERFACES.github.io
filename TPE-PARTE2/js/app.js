@@ -311,3 +311,11 @@ document.addEventListener('click', (e)=>{
   const cta = e.target.closest('.cta-btn');
   if (cta) { window.location.href = 'game-page.html'; }
 });
+
+
+/* MOSTRAR MENU PERFIL (HEADER) */
+let btn_perfil_header = document.getElementById('btn-usuario');
+btn_perfil_header.addEventListener('click' , () => {
+    let menu_perfil = document.querySelector('.menu-perfil')
+    menu_perfil.classList.toggle('menu-perfil-mostrar')
+})
