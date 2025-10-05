@@ -78,7 +78,6 @@ header{
   height: 60px;
   padding-left: 10px;
   padding-right: 10px;
-  position: relative;
 }
 
 header div{
@@ -164,6 +163,11 @@ header div{
   margin: 3px;
 }
 
+.menu-hamburguesa{
+    position: relative;
+    z-index: 999;
+}
+
 #btn-usuario, #btn-carrito{
   background-color: var(--WHITE_NEUTRAL);
   border-radius: 100%;
@@ -181,10 +185,68 @@ header div{
   width: 25px;
 }
 
+/* MENU HAMBURGUESA */
+.sidebar {
+  display: none;
+}
+
+.sidebar-mostrar{
+  display: block;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: var(--PRIMARY_COLOR);
+  color: var(--WHITE_NEUTRAL);
+  box-shadow: 0 0 15px var(--PRIMARY_SHADOW);
+  width: 25%;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  height: 736px;
+  padding: 5px;
+}
+
+
+.categorias-sidebar , .perfil-sidebar{
+  color: var(--WHITE_NEUTRAL);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.categorias-sidebar h2 , .perfil-sidebar h2{
+  border-bottom: 0.5px solid var(--WHITE_NEUTRAL);
+  text-align: start;
+}
+
+.menu-item {
+  background-color: var(--PRIMARY_LIGHT2);
+  color: var(--WHITE_NEUTRAL);
+  border-radius: 20px;
+  transition: 0.7s;
+  display: flex;
+  gap: 5px;
+  border: none;
+  width: 291px;
+  height: 36px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background-color: var(--PRIMARY_LIGHT2);
+  box-shadow: 0 0 10px var(--ACENTO);
+  color: var(--WHITE_NEUTRAL);
+}
+
+
+
 /* MOSTRAR MENU PERFIL */
 
 .menu-perfil{
  display: none;
+ animation: desp 0.7s ease forwards;
 }
 
 .menu-perfil-mostrar{
@@ -225,6 +287,11 @@ header div{
 
 .menu-perfil button:hover , .menu-perfil a:hover{
   cursor: pointer;
+}
+
+@keyframes desp {
+    from {opacity:0;}
+    to {opacity:1;}
 }
 
 /* GAME PAGE */
@@ -272,6 +339,7 @@ header div{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 #btn-pantalla-completa {
