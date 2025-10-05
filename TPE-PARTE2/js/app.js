@@ -313,6 +313,50 @@ document.addEventListener('click', (e)=>{
 });
 
 
+document.addEventListener('click', (e) => {
+  const favBtn = e.target.closest('.btn-fav');
+  const cartBtn = e.target.closest('.btn-cart');
+
+  if (favBtn) {
+    const card = favBtn.closest('.pitem');
+    const id = card?.getAttribute('data-id');
+    const pressed = favBtn.getAttribute('aria-pressed') === 'true';
+    const newState = !pressed;
+    favBtn.setAttribute('aria-pressed', newState);
+
+    
+    const heart = favBtn.querySelector('.heart');
+    const heartFill = favBtn.querySelector('.heart-fill');
+    if (newState) {
+      heart.src = 'assets/heart-white.png'; 
+      favs.add(id);
+    } else {
+      heart.src = 'assets/heart.svg'; 
+      favs.delete(id);
+    }
+    saveSet(FAV_KEY, favs);
+  }
+
+  if (cartBtn) {
+    const card = cartBtn.closest('.pitem');
+    const id = card?.getAttribute('data-id');
+    const pressed = cartBtn.getAttribute('aria-pressed') === 'true';
+    const newState = !pressed;
+    cartBtn.setAttribute('aria-pressed', newState);
+
+   
+    const cartImg = cartBtn.querySelector('.cart');
+    if (newState) {
+      cartImg.src = 'assets/cart-add.png'; 
+      cart.add(id);
+    } else {
+      cartImg.src = 'assets/cart.svg'; 
+      cart.delete(id);
+    }
+    saveSet(CART_KEY, cart);
+  }
+});
+
 /* MOSTRAR MENU PERFIL (HEADER) */
 let btn_perfil_header = document.getElementById('btn-usuario');
 btn_perfil_header.addEventListener('click' , () => {
