@@ -121,3 +121,11 @@ btn_perfil_header.addEventListener('click' , () => {
     let menu_perfil = document.querySelector('.menu-perfil')
     menu_perfil.classList.toggle('menu-perfil-mostrar')
 })
+
+/* MOSTRAR MENU HAMBURGUESA */
+let btn_menu_hamburguesa = document.getElementById('btn-menu-hamburguesa')
+btn_menu_hamburguesa.addEventListener('click' , ()=> {
+    let menu_hamburguesa = document.querySelector('.sidebar')
+    menu_hamburguesa.classList.toggle('sidebar-mostrar')
+    
+})
