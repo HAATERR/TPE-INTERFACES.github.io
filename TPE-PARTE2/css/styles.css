@@ -1338,13 +1338,106 @@ main {
   }
 }
 
+
+.car-btn,
+.hcar-btn {
+  background: transparent;   
+  border: none;            
+  box-shadow: none;        
+  width: 40px;              
+  height: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.car-btn img,
+.hcar-btn img {
+  width: 50px;               
+  height: 50px;
+  display: block;
+}
+
+
+.car-btn svg,
+.hcar-btn svg {
+  display: none;
+}
+
+
+.car-btn:hover img,
+.hcar-btn:hover img {
+  transform: scale(1.05);
+}
+
+.promo-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 692px);
+  gap: 64px;
+  justify-content: center;
+  align-items: start;
+  margin: 46px auto 10px;
+}
+
+.promo-card{
+  width: 692px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 24px; 
+  overflow: hidden;
+}
+
+.promo-img{
+  display: block;
+  width: 692px;
+  height: 461px;
+  object-fit: cover;
+  border-radius: 24px; 
+}
+
+
+.promo-meta{
+  padding-top: 14px;
+}
+
+.promo-caption{
+  margin: 0 0 12px 10px;
+  font-size: 12px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--text-contrast, var(--text-strong, var(--white, #fff)));
+  font-weight: bold;
+
+}
+
+.promo-btn{
+  margin-left: 10px;
+  margin-bottom: 6px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid #3a3350;
+  background: #2b2740;
+  color: #e9e7ee;
+  font-weight: 800;
+  letter-spacing: .4px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.promo-btn:hover{
+  transform: translateY(-1px);
+  background: #34304a;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+
+
 @media (max-width: 768px) {
   html,
   body {
     overflow-x: hidden;
   }
 
-  /*header*/
+  
   header {
     height: auto;
     padding: 10px;
@@ -1409,15 +1502,6 @@ main {
   }
 
 
-  .car-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-  }
-
   .car-prev {
     left: 8px;
   }
@@ -1466,7 +1550,19 @@ main {
     height: auto;
   }
 
-  /*footer */
+  .promo-grid{
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-inline: 12px;
+  }
+  .promo-card,
+  .promo-img{
+    width: 100%;
+  }
+  .promo-img{ 
+    height: auto; 
+  }
+  
   footer {
     height: auto;
     padding: 20px 10px;
