@@ -194,7 +194,7 @@ header div{
   background-image: url('../assets/lupa_header.png');
   background-size: 22px , 22px;
   background-repeat: no-repeat;
-  background-position:right;
+ background-position: calc(100% - 2%) center;
   padding: 10px;
   align-items: center;
   margin-left: auto;
@@ -216,8 +216,6 @@ header div{
   gap: 8px;
   margin: 3px;
 }
-
-
 
 #btn-usuario{
   position: relative;
