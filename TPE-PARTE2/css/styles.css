@@ -139,6 +139,65 @@ header div{
   gap: 8px;
 }
 
+.logo-home{
+  background-color: #212233;
+  border: none;
+  height: 60%;
+}
+
+.logo-home a{
+  color: var(--WHITE_NEUTRAL);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: small;
+}
+
+.logo-home a:hover{
+  cursor: pointer;
+  scale: 1.1;
+}
+
+#header-titulo{
+  text-decoration: none;
+}
+
+.buscar-header{
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  justify-content: center;
+}
+
+#buscar-header-input{
+  background: linear-gradient(white, #D9D9D9);
+  width: 80%;
+  border-right: 0;
+  border-radius: 20px;
+  height: 35px;
+  border: 0.5px solid var(--PRIMARY_LIGHT3);
+}
+
+#buscar-header-input::placeholder{
+  padding: 10px;
+  color: var(--PRIMARY_LIGHT3);
+}
+
+.atajos-header{
+  gap: 8px;
+  margin: 3px;
+}
+
+#btn-usuario, #btn-carrito{
+  background-color: var(--WHITE_NEUTRAL);
+  border-radius: 100%;
+  border: none;
+}
+
+#btn-usuario img, #button-carrito img{
+  height: 30px;
+  width: 30px;
+}
 /* MENU HAMBURGUESA */
 .sidebar {
   display: none;
@@ -204,66 +263,6 @@ header div{
   scale: 1.1;
 }
 
-.logo-home{
-  background-color: #212233;
-  border: none;
-  height: 60%;
-}
-
-.logo-home a{
-  color: var(--WHITE_NEUTRAL);
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  font-size: small;
-}
-
-.logo-home a:hover{
-  cursor: pointer;
-  scale: 1.1;
-}
-
-#header-titulo{
-  text-decoration: none;
-}
-
-.buscar-header{
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-  justify-content: center;
-}
-
-#buscar-header-input{
-  background: linear-gradient(white, #D9D9D9);
-  width: 80%;
-  border-right: 0;
-  border-radius: 20px;
-  height: 35px;
-  border: 0.5px solid var(--PRIMARY_LIGHT3);
-}
-
-#buscar-header-input::placeholder{
-  padding: 10px;
-  color: var(--PRIMARY_LIGHT3);
-}
-
-.atajos-header{
-  gap: 8px;
-  margin: 3px;
-}
-
-#btn-usuario, #btn-carrito{
-  background-color: var(--WHITE_NEUTRAL);
-  border-radius: 100%;
-  border: none;
-}
-
-#btn-usuario img, #button-carrito img{
-  height: 30px;
-  width: 30px;
-}
-/* MENU HAMBURGUESA */
 .sidebar {
   display: none;
 }
@@ -1378,21 +1377,46 @@ main{
   html, body{
     overflow-x: hidden;
   }
+  /*header*/
+  header {
+    height: auto;
+    padding: 10px;
+  }
 
+  #header-titulo {
+    font-size: 16px;
+  }
+
+  .buscar-header {
+    padding: 10px;
+  }
+
+  #buscar-header-input {
+    width: 100%;
+    height: 40px;
+  }
+
+  #btn-usuario, #btn-carrito {
+    height: 40px;
+    width: 40px;
+  }
+
+  #btn-usuario img, #btn-carrito img {
+    height: 25px;
+    width: 25px;
+  }
+
+  /*carrousel */
   .page{
     padding: 16px;
   }
 
-  
   .carousel{
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 0 6vw;          
   }
-
-
-  
   .carousel-track{
     display: flex;
     gap: 12px;
@@ -1450,11 +1474,6 @@ main{
     font-size: 18px;
     line-height: 1.2;
   }
-  
-
-  .header{
-    padding: 12px 16px;
-  }
 
   .search{
     width: 100%;
@@ -1471,7 +1490,8 @@ main{
   .card{
     height: auto;
   }
-
+   
+  /*footer */
   footer {
     height: auto; 
     padding: 20px 10px;
