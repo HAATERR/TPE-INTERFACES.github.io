@@ -89,6 +89,7 @@ header div{
    background-color: var(--HEADER_BG);
    border: none;
    height: 60%;
+   font-size: medium;
     
 }
 .logo-home img{
@@ -102,6 +103,7 @@ header div{
   text-decoration: none;
   font-size: small;
 }
+
 
 .logo-home a:hover{
   cursor: pointer;
@@ -122,7 +124,7 @@ header div{
 }
 
 #buscar-header-input{
-  background-color: linear-gradient(white, #D9D9D9);
+background-color: var(--WHITE_NEUTRAL);
   width: 80%;
   border-right: 0;
   border-radius: 20px;
@@ -146,17 +148,6 @@ header div{
 .atajos-header{
   gap: 8px;
   margin: 3px;
-}
-
-#btn-modo{
-  background-color: var(--HEADER_BG);
-  border-radius: 100%;
-  border: none;
-}
-
-#btn-modo img{
-  height: 30px;
-  width: 30px;
 }
 
 /* Iconos */
