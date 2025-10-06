@@ -132,7 +132,7 @@ header div{
 }
 
 #buscar-header-input::placeholder{
-  padding: 10px; /* espacio entre el borde y el texto */
+  padding: 10px; 
   color: var(--PRIMARY_LIGHT3);
 }
 
@@ -355,24 +355,36 @@ form {
 }
 
 /* botones de redes sociales */
-.social-btn {
-  width: 100%;
+
+.registrarse-con{
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.social-a{
   padding: 10px;
-  margin-bottom: 10px; /* espacio entre botones */
-  border-radius: 5px;
   border: none;
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   color: var(--WHITE_NEUTRAL);
   transition: var(--PRIMARY_COLOR) .5s ease-out;
+  text-decoration: none;
+  height: 50px;
+  width: 100%;
+  background-color: var(--PRIMARY_LIGHT);
+  border-radius: 20px;
 }
-.social-btn:hover {
+
+.social-a:hover {
+  box-shadow: 0 0 5px 0 var(--PRIMARY_LIGHT3);
   background-color: var(--PRIMARY_COLOR);
   transition: var(--PRIMARY_COLOR) .5s ease-in; 
   scale: 1.02; /* agranda un poco el boton al pasar el mouse */
 }
 
 
-.social-btn img {
+.social-a img {
   margin-right: 8px;
   vertical-align: middle;
   float: medium;

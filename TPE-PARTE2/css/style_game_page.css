@@ -122,7 +122,7 @@ header div{
   background-color: var(--PRIMARY_LIGHT2);
   color: var(--WHITE_NEUTRAL);
   border-radius: 20px;
-  transition: 0.7s;
+  transition: 0.3s;
   display: flex;
   gap: 5px;
   border: none;

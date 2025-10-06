@@ -110,7 +110,7 @@ function renderFeatured(games){
   games.slice(0,3).forEach((g,i)=>{
     const slide = document.createElement('article');
     slide.className = 'slide';
-    slide.innerHTML = `<img src="${g.background_image}" alt="${g.name}"><button class="badge cta-btn" type="button">${i===0?'Jugar Ahora':'Comprar Ahora'}</button>`;
+    slide.innerHTML = `<img src="${g.background_image}" alt="${g.name}"><button class="badge cta-btn" type="button">${i===1?'Jugar Ahora':'Comprar Ahora'}</button>`;
     container.appendChild(slide);
   });
   applyFeaturedOverride(container);
