@@ -82,7 +82,7 @@ header div{
 
 #btn-menu-hamburguesa:hover{
     cursor: pointer;
-    scale: 1.1; /* agranda un poco el boton al pasar el mouse */
+    scale: 1.1; 
 }
 
 .logo-home{
@@ -183,28 +183,27 @@ form {
   padding: 30px;
   border-radius: 10px;
   width: 300px;
-  margin-bottom: 50px; /* espacio abajo para el footer */
+  margin-bottom: 50px; 
   margin-top: 30px;
 }
 
 /* titulo */
 .titulo-form {
   display: flex;
-  align-items: center;       /* alinea texto e imagen en el medio */
-  justify-content: center;   /* centra todo en horizontal */               /* espacio entre el texto y la imagen */
-  margin-bottom: 20px;       /* separación con lo que sigue */
+  align-items: center;     
+  justify-content: center;   
 }
 
 .titulo-form h2 {
   font-size: 24px;
   font-weight: bold;
-  color: #fff;               /* mismo color que usás en el form */
+  color: #fff;             
   margin: 0;
-  margin-left: 16px; /*correr un poco para la derecha el titulo */
+  margin-left: 16px;
 }
 
 .titulo-form img {
-  width: 50px;    /* ajustá según el tamaño que quieras */
+  width: 50px;   
   height: 50px;
 }
 
@@ -212,7 +211,7 @@ form {
 /* Tooltip de error */
 .tooltip-error {
   display: none;
-  position: absolute; /* Siempre flotante, no afecta a los inputs */
+  position: absolute; 
   top: 50%;
   left: calc(100% + 15px);
   transform: translateY(-50%);
@@ -223,9 +222,9 @@ form {
   z-index: 1000;
   min-width: 250px;
   align-items: center;
-  gap: 10px; /* espacio entre ícono y texto */
+  gap: 10px; 
   white-space: nowrap;
-  pointer-events: none; /* no bloquea clics en el input */
+  pointer-events: none; 
 }
 
 /* Flecha del tooltip (triángulo izquierdo) */
@@ -252,7 +251,7 @@ form {
 /* Mostrar tooltip cuando hay error */
 .tooltip-error.mostrar {
   display: flex;
-  /* sigue siendo flex, pero no afecta layout porque está absolute */
+ 
 }
 
 /* Ícono de alerta (!) */
@@ -274,14 +273,14 @@ form {
 .mensaje-error {
   color: var(--PRIMARY-SHADOW2);
   font-size: 14px;
-  font-weight: 500; /* un poco más de peso */
+  font-weight: 500; 
 }
 
 
 /* Wrapper para posicionar el tooltip correctamente */
 .input-con-tooltip {
   position: relative;
-  /* Necesario para el posicionamiento absolute */
+  
 }
 
 /* Tooltip para captcha */
@@ -293,7 +292,7 @@ form {
   top: 50%;
   left: calc(100% + 15px);
   margin-left: 0;
-  /* Evitamos que desplace */
+  
 }
 
 
@@ -333,7 +332,7 @@ form {
     margin-right: 10px;
     padding-left: 10px;
     border-left: 2px solid #e0e0e0;
-    display: flex; /* para que el logo y el texto queden en columna */
+    display: flex; 
     flex-direction: column;
     align-items: center;
 }
@@ -355,36 +354,30 @@ form {
 }
 
 /* botones de redes sociales */
-
-.registrarse-con{
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-.social-a{
+.social-btn {
+  width: 100%;
   padding: 10px;
+  margin-bottom: 10px; 
+  border-radius: 5px;
   border: none;
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  cursor: pointer; 
   color: var(--WHITE_NEUTRAL);
   transition: var(--PRIMARY_COLOR) .5s ease-out;
-  text-decoration: none;
-  height: 50px;
-  width: 100%;
-  background-color: var(--PRIMARY_LIGHT);
-  border-radius: 20px;
 }
 
-.social-a:hover {
-  box-shadow: 0 0 5px 0 var(--PRIMARY_LIGHT3);
+.social-btn a{
+  color: var(--WHITE_NEUTRAL);
+  text-decoration: none;
+}
+.social-btn:hover {
   background-color: var(--PRIMARY_COLOR);
   transition: var(--PRIMARY_COLOR) .5s ease-in; 
-  scale: 1.02; /* agranda un poco el boton al pasar el mouse */
+  box-shadow: 0 0 5px 0 var(--PRIMARY_LIGHT3);
+  scale: 1.02; 
 }
 
 
-.social-a img {
+.social-btn img {
   margin-right: 8px;
   vertical-align: middle;
   float: medium;
@@ -415,8 +408,8 @@ form {
 .divider-text::after {
   content: "";
   position: absolute;
-  top: 50%; /* que quede en el medio */
-  width: 40%; /* Ancho de las líneas para separar del o*/
+  top: 50%; 
+  width: 40%; 
   height: 1px;
   background: var(--WHITE_NEUTRAL);
 }
@@ -431,7 +424,7 @@ form {
 
 /* estilo para todos los campos de entrada (input) */
 input {
-  width: 100%; /* Ocupa todo el ancho del form */
+  width: 100%; 
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -455,7 +448,7 @@ input {
 .register-btn:hover {
   background-color: var(--PRIMARY_LIGHT2);
   transition: var(--PRIMARY_COLOR) .5s ease-in;
-  scale: 1.02; /* agranda un poco el boton al pasar el mouse */
+  scale: 1.02; 
 }
 
 /* Link para iniciar sesión */
