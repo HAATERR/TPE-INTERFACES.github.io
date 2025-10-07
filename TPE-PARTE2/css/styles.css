@@ -39,6 +39,11 @@
   --SECUNDARY_COLOR: #2D94D1;
   --HEADER_BG: #212233;
   --MENU_PERFIL: #590FAC;
+  --MENU_PERFIL2: #7329C1;
+
+  /* MEDIDAS */
+  --gap: 16px;
+
 }
 
 * {
@@ -53,8 +58,8 @@ body {
 body {
   margin: 0;
   font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
-  background: radial-gradient(1000px 600px at 20% -10%, #241a33 0%, transparent 60%), radial-gradient(900px 500px at 120% -20%, #1a1430 0%, transparent 60%), var(--bg);
-  color: var(--text)
+  background-color: var(--BLACK_NEUTRAL);
+  color: var(--text);
 }
 
 #loader {
@@ -127,7 +132,7 @@ body {
 
 header {
   position: relative;
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   display: flex;
   justify-content: space-between;
   padding: 5px;
@@ -141,7 +146,7 @@ header div {
 }
 
 #btn-menu-hamburguesa {
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   border: none;
 }
 
@@ -151,7 +156,7 @@ header div {
 }
 
 .logo-home {
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   border: none;
   height: 60%;
 }
@@ -285,7 +290,7 @@ header div {
 
 main {
   padding: 26px 18px 90px;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto
 }
 
@@ -337,7 +342,7 @@ main {
   height: 516px;
   border-radius: 20px;
   overflow: hidden;
-  background: var(--bg-elev);
+  background: var(--ACCENT_COLOR);
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
   scroll-snap-align: center;
@@ -556,7 +561,7 @@ main {
   position: absolute;
   left: 10px;
   top: 10px;
-  background: linear-gradient(135deg, #ff8a4d, #ff4f70);
+  background: linear-gradient(135deg, var(--ACENTO), var(--ACCENT_LIGHT2));
   color: #261635;
   font-weight: 800;
   font-size: 12px;
@@ -952,7 +957,7 @@ footer div {
   border: none;
   border-radius: 20px;
   align-items: center;
-  color: white;
+  color: var(--WHITE_NEUTRAL);
   display: flex;
   gap: 6px;
   height: 50px;
@@ -968,14 +973,6 @@ footer div {
   gap: 2px;
   align-items: center;
   bottom: 0;
-}
-
-main {
-  max-width: 100%;
-}
-
-:root {
-  --gap: 16px;
 }
 
 .hcarousel {
@@ -1307,7 +1304,7 @@ main {
   gap: 3px;
   color: var(--WHITE_NEUTRAL);
   text-decoration: none;
-  background-color: #7329C1;
+  background-color: var(--MENU_PERFIL2);
   border: none;
   border-radius: 20px;
   font-size: small;

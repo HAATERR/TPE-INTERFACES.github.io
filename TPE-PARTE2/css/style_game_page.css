@@ -38,6 +38,8 @@
   --SECUNDARY_COLOR: #2D94D1;
   --HEADER_BG: #212233;
   --MENU_PERFIL: #590FAC; 
+  --BTN_JUGAR: #534AA0;
+  
 }
 
 * {
@@ -141,7 +143,7 @@ header div{
 }
 
 #btn-menu-hamburguesa{
-  background-color: #212233;
+  background-color: var(--HEADER_BG);
   border: none;
 
   margin: 5px;
@@ -153,7 +155,7 @@ header div{
 }
 
 .logo-home{
-   background-color: #212233;
+   background-color: var(--HEADER_BG);
    border: none;
    height: 60%;
 }
@@ -322,7 +324,7 @@ header div{
   gap: 3px;
   color: var(--WHITE_NEUTRAL);
   text-decoration: none;
-  background-color: #7329C1;
+  background-color: var(--MENU_PERFIL2);
   border: none;
   border-radius: 20px;
   font-size: small;
@@ -439,7 +441,7 @@ header div{
 #btn-jugar{
   width: 120px;
   height: 70px;
-  background: linear-gradient(#534AA0 , #1E1B3A);
+  background: linear-gradient(var(--BTN_JUGAR) , var(--PRIMARY_COLOR));
 }
 
 #btn-jugar p {
