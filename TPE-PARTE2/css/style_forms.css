@@ -90,8 +90,8 @@ header div{
    border: none;
    height: 60%;
    font-size: medium;
-    
 }
+
 .logo-home img{
   height: 50px;
   width: 50px;
@@ -172,6 +172,7 @@ background-color: var(--WHITE_NEUTRAL);
   justify-content: center;
   margin-left:auto;
   margin-right: auto;
+  
 }
 
 /* formulario */
@@ -180,8 +181,8 @@ form {
   padding: 30px;
   border-radius: 10px;
   width: 300px;
-  margin-bottom: 50px; 
   margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 /* titulo */
@@ -517,5 +518,3 @@ footer div {
   bottom: 0;
   text-align: center;
 }
-
-
