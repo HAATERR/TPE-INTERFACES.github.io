@@ -168,7 +168,7 @@ background-color: var(--WHITE_NEUTRAL);
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh; 
+
   justify-content: center;
   margin-left:auto;
   margin-right: auto;
@@ -195,7 +195,7 @@ form {
 .titulo-form h2 {
   font-size: 24px;
   font-weight: bold;
-  color: #fff;             
+  color: var(--WHITE_NEUTRAL);             
   margin: 0;
   margin-left: 16px;
 }
