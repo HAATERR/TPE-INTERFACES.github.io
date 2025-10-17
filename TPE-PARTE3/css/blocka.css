@@ -1,0 +1,26 @@
+.juego {
+  position: relative;
+  width: 80%;
+  height: 500px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background-image: url('../assets/blocka.jpg');
+  background-size: 100%, 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  background-blend-mode: lighten;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.timer {
+  color: rgb(178, 9, 9);
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); } /* PROBAR CON 0 */
+  to { transform: scale(1.3); }
+}
