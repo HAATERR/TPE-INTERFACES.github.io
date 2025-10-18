@@ -20,21 +20,21 @@
                     <div class="categorias-sidebar">
                         <h2>Categorias</h2>
 
-                            <button class="menu-item"><img src="assets/tendencias.png" alt="">Tendencias</button>
-                            <button class="menu-item"><img src="assets/estrategia.png" alt="">Estrategia</button>
-                            <button class="menu-item"><img src="assets/deportes.png" alt="">Deportes</button>
-                            <button class="menu-item"><img src="assets/carreras.png" alt="">Carreras</button>
-                            <button class="menu-item"><img src="assets/accion.png" alt="">Accion</button>
-                            <button class="menu-item"><img src="assets/terror.png" alt="">Terror</button>
-                            <button class="menu-item"><img src="assets/aventura.png" alt="">Aventura</button>
-                            <button class="menu-item"><img src="assets/cat.png" alt="">Todas las categorias</button>
+                        <button class="menu-item"><img src="assets/tendencias.png" alt="">Tendencias</button>
+                        <button class="menu-item"><img src="assets/estrategia.png" alt="">Estrategia</button>
+                        <button class="menu-item"><img src="assets/deportes.png" alt="">Deportes</button>
+                        <button class="menu-item"><img src="assets/carreras.png" alt="">Carreras</button>
+                        <button class="menu-item"><img src="assets/accion.png" alt="">Accion</button>
+                        <button class="menu-item"><img src="assets/terror.png" alt="">Terror</button>
+                        <button class="menu-item"><img src="assets/aventura.png" alt="">Aventura</button>
+                        <button class="menu-item"><img src="assets/cat.png" alt="">Todas las categorias</button>
                     </div>
                     <div class="perfil-sidebar">
                         <h2>Perfil</h2>
-                            <button class="menu-item"><img src="assets/mi_cuenta.png" alt=""> Mi cuenta</button>
-                            <button class="menu-item"><img src="assets/favoritos_game_bar.png" alt=""> Favoritos</button>
-                            <button class="menu-item"><img src="assets/trofeos.png" alt="">Trofeos</button>
-                            <button class="menu-item"><img src="assets/config.png" alt=""> Configuracion</button>      
+                        <button class="menu-item"><img src="assets/mi_cuenta.png" alt=""> Mi cuenta</button>
+                        <button class="menu-item"><img src="assets/favoritos_game_bar.png" alt=""> Favoritos</button>
+                        <button class="menu-item"><img src="assets/trofeos.png" alt="">Trofeos</button>
+                        <button class="menu-item"><img src="assets/config.png" alt=""> Configuracion</button>
                     </div>
                 </div>
             </div>
@@ -80,12 +80,34 @@
         </div>
 
         <div class="juego">
-            <button id="btn-pantalla-completa"><img src="assets/tamano-completo.png" alt=""
+            <div class="blocka-game">
+                  <p id="timer"></p>
+            <canvas id="canvas"></canvas>
+            <div class="btn-gano">
+                <button><a href="index.html">Menu</a>
+                </button><button>Siguiente nivel</button>
+            </div>
+            <div class="btn-perdio">
+                <button><a href="index.html">menu</a></button>
+                <button>Intentar de nuevo</button>
+            </div>
+            </div>
+          
+            <div class="juego-inicio">
+                  <button id="btn-pantalla-completa"><img src="assets/tamano-completo.png" alt=""
                     id="icon-pantalla-completa"></button>
             <img src="assets/blocka.jpg" alt="juego-logo" id="juego-logo">
             <button id="btn-jugar">
                 Jugar
             </button>
+            </div>
+          
+            <div class="loading">
+                <img src="https://media.tenor.com/2BLI5EO7yVAAAAAi/loading-image.gif" alt="">
+                <p>Loading...</p>
+            </div>
+
+            
         </div>
 
         <div class="game-bar">
@@ -127,7 +149,10 @@
                 <h2>Sobre el juego</h2>
                 <div class="descripcion">
                     <h3>Descripcion</h3>
-                    <p>Blocka es un juego de lógica y destreza visual en el que los jugadores deben manipular una cuadrícula compuesta por bloques de colores o patrones. Al comenzar el juego, el temporizador empieza su marcha hacia atras, si logras poner el cuadrado en su forma antes de que termine, ganaste!.</p>
+                    <p>Blocka es un juego de lógica y destreza visual en el que los jugadores deben manipular una
+                        cuadrícula compuesta por bloques de colores o patrones. Al comenzar el juego, el temporizador
+                        empieza su marcha hacia atras, si logras poner el cuadrado en su forma antes de que termine,
+                        ganaste!.</p>
                 </div>
                 <div class="controles">
                     <h3>Controles</h3>
@@ -144,11 +169,13 @@
                 </div>
                 <div class="como-jugar">
                     <h3>Como Jugar</h3>
-                    <ol><li>Apretar comenzar</li>
+                    <ol>
+                        <li>Apretar comenzar</li>
                         <li>El cuadrado, ya partido en 4 rota su imagen</li>
                         <li>Comienza el temporizador</li>
                         <li>Empezá a rotar el cuadrado hasta que quede en su forma original</li>
-                        <li>REl juego termina ya que el temporizador llegó a 0 o lograste poner el cuadrado en du forma original.</li>
+                        <li>REl juego termina ya que el temporizador llegó a 0 o lograste poner el cuadrado en du forma
+                            original.</li>
                     </ol>
                 </div>
                 <div class="Caracteristicas">
@@ -404,5 +431,7 @@
         </div>
     </footer>
     <script src="js/blocka.js"></script>
+    <script src="js/game-page.js"></script>
 </body>
+
 </html>

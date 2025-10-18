@@ -1,67 +1,159 @@
 
+let btn_play = document.getElementById('btn-jugar');
+btn_play.addEventListener('click', () => {
+    HTMLChange();
+    timer_on();
+});
+
+
 
 function random_image() {
-    let image_number = Math.random() * 6;
-
-    return Math.floor(image_number) + 1;
+    return Math.floor(Math.random() * 6); // devuelve 0 a 5
 }
+
+document.getElementById('btn-jugar').addEventListener('click', getImage);
+
+let pieces = [];
+let img = new Image();
+let ctx, pieceW, pieceH;
 
 function getImage() {
     const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2D');
+    ctx = canvas.getContext('2d');
 
-    let array_src = [''];
-    const img = new Image();
+    const array_src = [
+        'https://picsum.photos/600/600?random=1',
+        'https://picsum.photos/600/600?random=2',
+        'https://picsum.photos/600/600?random=3',
+        'https://picsum.photos/600/600?random=4',
+        'https://picsum.photos/600/600?random=5',
+        'https://picsum.photos/600/600?random=6'
+    ];
+
+    img = new Image();
     img.src = array_src[random_image()];
 
     img.onload = () => {
-        const w = img.width;
-        const h = img.height;
+        const rows = 2;
+        const cols = 2;
+        pieceW = canvas.width / cols;
+        pieceH = canvas.height / rows;
 
-        const hw = w / 2;
-        const hh = h / 2;
+        // Crear piezas (rotadas aleatoriamente)
+        pieces = [];
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                pieces.push({
+                    x,
+                    y,
+                    sx: x * (img.width / cols),
+                    sy: y * (img.height / rows),
+                    rotation: [0, 90, 180, 270][Math.floor(Math.random() * 4)]
+                });
+            }
+        }
 
-        ctx.drawImage(img, 0, 0, halfW, halfH, 0, 0, halfW, halfH);
+        drawPuzzle();
+    };
+}
 
-        
-        ctx.drawImage(img, halfW, 0, halfW, halfH, halfW, 0, halfW, halfH);
+// Evita menú del clic derecho
+document.getElementById('canvas').addEventListener('contextmenu', e => e.preventDefault());
 
-        ctx.drawImage(img, 0, halfH, halfW, halfH, 0, halfH, halfW, halfH);
+// Maneja rotación con clics
+document.getElementById('canvas').addEventListener('mousedown', e => {
+    if (!pieces.length) return;
 
-        ctx.drawImage(img, halfW, halfH, halfW, halfH, halfW, halfH, halfW, halfH);
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const col = Math.floor(x / pieceW);
+    const row = Math.floor(y / pieceH);
+    const index = row * 2 + col;
+
+    if (e.button === 0) {
+        pieces[index].rotation -= 90; // clic izquierdo
+    } else if (e.button === 2) {
+        pieces[index].rotation += 90; // clic derecho
     }
 
-    /* let blocka = document.getElementById('blocka');
-    blocka.replaceWith(img); */
+    pieces[index].rotation = (pieces[index].rotation + 360) % 360;
+    drawPuzzle();
+    checkWin();
+});
+
+function drawPuzzle() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    pieces.forEach((p, i) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+
+        ctx.save();
+        ctx.translate(col * pieceW + pieceW / 2, row * pieceH + pieceH / 2);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.drawImage(
+            img,
+            p.sx, p.sy, img.width / 2, img.height / 2,
+            -pieceW / 2, -pieceH / 2, pieceW, pieceH
+        );
+        ctx.restore();
+
+        ctx.strokeStyle = '#333';
+        ctx.strokeRect(col * pieceW, row * pieceH, pieceW, pieceH);
+    });
 }
 
-function random_rotation(){
-    const grades = [90, 180, 270];
-    const rand = Math.random()*grades.length()-1;
-
-    return grades[rand];
+function checkWin() {
+    const allCorrect = pieces.every(p => p.rotation % 360 === 0);
+    return allCorrect;
 }
 
-let btn_play = document.getElementById('btn_play');
-btn_play.addEventListener('click', timer_on());
+function playerWon() {
+    temp.innerHTML = "🍻 Ganaste!";
+    temp.style.color = "#0ea544";
+    let btn_gano = document.querySelector('btn-gano');
+    btn_gano.style.display = 'flex';
+
+}
+
+// ------------------ TIMER ------------------
+
+
+let temp = document.getElementById('timer');
 
 function timer_on() {
-    let temp = document.getElementById('temp');
     let tiempo = 60;
 
+    temp.style.display = 'block';
+    temp.classList.add('timer-show');
 
     const INTERVAL = setInterval(() => {
         tiempo--;
         temp.innerHTML = `00:${tiempo}`;
 
-        if (tiempo <= 10)
-            temp.classList.add("timer");
+        if (tiempo <= 58) {
+            if (checkWin()) {
+                playerWon();
+                clearInterval(INTERVAL);
+                return;
+            }
+        }
 
+        if (tiempo == 10) {
+            temp.innerHTML = `00:${tiempo}`
+            temp.style.color = '#ce1234';
+        }
+
+        if (tiempo <= 10) {
+            temp.innerHTML = `00:0${tiempo}`
+            temp.style.color = '#ce1234';
+        }
 
         if (tiempo <= 0) {
-            temp.innerHTML = "Perdiste!";
+            temp.innerHTML = "¡Perdiste!";
             temp.classList.remove('timer');
-            temp.classList.add('game-lost')
+            temp.classList.add('game-lost');
             clearInterval(INTERVAL);
             return;
         }
@@ -70,16 +162,19 @@ function timer_on() {
 }
 
 
-/* MOSTRAR MENU PERFIL (HEADER) */
-let btn_perfil_header = document.getElementById('btn-usuario');
-btn_perfil_header.addEventListener('click' , () => {
-    let menu_perfil = document.querySelector('.menu-perfil')
-    menu_perfil.classList.toggle('menu-perfil-mostrar')
-})
-/* MOSTRAR MENU HAMBURGUESA */
-let btn_menu_hamburguesa = document.getElementById('btn-menu-hamburguesa')
-btn_menu_hamburguesa.addEventListener('click' , ()=> {
-    let menu_hamburguesa = document.querySelector('.sidebar')
-    menu_hamburguesa.classList.toggle('sidebar-mostrar')
+function HTMLChange() {
+    const game_div = document.querySelector(".juego");
+    const game = document.querySelector(".juego-inicio");
+    const blocka = document.querySelector('.blocka-game');
+    const loading = document.querySelector(".loading");
 
-})
+    game_div.style.backgroundImage = 'none';
+    game.style.display = 'none';
+
+    loading.style.display = 'block';
+
+    setTimeout(() => {
+        loading.style.display = 'none';
+        blocka.style.display = 'block';
+    }, 1200);
+}

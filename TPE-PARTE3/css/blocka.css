@@ -1,3 +1,48 @@
+:root {
+
+  /* COLOR PRINCIPAL */
+  --PRIMARY_COLOR: #1E1B3A;
+
+  /* LUCES */
+  --PRIMARY_LIGHT: #342F5C;
+  --PRIMARY_LIGHT2: #4C4781;
+  --PRIMARY_LIGHT3: #6662A3;
+  --SECUNDARY_LIGHT: #33F0FF;
+  --SECUNDARY_LIGHT2: #66F5FF;
+  --SECUNDARY_LIGHT3: #99FAFF;
+  --ACCENT_LIGHT1: #FF338B;
+  --ACCENT_LIGHT2: #FF66A8;
+  --ACCENT_LIGHT3: #FF99C5;
+
+  /* SOMBRAS */
+  --PRIMARY_SHADOW: #181530;
+  --PRIMARY-SHADOW2: #0F0D1C;
+  --PRIMARY_SHADOW3: #07060D;
+  --SECUNDARY_SHADOW1: #216187;
+  --SECUNDARY_SHADOW2: #008593;
+  --SECUNDARY_SHADOW3: #00545F;
+  --ACCENT_SHADOW: #990041;
+  --ACCENT_SHADOW1: #CC0058;
+
+  --ACCENT_SHADOW3: #66002B;
+
+  /* ACENTO */
+  --ACENTO: #FF8329;
+  --ACCENT_COLOR: #FF006E;
+
+  /* NEUTROS */
+  --WHITE_NEUTRAL: #F0DDFF;
+  --BLACK_NEUTRAL: #090011;
+
+  /* OTROS */
+  --SECUNDARY_COLOR: #2D94D1;
+  --HEADER_BG: #212233;
+  --MENU_PERFIL: #590FAC;
+  --BTN_JUGAR: #534AA0;
+
+}
+
+
 .juego {
   position: relative;
   width: 80%;
@@ -8,19 +53,74 @@
   background-size: 100%, 100%;
   background-color: rgba(255, 255, 255, 0.2);
   background-blend-mode: lighten;
+  
+
+}
+
+.juego-inicio{
+  width: 80%;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
-.timer {
-  color: rgb(178, 9, 9);
+#juego-logo{
+  height: 60%;
+  width: 30%;
+}
+
+.timer-show {
+  display: block;
+  font-size: 40px;
+  color: var(--WHITE_NEUTRAL);
+  z-index: 999;
   animation: pulse 0.5s ease;
+  top: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.blocka-game , .loading{
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  top: 50%;
+  translate: (-50% , -50%);
+}
+
+.loading{
+  color: var(--WHITE_NEUTRAL);
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+
+.loading img{
+  height: 100px;
+  width: 100px;
 }
 
 @keyframes pulse {
-  from { transform: scale(1); } /* PROBAR CON 0 */
-  to { transform: scale(1.3); }
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
+#timer {
+  display: none;
+}
+
+
+.btn-gano , .btn-perdio {
+  display: none;
+  gap: 20px;
 }
