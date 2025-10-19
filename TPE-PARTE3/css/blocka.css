@@ -1,152 +1,264 @@
 :root {
-
-  /* COLOR PRINCIPAL */
-  --PRIMARY_COLOR: #1E1B3A;
-
-  /* LUCES */
-  --PRIMARY_LIGHT: #342F5C;
-  --PRIMARY_LIGHT2: #4C4781;
-  --PRIMARY_LIGHT3: #6662A3;
-  --SECUNDARY_LIGHT: #33F0FF;
-  --SECUNDARY_LIGHT2: #66F5FF;
-  --SECUNDARY_LIGHT3: #99FAFF;
-  --ACCENT_LIGHT1: #FF338B;
-  --ACCENT_LIGHT2: #FF66A8;
-  --ACCENT_LIGHT3: #FF99C5;
-
-  /* SOMBRAS */
-  --PRIMARY_SHADOW: #181530;
-  --PRIMARY-SHADOW2: #0F0D1C;
-  --PRIMARY_SHADOW3: #07060D;
-  --SECUNDARY_SHADOW1: #216187;
-  --SECUNDARY_SHADOW2: #008593;
-  --SECUNDARY_SHADOW3: #00545F;
-  --ACCENT_SHADOW: #990041;
-  --ACCENT_SHADOW1: #CC0058;
-
-  --ACCENT_SHADOW3: #66002B;
-
-  /* ACENTO */
-  --ACENTO: #FF8329;
-  --ACCENT_COLOR: #FF006E;
-
-  /* NEUTROS */
-  --WHITE_NEUTRAL: #F0DDFF;
-  --BLACK_NEUTRAL: #090011;
-
-  /* OTROS */
-  --SECUNDARY_COLOR: #2D94D1;
-  --HEADER_BG: #212233;
-  --MENU_PERFIL: #590FAC;
-  --BTN_JUGAR: #534AA0;
-
+    /* COLOR PRINCIPAL */
+    --PRIMARY_COLOR: #1E1B3A;
+    /* LUCES */
+    --PRIMARY_LIGHT: #342F5C;
+    --PRIMARY_LIGHT2: #4C4781;
+    --PRIMARY_LIGHT3: #6662A3;
+    --SECUNDARY_LIGHT: #33F0FF;
+    --SECUNDARY_LIGHT2: #66F5FF;
+    --SECUNDARY_LIGHT3: #99FAFF;
+    --ACCENT_LIGHT1: #FF338B;
+    --ACCENT_LIGHT2: #FF66A8;
+    --ACCENT_LIGHT3: #FF99C5;
+    /* SOMBRAS */
+    --PRIMARY_SHADOW: #181530;
+    --PRIMARY-SHADOW2: #0F0D1C;
+    --PRIMARY_SHADOW3: #07060D;
+    --SECUNDARY_SHADOW1: #216187;
+    --SECUNDARY_SHADOW2: #008593;
+    --SECUNDARY_SHADOW3: #00545F;
+    --ACCENT_SHADOW: #990041;
+    --ACCENT_SHADOW1: #CC0058;
+    --ACCENT_SHADOW3: #66002B;
+    /* ACENTO */
+    --ACENTO: #FF8329;
+    --ACCENT_COLOR: #FF006E;
+    /* NEUTROS */
+    --WHITE_NEUTRAL: #F0DDFF;
+    --BLACK_NEUTRAL: #090011;
+    /* OTROS */
+    --SECUNDARY_COLOR: #2D94D1;
+    --HEADER_BG: #212233;
+    --MENU_PERFIL: #590FAC;
+    --BTN_JUGAR: #534AA0;
 }
 
-
-.juego {
-  position: relative;
-  width: 80%;
-  height: 500px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  background-image: url('../assets/blocka.jpg');
-  background-size: 100%, 100%;
-  background-blend-mode: lighten;
-  
-
-}
-
-.juego-inicio{
-  width: 80%;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#juego-logo{
-  height: 60%;
-  width: 30%;
-}
-
-.timer-show {
-  display: block;
-  font-size: 40px;
-  color: var(--WHITE_NEUTRAL);
-  z-index: 999;
-  animation: pulse 0.5s ease;
-  top: 10%;
-  margin-left: auto;
-  margin-right: auto;
-  font-weight: bolder;
-  text-align: center;
-}
-
-.blocka-game , .loading{
-  display: none;
-  margin-left: auto;
-  margin-right: auto;
-  top: 50%;
-  translate: (-50% , -50%);
-}
-
-.loading{
-  color: var(--WHITE_NEUTRAL);
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  align-items: center;
-}
-
-.loading img{
-  height: 100px;
-  width: 100px;
-}
-
-@keyframes pulse {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1.3);
-  }
+#canvas {
+    height: 400px;
+    width: 450px;
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0 4px 20px rgba(248, 246, 246, 0.3);
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 #timer {
-  display: none;
+    font-weight: 800;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 400px;
+    margin-top: 85px;
+    display: none;
+    color: white;
 }
 
-
-.btn-gano , .btn-perdio {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  visibility: hidden;
-  margin: 10px;
+.juego {
+    position: relative;
+    width: 80%;
+    height: 500px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-image: url('../assets/blocka.jpg');
+    background-size: 100%, 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    background-blend-mode: lighten;
 }
 
-.btn-gano button , .btn-perdio button{
-  background-color: var(--BTN_JUGAR);
-  color: var(--WHITE_NEUTRAL);
-  height: 50px;
-  width: 100px;
-  border-radius: 20px;
-  border: none;
-  font-size: large;
+.juego-inicio {
+    width: 80%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.btn-gano a{
-  text-decoration: none;
-  color: var(--WHITE_NEUTRAL);
+#juego-logo {
+    height: 60%;
+    width: 30%;
 }
 
-#canvas{
-  height: 300px;
-  width: 300px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.timer-show {
+    display: block;
+    font-size: 40px;
+    color: var(--WHITE_NEUTRAL);
+    z-index: 999;
+    animation: pulse 0.5s ease;
+    top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.blocka-game,
+.loading {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+    translate: (-50%, -50%);
+}
+
+.loading {
+    color: var(--WHITE_NEUTRAL);
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+}
+
+.loading img {
+    height: 100px;
+    width: 100px;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1.3);
+    }
+}
+
+/* ---------------- BOTONES DE VICTORIA/DERROTA ---------------- */
+.btn-gano,
+.btn-perdio,
+.btn-menu {
+    display: none;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-gano button,
+.btn-perdio button,
+.btn-menu button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-gano button:hover,
+.btn-perdio button:hover,
+.btn-menu button:hover {
+    background: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gano a,
+.btn-perdio a,
+.btn-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+/* ---------------- BOTONES DE PISTA Y AYUDA ---------------- */
+.pista {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.pista button {
+    background: var(--SECUNDARY_COLOR);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pista button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#btn-pista {
+    background: var(--SECUNDARY_COLOR);
+}
+
+#btn-pista:hover {
+    background: #3da8e8;
+}
+
+#btn-ayuda {
+    background: var(--ACENTO);
+}
+
+#btn-ayuda:hover:not(:disabled) {
+    background: #ff9a4f;
+}
+
+#btn-ayuda:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ---------------- ANIMACIONES ADICIONALES ---------------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timer-show {
+    animation: fadeIn 0.5s ease, pulse 0.5s ease;
+}
+
+.btn-gano,
+.btn-perdio {
+    animation: fadeIn 0.5s ease;
+}
+
+/* ---------------- MEJORAS VISUALES ---------------- */
+#canvas {
+    border: 3px solid var(--PRIMARY_LIGHT);
+}
+
+.blocka-game {
+    padding: 20px;
+}
+
+/* Para asegurar que el botón de siguiente nivel se vea bien */
+#btn-siguiente {
+    background: var(--ACCENT_COLOR);
+}
+
+#btn-siguiente:hover {
+    background: var(--ACCENT_LIGHT1);
+}
+
+/* Botón de reintentar con color distintivo */
+#btn-reintentar {
+    background: var(--ACENTO);
+}
+
+#btn-reintentar:hover {
+    background: #ff9a4f;
 }
