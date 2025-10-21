@@ -1,7 +1,6 @@
 let btn_play = document.getElementById('btn-jugar');
 btn_play.addEventListener('click', () => {
   HTMLChange();
-  startLevel();
 });
 
 let currentLevel = 0;
@@ -14,7 +13,9 @@ const array_src = [
   'https://picsum.photos/800/800?random=5',
   'https://picsum.photos/800/800?random=6',
   'https://picsum.photos/800/800?random=7',
-  'https://picsum.photos/800/800?random=8'
+  'https://picsum.photos/800/800?random=8',
+  'https://picsum.photos/800/800?random=9',
+  'https://picsum.photos/800/800?random=10'
 ];
 
 let pieces = [];
@@ -29,30 +30,67 @@ let btnAyuda = document.getElementById('btn-ayuda');
 let tiempo = 0;
 let currentRows = 2;
 let currentCols = 2;
+let selectedSize = null;
+let tiempoInicial = 0;
+let tiempoTranscurrido = 0;
 
-// Configuración de dificultad por nivel
+// Configuración de filtros por nivel (6 niveles diferentes)
 const levelConfig = [
-  { rows: 2, cols: 2, maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
-  { rows: 2, cols: 2, maxTime: 80, filter: 'brightness(30%)', name: 'Nivel 2 - Brillo Bajo' },
-  { rows: 2, cols: 2, maxTime: 70, filter: 'invert(100%)', name: 'Nivel 3 - Negativo' },
-  { rows: 2, cols: 3, maxTime: 100, filter: 'grayscale(100%)', name: 'Nivel 4 - Escala de Grises' },
-  { rows: 2, cols: 3, maxTime: 90, filter: 'brightness(30%)', name: 'Nivel 5 - Brillo Bajo' },
-  { rows: 3, cols: 3, maxTime: 120, filter: 'invert(100%)', name: 'Nivel 6 - Negativo' }
+  { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
+  { maxTime: 85, filter: 'brightness(40%)', name: 'Nivel 2 - Brillo Bajo' },
+  { maxTime: 80, filter: 'sepia(100%)', name: 'Nivel 3 - Sepia' },
+  { maxTime: 75, filter: 'invert(100%)', name: 'Nivel 4 - Negativo' },
+  { maxTime: 70, filter: 'hue-rotate(180deg)', name: 'Nivel 5 - Colores Invertidos' },
+  { maxTime: 65, filter: 'contrast(50%) brightness(60%)', name: 'Nivel 6 - Contraste Bajo' }
 ];
+
+// ------------------ BOTONES DE SELECCIÓN DE TAMAÑO ------------------
+document.getElementById('btn-2x2').addEventListener('click', () => {
+  selectedSize = { rows: 2, cols: 2 };
+  currentLevel = 0;
+  ayudaUsada = false;
+  startLevel();
+});
+
+document.getElementById('btn-3x3').addEventListener('click', () => {
+  selectedSize = { rows: 3, cols: 3 };
+  currentLevel = 0;
+  ayudaUsada = false;
+  startLevel();
+});
+
+document.getElementById('btn-4x4').addEventListener('click', () => {
+  selectedSize = { rows: 4, cols: 4 };
+  currentLevel = 0;
+  ayudaUsada = false;
+  startLevel();
+});
 
 // ------------------ INICIO DE NIVEL ------------------
 function startLevel() {
+  // Ocultar menú de selección
+  document.querySelector('.seleccion-tamano').style.display = 'none';
+  document.getElementById('canvas').style.display = 'block';
+  
   temp.style.color = '#000';
   gameWon = false;
-  ayudaUsada = false;
   
-  // Mostrar botones
+  // Mostrar botones de pista y ayuda
   btnPista.style.display = 'inline-block';
   if (btnAyuda) {
     btnAyuda.style.display = 'inline-block';
-    btnAyuda.disabled = false;
-    btnAyuda.style.opacity = '1';
+    btnAyuda.disabled = ayudaUsada;
+    btnAyuda.style.opacity = ayudaUsada ? '0.5' : '1';
   }
+  
+  // Mostrar contenedor de botones pista
+  document.querySelector('.pista').style.display = 'flex';
+  
+  // Asegurar que el botón siguiente esté visible y cambiar tamaño oculto
+  const btnNext = document.getElementById('btn-siguiente');
+  const btnCambiar = document.getElementById('btn-cambiar-tamano');
+  if (btnNext) btnNext.style.display = 'inline-block';
+  if (btnCambiar) btnCambiar.style.display = 'none';
   
   getImage();
 }
@@ -70,9 +108,12 @@ function getImage() {
   img.src = array_src[randomIndex];
   
   img.onload = () => {
+    // Usar la configuración del nivel actual
     const config = levelConfig[currentLevel];
-    currentRows = config.rows;
-    currentCols = config.cols;
+    
+    // Usar el tamaño seleccionado por el usuario
+    currentRows = selectedSize.rows;
+    currentCols = selectedSize.cols;
     
     pieceW = canvas.width / currentCols;
     pieceH = canvas.height / currentRows;
@@ -92,7 +133,17 @@ function getImage() {
     }
 
     drawPuzzle();
-    timer_on(config.maxTime);
+    
+    // Ajustar tiempo según dificultad elegida
+    let tiempoAjustado = config.maxTime;
+    if (currentRows === 3 && currentCols === 3) {
+      tiempoAjustado = config.maxTime + 30; // Más tiempo para 3x3
+    } else if (currentRows === 4 && currentCols === 4) {
+      tiempoAjustado = config.maxTime + 60; // Más tiempo para 4x4
+    }
+    
+    tiempoInicial = tiempoAjustado;
+    timer_on(tiempoAjustado);
   };
 }
 
@@ -188,6 +239,11 @@ function playerWon() {
   gameWon = true;
   btnPista.style.display = 'none';
   if (btnAyuda) btnAyuda.style.display = 'none';
+  
+  // Calcular tiempo transcurrido
+  tiempoTranscurrido = tiempoInicial - tiempo;
+  const minutos = Math.floor(tiempoTranscurrido / 60);
+  const segundos = tiempoTranscurrido % 60;
 
   // Redibujar imagen completa sin filtros
   const canvas = document.getElementById('canvas');
@@ -210,27 +266,37 @@ function playerWon() {
     }
   }
   
-  // Mostrar mensaje de victoria
+  const btnNext = document.getElementById('btn-siguiente');
+  const btnCambiar = document.getElementById('btn-cambiar-tamano');
+  const btnGano = document.querySelector('.btn-gano');
+  const btnMenu = document.querySelector('.btn-menu');
+  
+  // Mostrar mensaje de victoria con tiempo
   if (currentLevel < totalLevels - 1) {
-    temp.innerHTML = `¡Ganaste!`;
+    temp.innerHTML = `¡Nivel ${currentLevel + 1} completado en ${minutos}:${segundos < 10 ? '0' + segundos : segundos}!`;
     temp.style.color = "#08a03d";
 
-    const btnNext = document.getElementById('btn-siguiente');
+    if (btnGano) btnGano.style.display = 'flex';
     if (btnNext) {
-      document.querySelector('.btn-gano').style.display = 'flex';
+      btnNext.style.display = 'inline-block';
       btnNext.onclick = () => {
         currentLevel++;
-        document.querySelector('.btn-gano').style.display = 'none';
+        btnGano.style.display = 'none';
+        if (btnMenu) btnMenu.style.display = 'none';
+        ayudaUsada = false;
         startLevel();
       };
     }
+    if (btnCambiar) btnCambiar.style.display = 'none';
   } else {
-    temp.innerHTML = "¡Ganaste todos los niveles!";
+    temp.innerHTML = `¡Completaste todos los niveles!`;
     temp.style.color = "#08a03d";
-    document.querySelector('.btn-gano').style.display = 'none';
+    
+    if (btnGano) btnGano.style.display = 'flex';
+    if (btnNext) btnNext.style.display = 'none';
+    if (btnCambiar) btnCambiar.style.display = 'inline-block';
   }
 
-  const btnMenu = document.querySelector('.btn-menu');
   if (btnMenu) btnMenu.style.display = 'flex';
 }
 
@@ -284,6 +350,7 @@ function HTMLChange() {
   const game = document.querySelector(".juego-inicio");
   const blocka = document.querySelector('.blocka-game');
   const loading = document.querySelector(".loading");
+  const seleccionTamano = document.querySelector('.seleccion-tamano');
 
   game.style.display = 'none';
   loading.style.display = 'block';
@@ -291,6 +358,11 @@ function HTMLChange() {
   setTimeout(() => {
     loading.style.display = 'none';
     blocka.style.display = 'block';
+    seleccionTamano.style.display = 'flex';
+    document.getElementById('canvas').style.display = 'none';
+    
+    // Ocultar botones de pista y ayuda en la selección
+    document.querySelector('.pista').style.display = 'none';
   }, 1200);
 }
 
@@ -386,4 +458,25 @@ if (btnReintentar) {
     document.querySelector('.btn-perdio').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
     startLevel();
-  });}
+  });
+}
+
+// ------------------ BOTÓN CAMBIAR TAMAÑO ------------------
+const btnCambiarTamano = document.getElementById('btn-cambiar-tamano');
+if (btnCambiarTamano) {
+  btnCambiarTamano.addEventListener('click', () => {
+    // Limpiar juego actual
+    clearInterval(timerInterval);
+    gameWon = false;
+    
+    // Ocultar todo
+    document.querySelector('.btn-gano').style.display = 'none';
+    document.querySelector('.btn-menu').style.display = 'none';
+    document.getElementById('canvas').style.display = 'none';
+    document.querySelector('.pista').style.display = 'none';
+    temp.style.display = 'none';
+    
+    // Mostrar selección de tamaño
+    document.querySelector('.seleccion-tamano').style.display = 'flex';
+  });
+}

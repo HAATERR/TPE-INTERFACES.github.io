@@ -34,26 +34,7 @@
     --BTN_JUGAR: #534AA0;
 }
 
-#canvas {
-    height: 400px;
-    width: 450px;
-    display: block;
-    margin: 20px auto;
-    box-shadow: 0 4px 20px rgba(248, 246, 246, 0.3);
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-#timer {
-    font-weight: 800;
-    text-align: center;
-    margin: 20px auto;
-    max-width: 400px;
-    margin-top: 85px;
-    display: none;
-    color: white;
-}
-
+/* ========== CONTENEDOR PRINCIPAL ========== */
 .juego {
     position: relative;
     width: 80%;
@@ -64,114 +45,134 @@
     background-size: 100%, 100%;
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
+    overflow: hidden;
 }
 
-.juego-inicio {
-    width: 80%;
-    height: 500px;
+/* ========== BLOCKA GAME - Layout Principal ========== */
+.blocka-game {
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    position: relative;
 }
 
-#juego-logo {
-    height: 60%;
-    width: 30%;
+/* ========== SELECCIÓN DE TAMAÑO ========== */
+.seleccion-tamano {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+.seleccion-tamano h2 {
+    color: var(--WHITE_NEUTRAL);
+    font-size: 24px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.seleccion-tamano p {
+    color: var(--SECUNDARY_LIGHT2);
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.botones-tamano {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+}
+
+.botones-tamano button {
+    background: linear-gradient(135deg, var(--PRIMARY_LIGHT2), var(--PRIMARY_LIGHT3));
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.botones-tamano button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, var(--PRIMARY_LIGHT3), var(--ACCENT_LIGHT1));
+}
+
+#btn-2x2 {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+#btn-2x2:hover {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+}
+
+#btn-3x3 {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+}
+
+#btn-3x3:hover {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+}
+
+#btn-4x4 {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+#btn-4x4:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+}
+
+/* ========== CANVAS ========== */
+#canvas {
+    height: 280px;
+    width: 350px;
+    display: block;
+    margin: 10px auto;
+    box-shadow: 0 4px 20px rgba(248, 246, 246, 0.3);
+    border-radius: 8px;
+    border: 3px solid var(--PRIMARY_LIGHT);
+}
+
+/* ========== TIMER ========== */
+#timer {
+    font-weight: 800;
+    text-align: center;
+    margin: 10px auto;
+    max-width: 400px;
+    display: none;
+    color: white;
+    font-size: 24px;
 }
 
 .timer-show {
     display: block;
-    font-size: 40px;
+    font-size: 28px;
     color: var(--WHITE_NEUTRAL);
     z-index: 999;
-    animation: pulse 0.5s ease;
-    top: 20%;
+    animation: fadeIn 0.5s ease, pulse 0.5s ease;
     margin-left: auto;
     margin-right: auto;
     font-weight: bolder;
     text-align: center;
 }
 
-.blocka-game,
-.loading {
-    display: none;
-    margin-left: auto;
-    margin-right: auto;
-    top: 50%;
-    translate: (-50%, -50%);
-}
-
-.loading {
-    color: var(--WHITE_NEUTRAL);
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-    align-items: center;
-}
-
-.loading img {
-    height: 100px;
-    width: 100px;
-}
-
-@keyframes pulse {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1.3);
-    }
-}
-
-/* ---------------- BOTONES DE VICTORIA/DERROTA ---------------- */
-.btn-gano,
-.btn-perdio,
-.btn-menu {
-    display: none;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-.btn-gano button,
-.btn-perdio button,
-.btn-menu button {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-}
-
-.btn-gano button:hover,
-.btn-perdio button:hover,
-.btn-menu button:hover {
-    background: #555;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.btn-gano a,
-.btn-perdio a,
-.btn-menu a {
-    color: white;
-    text-decoration: none;
-}
-
-/* ---------------- BOTONES DE PISTA Y AYUDA ---------------- */
+/* ========== BOTONES DE PISTA Y AYUDA ========== */
 .pista {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-    margin-bottom: 30px;
+    gap: 15px;
+    margin: 10px 0;
     flex-wrap: wrap;
 }
 
@@ -179,8 +180,8 @@
     background: var(--SECUNDARY_COLOR);
     color: white;
     border: none;
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 10px 20px;
+    font-size: 14px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -215,7 +216,171 @@
     transform: none;
 }
 
-/* ---------------- ANIMACIONES ADICIONALES ---------------- */
+/* ========== BOTONES DE VICTORIA/DERROTA/MENU ========== */
+.btn-gano,
+.btn-perdio,
+.btn-menu {
+    display: none;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-gano button,
+.btn-perdio button,
+.btn-menu button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gano button:hover,
+.btn-perdio button:hover,
+.btn-menu button:hover {
+    background: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.btn-gano a,
+.btn-perdio a,
+.btn-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Botón de siguiente nivel */
+#btn-siguiente {
+    background: var(--ACCENT_COLOR) !important;
+}
+
+#btn-siguiente:hover {
+    background: var(--ACCENT_LIGHT1) !important;
+}
+
+/* Botón de cambiar tamaño */
+#btn-cambiar-tamano {
+    background: var(--SECUNDARY_COLOR) !important;
+}
+
+#btn-cambiar-tamano:hover {
+    background: #3da8e8 !important;
+}
+
+/* Botón de reintentar */
+#btn-reintentar {
+    background: var(--ACENTO) !important;
+}
+
+#btn-reintentar:hover {
+    background: #ff9a4f !important;
+}
+
+/* ========== PANTALLA DE INICIO ========== */
+.juego-inicio {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(30, 27, 58, 0.95);
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+#juego-logo {
+    height: 50%;
+    width: 30%;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+#btn-jugar {
+    background: var(--BTN_JUGAR);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#btn-jugar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+#btn-pantalla-completa {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn-pantalla-completa:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+
+#icon-pantalla-completa {
+    width: 24px;
+    height: 24px;
+}
+
+/* ========== LOADING ========== */
+.loading {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--WHITE_NEUTRAL);
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading img {
+    height: 80px;
+    width: 80px;
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes pulse {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1.3);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -227,38 +392,7 @@
     }
 }
 
-.timer-show {
-    animation: fadeIn 0.5s ease, pulse 0.5s ease;
-}
-
 .btn-gano,
 .btn-perdio {
     animation: fadeIn 0.5s ease;
-}
-
-/* ---------------- MEJORAS VISUALES ---------------- */
-#canvas {
-    border: 3px solid var(--PRIMARY_LIGHT);
-}
-
-.blocka-game {
-    padding: 20px;
-}
-
-/* Para asegurar que el botón de siguiente nivel se vea bien */
-#btn-siguiente {
-    background: var(--ACCENT_COLOR);
-}
-
-#btn-siguiente:hover {
-    background: var(--ACCENT_LIGHT1);
-}
-
-/* Botón de reintentar con color distintivo */
-#btn-reintentar {
-    background: var(--ACENTO);
-}
-
-#btn-reintentar:hover {
-    background: #ff9a4f;
 }
