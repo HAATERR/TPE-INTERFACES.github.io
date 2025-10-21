@@ -1,4 +1,5 @@
 'use strict'
+
 document.addEventListener("DOMContentLoaded", () => {
 
     let btn_play = document.getElementById('btn-jugar');
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let tiempoInicial = 0;
     let tiempoTranscurrido = 0;
 
-   
+
     const levelConfig = [
         { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
         { maxTime: 85, filter: 'brightness(40%)', name: 'Nivel 2 - Brillo Bajo' },
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startLevel();
     });
 
-   
+
     function startLevel() {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         img.src = array_src[randomIndex];
 
         img.onload = () => {
-         
+
             const config = levelConfig[currentLevel];
 
             currentRows = selectedSize.rows;
@@ -133,9 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let tiempoAjustado = config.maxTime;
             if (currentRows === 3 && currentCols === 3) {
-                tiempoAjustado = config.maxTime + 30; 
+                tiempoAjustado = config.maxTime + 30;
             } else if (currentRows === 4 && currentCols === 4) {
-                tiempoAjustado = config.maxTime + 60; 
+                tiempoAjustado = config.maxTime + 60;
             }
 
             tiempoInicial = tiempoAjustado;
@@ -185,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('canvas').addEventListener('contextmenu', e => e.preventDefault());
 
-   
+
     document.getElementById('canvas').addEventListener('mousedown', e => {
         if (!pieces.length || gameWon) return;
 
@@ -327,31 +328,31 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tiempo <= 0) playerLost();
         }, 1000);
     }
--
-
-    function HTMLChange() {
-    const game_div = document.querySelector(".juego");
-    const game = document.querySelector(".juego-inicio");
-    const blocka = document.querySelector('.blocka-game');
-    const loading = document.querySelector(".loading");
-    const seleccion = document.querySelector(".seleccion-tamano");
-
-    if (!game_div || !game || !blocka || !loading || !seleccion) return;
-
-    game_div.style.backgroundImage = 'none';
-    game_div.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
-    game.style.display = 'none';
-
-    loading.style.display = 'flex';
-    loading.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
-
-    setTimeout(() => {
-        loading.style.display = 'none';
-        seleccion.style.display = 'flex'; 
-    }, 1200);
-}
 
 
+        function HTMLChange() {
+            const game_div = document.querySelector(".juego");
+            const game = document.querySelector(".juego-inicio");
+            const blocka = document.querySelector('.blocka-game');
+            const loading = document.querySelector(".loading");
+            const seleccion = document.querySelector(".seleccion-tamano");
+
+            if (!game_div || !game || !blocka || !loading || !seleccion) return;
+
+            game_div.style.backgroundImage = 'none';
+            game_div.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
+            game.style.display = 'none';
+
+            loading.style.display = 'flex';
+            loading.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
+
+            setTimeout(() => {
+                loading.style.display = 'none';
+                seleccion.style.display = 'flex';
+            }, 1200);
+        }
+
+    
     btnPista.addEventListener('click', () => {
         if (gameWon) return;
 
