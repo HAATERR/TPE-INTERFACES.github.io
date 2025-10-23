@@ -1,4 +1,3 @@
-
 (function () {
   const loader = document.getElementById('loader');
   const percent = document.getElementById('loaderPercent');
@@ -23,6 +22,7 @@ const FEATURED_IMAGE_OVERRIDE = {
   useIndex: true,                          
   index: 1                               
 };
+
 
 function applyFeaturedOverride(container){
   try{
@@ -104,36 +104,60 @@ function wireCarousel(container, prevBtn, nextBtn, options={center:true}){
 }
 
 
-function renderFeatured(games){
+function renderFeatured(games) {
   const container = document.getElementById('carousel-featured');
   container.innerHTML = '';
-  games.slice(0,3).forEach((g,i)=>{
+
+  // --- SLIDE PERSONALIZADO: BLOCKA ---
+  const blockaSlide = document.createElement('article');
+  blockaSlide.className = 'slide';
+  blockaSlide.innerHTML = `
+    <img src="assets/blocka-ninjagames.jpg" alt="Blocka">
+    <button class="badge cta-btn" type="button" data-link="blocka.html">Jugar Ahora</button>
+  `;
+  container.appendChild(blockaSlide);
+  const pegSlide = document.createElement('article');
+  pegSlide.className = 'slide';
+  pegSlide.innerHTML = `
+    <img src="assets/PegSolitaire.png" alt="Peg Solitaire">
+    <button class="badge cta-btn" type="button" data-link="game-page.html">Jugar Ahora</button>
+  `;
+  container.appendChild(pegSlide);
+  games.slice(0, 2).forEach((g) => {
     const slide = document.createElement('article');
     slide.className = 'slide';
-    slide.innerHTML = `<img src="${g.background_image}" alt="${g.name}"><button class="badge cta-btn" type="button">${i===1?'Jugar Ahora':'Comprar Ahora'}</button>`;
+    slide.innerHTML = `
+      <img src="${g.background_image}" alt="${g.name}">
+      <button class="badge cta-btn" type="button">Comprar Ahora</button>
+    `;
     container.appendChild(slide);
   });
+
   applyFeaturedOverride(container);
-  wireCarousel(container, document.querySelector('.car-prev'), document.querySelector('.car-next'), {center:true});
-  
-  try{
-    const wrap = container.parentElement; 
+  wireCarousel(
+    container,
+    document.querySelector('.car-prev'),
+    document.querySelector('.car-next'),
+    { center: true }
+  );
+
+  try {
+    const wrap = container.parentElement;
     const originalTitle = document.querySelector('.row .section-title');
     if (wrap && originalTitle) {
       originalTitle.classList.add('featured-title');
       if (originalTitle.parentElement !== wrap) wrap.appendChild(originalTitle);
     }
-    function positionFeaturedTitleStatic(){
+    function positionFeaturedTitleStatic() {
       if (!wrap || !originalTitle) return;
       const firstCard = container.children && container.children[0];
       if (!firstCard) return;
       const left = (container.clientWidth - firstCard.clientWidth) / 2;
-      originalTitle.style.left = (left + 16) + 'px'; 
+      originalTitle.style.left = (left + 16) + 'px';
     }
     positionFeaturedTitleStatic();
     window.addEventListener('resize', positionFeaturedTitleStatic);
-  }catch(e){ }
-
+  } catch (e) {}
 }
 
 
@@ -270,11 +294,14 @@ function refreshStates(scope=document){
   }
 })();
 
-
-document.addEventListener('click', (e)=>{
+document.addEventListener('click', (e) => {
   const cta = e.target.closest('.cta-btn');
-  if (cta) { window.location.href = 'game-page.html'; }
+  if (cta) {
+    const link = cta.getAttribute('data-link') || 'game-page.html';
+    window.location.href = link;
+  }
 });
+
 
 
 document.addEventListener('click', (e) => {

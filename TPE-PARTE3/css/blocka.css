@@ -49,7 +49,7 @@
 }
 
 .blocka-game {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,7 +172,7 @@
   margin: 0 auto;
   border-radius: 10px;
   box-shadow: 0 0 20px var(--PRIMARY-SHADOW2);
-  height: 80%;
+  height: 60%;
   width: 80%;
   color: white;
 }
@@ -230,18 +230,20 @@
 
 /* ========== BOTONES DE VICTORIA/DERROTA/MENU ========== */
 .btn-gano,
-.btn-perdio,
-.btn-menu {
+.btn-perdio{
   display: none;
-  gap: 15px;
+  flex-direction: row; 
   justify-content: center;
-  margin-top: 15px;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+  width: 100%;
 }
 
+
 .btn-gano button,
-.btn-perdio button,
-.btn-menu button {
+.btn-perdio button{
   background: #333;
   color: white;
   border: none;
@@ -255,16 +257,14 @@
 }
 
 .btn-gano button:hover,
-.btn-perdio button:hover,
-.btn-menu button:hover {
+.btn-perdio button:hover{
   background: #555;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
-.btn-gano a,
-.btn-perdio a,
-.btn-menu a {
+.btn-gano a, .btn-gano button a
+.btn-perdio a , .btn-perdio button a {
   color: white;
   text-decoration: none;
 }
@@ -294,6 +294,22 @@
 
 #btn-reintentar:hover {
   background: #ff9a4f;
+}
+
+/* ========== RECORD ========== */
+#record{
+  color: var(--WHITE_NEUTRAL);
+  margin-top: -5px;
+
+}
+
+.record-break{
+    animation: scale_record 3s ease forwards;
+}
+
+@keyframes scale_record {
+    from{opacity: 0 ; scale: 0; color: var(--WHITE_NEUTRAL);}
+    to {opacity: 1; scale: 1.5; color: green;}
 }
 
 /* ========== PANTALLA DE INICIO ========== */
@@ -409,7 +425,10 @@
   }
 }
 
+
+
 .btn-gano,
 .btn-perdio {
   animation: fadeIn 0.5s ease;
+  width: 100%;
 }

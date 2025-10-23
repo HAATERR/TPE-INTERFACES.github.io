@@ -38,7 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let tiempoInicial = 0;
     let tiempoTranscurrido = 0;
     let help_opened = false;
-    let help = document.getElementById('btn-help')
+    let help = document.getElementById('btn-help');
+    const record = document.getElementById('record');
+    let record_2x2 = Infinity;
+    let record_3x3 = Infinity;
+    let record_4x4 = Infinity;
 
     const levelConfig = [
         { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
@@ -74,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     help.addEventListener('click', openHelp);
 
-    function startLevel() {
+    function startLevel(size) {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
 
@@ -98,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         getImage();
     }
+
+
 
     function getImage() {
         const canvas = document.getElementById('canvas');
@@ -229,12 +235,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function playerWon() {
+
+        tiempoTranscurrido = tiempoInicial - tiempo;
+        record.style.display = 'block';
+
+        if (selectedSize.rows === 2 && selectedSize.cols === 2) {
+            if (tiempoTranscurrido < record_2x2) {
+                record_2x2 = tiempoTranscurrido;
+                record.innerHTML = `Nuevo récord! ${record_2x2}s`;
+                record.classList.add('record-break');
+            } else {
+                record.innerHTML = `Récord de este nivel: ${record_2x2}s`;
+                record.classList.remove('record-break');
+            }
+        }
+
+        if (selectedSize.rows === 3 && selectedSize.cols === 3) {
+            if (tiempoTranscurrido < record_3x3) {
+                record_3x3 = tiempoTranscurrido;
+                record.innerHTML = `Nuevo récord! ${record_3x3}s`;
+                 record.classList.add('record-break');
+            } else {
+                record.innerHTML = `Récord de este nivel: ${record_3x3}s`;
+                 record.classList.remove('record-break');
+            }
+        }
+
+        if (selectedSize.rows === 4 && selectedSize.cols === 4) {
+            if (tiempoTranscurrido < record_4x4) {
+                record_4x4 = tiempoTranscurrido;
+                record.innerHTML = `Nuevo récord! ${record_4x4}s`;
+                 record.classList.add('record-break');
+            } else {
+                record.innerHTML = `Récord de este nivel: ${record_4x4}s`;
+            }
+        }
+
+
         clearInterval(timerInterval);
         gameWon = true;
         btnPista.style.display = 'none';
         if (btnAyuda) btnAyuda.style.display = 'none';
 
-        tiempoTranscurrido = tiempoInicial - tiempo;
+
         const minutos = Math.floor(tiempoTranscurrido / 60);
         const segundos = tiempoTranscurrido % 60;
 
@@ -261,7 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnNext = document.getElementById('btn-siguiente');
         const btnCambiar = document.getElementById('btn-cambiar-tamano');
         const btnGano = document.querySelector('.btn-gano');
-        const btnMenu = document.querySelector('.btn-menu');
 
         if (currentLevel < totalLevels - 1) {
             temp.innerHTML = `¡Nivel ${currentLevel + 1} completado en ${minutos}:${segundos < 10 ? '0' + segundos : segundos}!`;
@@ -269,11 +311,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (btnGano) btnGano.style.display = 'flex';
             if (btnNext) {
-                btnNext.style.display = 'inline-block';
+                btnNext.style.display = 'inline-flex';
                 btnNext.onclick = () => {
+                    record.style.display = 'none';
                     currentLevel++;
                     btnGano.style.display = 'none';
-                    if (btnMenu) btnMenu.style.display = 'none';
                     ayudaUsada = false;
                     startLevel();
                 };
@@ -285,10 +327,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (btnGano) btnGano.style.display = 'flex';
             if (btnNext) btnNext.style.display = 'none';
-            if (btnCambiar) btnCambiar.style.display = 'inline-block';
+            if (btnCambiar) btnCambiar.style.display = 'flex';
         }
 
-        if (btnMenu) btnMenu.style.display = 'flex';
+      
     }
 
     function playerLost() {
@@ -300,9 +342,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnAyuda) btnAyuda.style.display = 'none';
 
         document.querySelector('.btn-perdio').style.display = 'flex';
-
-        const btnMenu = document.querySelector('.btn-menu');
-        if (btnMenu) btnMenu.style.display = 'flex';
 
         clearInterval(timerInterval);
     }
@@ -346,6 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
         game_div.style.backgroundImage = 'none';
         game_div.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
         game.style.display = 'none';
+
 
         loading.style.display = 'flex';
         loading.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
@@ -451,7 +491,6 @@ document.addEventListener("DOMContentLoaded", () => {
             gameWon = false;
 
             document.querySelector('.btn-gano').style.display = 'none';
-            document.querySelector('.btn-menu').style.display = 'none';
             document.getElementById('canvas').style.display = 'none';
             document.querySelector('.pista').style.display = 'none';
             temp.style.display = 'none';
@@ -472,6 +511,8 @@ document.addEventListener("DOMContentLoaded", () => {
             help_opened = false;
         }
     }
+
+
 
 });
 
