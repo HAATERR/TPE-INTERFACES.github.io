@@ -37,7 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedSize = null;
     let tiempoInicial = 0;
     let tiempoTranscurrido = 0;
-
+    let help_opened = false;
+    let help = document.getElementById('btn-help')
 
     const levelConfig = [
         { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
@@ -71,10 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    help.addEventListener('click', openHelp);
+
     function startLevel() {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
 
+        help.style.display = 'flex';
         temp.style.color = '#FFFF';
         gameWon = false;
 
@@ -330,29 +334,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-        function HTMLChange() {
-            const game_div = document.querySelector(".juego");
-            const game = document.querySelector(".juego-inicio");
-            const blocka = document.querySelector('.blocka-game');
-            const loading = document.querySelector(".loading");
-            const seleccion = document.querySelector(".seleccion-tamano");
+    function HTMLChange() {
+        const game_div = document.querySelector(".juego");
+        const game = document.querySelector(".juego-inicio");
+        const blocka = document.querySelector('.blocka-game');
+        const loading = document.querySelector(".loading");
+        const seleccion = document.querySelector(".seleccion-tamano");
 
-            if (!game_div || !game || !blocka || !loading || !seleccion) return;
+        if (!game_div || !game || !blocka || !loading || !seleccion) return;
 
-            game_div.style.backgroundImage = 'none';
-            game_div.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
-            game.style.display = 'none';
+        game_div.style.backgroundImage = 'none';
+        game_div.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
+        game.style.display = 'none';
 
-            loading.style.display = 'flex';
-            loading.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
+        loading.style.display = 'flex';
+        loading.style.background = 'radial-gradient(at center , var(--BLACK_NEUTRAL) , var(--PRIMARY-SHADOW2))';
 
-            setTimeout(() => {
-                loading.style.display = 'none';
-                seleccion.style.display = 'flex';
-            }, 1200);
-        }
+        setTimeout(() => {
+            loading.style.display = 'none';
+            seleccion.style.display = 'flex';
+            btnAyuda.style.display = 'none';
+            btnPista.style.display = 'none';
+            help.style.display = 'none';
+        }, 1200);
+    }
 
-    
+
     btnPista.addEventListener('click', () => {
         if (gameWon) return;
 
@@ -421,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const minutos = Math.floor(tiempo / 60);
                         const segundos = tiempo % 60;
                         temp.innerHTML = `${minutos < 10 ? '0' + minutos : minutos}:${segundos < 10 ? '0' + segundos : segundos}`;
-                        temp.style.color = tiempo <= 10 ? '#ce1234' : '#000';
+                        temp.style.color = tiempo <= 10 ? '#ce1234' : '#ffff';
                     }
                 }, 2000);
             }
@@ -451,6 +458,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.querySelector('.seleccion-tamano').style.display = 'flex';
         });
+    }
+
+    function openHelp() {
+        let help_text = document.getElementById('text-help');
+
+        if (!help_opened) {
+            help_text.style.display = 'flex';
+            help_opened = true;
+        }
+        else {
+            help_text.style.display = 'none';
+            help_opened = false;
+        }
     }
 
 });

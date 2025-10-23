@@ -79,8 +79,17 @@
             <p class="breadcumb-link">Blocka</p>
         </div>
 
-          <div class="juego">
+        <div class="juego">
+            <div class="help">
+                <button id="btn-help">
+                    <img src="assets/help.png" alt="help">
+                </button>
+                <p id="text-help">Arma la imagen original rotando las piezas.
+                    Click izquierdo: gira a la izquierda.
+                    Click derecho: gira a la derecha.</p>
+            </div>
             <div class="blocka-game">
+
                 <div class="seleccion-tamano">
                     <h2>Elige el tamaño de la grilla</h2>
                     <p>Selecciona la dificultad</p>
@@ -93,7 +102,7 @@
 
                 <p id="timer"></p>
                 <canvas id="canvas"></canvas>
-                
+
                 <div class="pista">
                     <button id="btn-pista">Ver Pista (3s)</button>
                     <button id="btn-ayuda">Ayudita (+5s)</button>
@@ -130,7 +139,7 @@
                 <p>Loading...</p>
             </div>
         </div>
-        
+
         <div class="game-bar">
             <div class="game-bar-izq">
                 <button class="btn-game-bar"><img src="assets/favoritos_game_bar.png" alt=""
