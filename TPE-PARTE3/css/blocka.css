@@ -432,10 +432,31 @@
   }
 }
 
-
-
 .btn-gano,
 .btn-perdio {
   animation: fadeIn 0.5s ease;
   width: 100%;
+}
+#btn-volver-menu {
+    background-color: var(--PRIMARY_LIGHT2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: none;
+}
+
+#btn-volver-menu:hover {
+    background-color: var(--PRIMARY_LIGHT2);
+    transform: scale(1.05);
+}
+
+#btn-volver-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
 }

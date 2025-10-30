@@ -1,5 +1,4 @@
 'use strict'
-
 document.addEventListener("DOMContentLoaded", () => {
 
     let btn_play = document.getElementById('btn-jugar');
@@ -77,34 +76,84 @@ document.addEventListener("DOMContentLoaded", () => {
         startLevel();
     });
 
+    const btnVolverMenu = document.getElementById('btn-volver-menu');
+
+    // 🔹 Ocultar al iniciar
+    btnVolverMenu.style.display = 'none';
+
+    // 🔹 Acción del botón
+    btnVolverMenu.addEventListener('click', () => {
+        clearInterval(timerInterval);
+
+        document.querySelector('.game-container').style.display = 'none';
+        document.querySelector('.seleccion-tamano').style.display = 'flex';
+        btnVolverMenu.style.display = 'none'; // se oculta al volver al menú
+    });
+
 
     help.addEventListener('click', openHelp);
 
-    function startLevel(size) {
+    function startLevel() {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
-
-
+        btnVolverMenu.style.display = 'block'; 
 
         help.style.display = 'flex';
         temp.style.color = '#FFFF';
         gameWon = false;
 
-        btnPista.style.display = 'inline-block';
-        if (btnAyuda) {
-            btnAyuda.style.display = 'inline-block';
-            btnAyuda.disabled = ayudaUsada;
-            btnAyuda.style.opacity = ayudaUsada ? '0.5' : '1';
-        }
+        btnPista.style.display = 'none';
+        if (btnAyuda) btnAyuda.style.display = 'none';
 
-        document.querySelector('.pista').style.display = 'flex';
+        document.querySelector('.pista').style.display = 'none';
 
         const btnNext = document.getElementById('btn-siguiente');
         const btnCambiar = document.getElementById('btn-cambiar-tamano');
-        if (btnNext) btnNext.style.display = 'inline-block';
+        if (btnNext) btnNext.style.display = 'none';
         if (btnCambiar) btnCambiar.style.display = 'none';
 
-        getImage();
+        currentImageIndex = Math.floor(Math.random() * array_src.length);
+
+        showPreview(() => {
+            btnPista.style.display = 'inline-block';
+            if (btnAyuda) {
+                btnAyuda.style.display = 'inline-block';
+                btnAyuda.disabled = ayudaUsada;
+                btnAyuda.style.opacity = ayudaUsada ? '0.5' : '1';
+            }
+            document.querySelector('.pista').style.display = 'flex';
+            getImage();
+        });
+
+    }
+
+
+    function showPreview(callback) {
+        const canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        canvas.width = 450;
+        canvas.height = 400;
+
+        if (currentImageIndex === null) {
+            currentImageIndex = Math.floor(Math.random() * array_src.length);
+        }
+
+        img = new Image();
+        img.src = array_src[currentImageIndex];
+
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            temp.innerHTML = "Resolve esta imagen...";
+            temp.style.display = "block";
+
+            setTimeout(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                temp.innerHTML = "";
+                callback();
+            }, 3000);
+        };
     }
 
 
@@ -115,9 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
         canvas.width = 450;
         canvas.height = 400;
 
-        if (!isRestart || currentImageIndex === null) {
-            currentImageIndex = Math.floor(Math.random() * array_src.length);
-        }
+        // Eliminamos el cambio de imagen dentro de getImage
+        // if (!isRestart || currentImageIndex === null) {
+        //     currentImageIndex = Math.floor(Math.random() * array_src.length);
+        // }
 
         img = new Image();
         img.src = array_src[currentImageIndex];
@@ -150,9 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let tiempoAjustado = config.maxTime;
             if (currentRows === 3 && currentCols === 3) {
-                tiempoAjustado = config.maxTime + 30;
+                tiempoAjustado = config.maxTime;
             } else if (currentRows === 4 && currentCols === 4) {
-                tiempoAjustado = config.maxTime + 60;
+                tiempoAjustado = config.maxTime;
             }
 
             tiempoInicial = tiempoAjustado;
@@ -252,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tiempoTranscurrido = tiempoInicial - tiempo;
         record.style.display = 'block';
         restart.style.display = 'none';
+        btnVolverMenu.style.display = 'none';
 
         if (selectedSize.rows === 2 && selectedSize.cols === 2) {
             if (tiempoTranscurrido < record_2x2) {
@@ -284,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 record.innerHTML = `Récord de este nivel: ${record_4x4}s`;
             }
         }
-
 
         clearInterval(timerInterval);
         gameWon = true;
@@ -336,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (btnCambiar) btnCambiar.style.display = 'none';
         } else {
-            temp.innerHTML = `¡Completaste todos los niveles!`;
+            temp.innerHTML = "¡Completaste todos los niveles!";
             temp.style.color = "#08a03d";
 
             if (btnGano) btnGano.style.display = 'flex';
@@ -350,8 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function playerLost() {
         temp.innerHTML = "¡Se acabó el tiempo!";
         temp.style.color = "#ce1234";
-
+        restart.style.display = 'none';
         btnPista.style.display = 'none';
+        btnVolverMenu.style.display = 'none';
         if (btnAyuda) btnAyuda.style.display = 'none';
 
         document.querySelector('.btn-perdio').style.display = 'flex';
@@ -524,10 +575,4 @@ document.addEventListener("DOMContentLoaded", () => {
             help_opened = false;
         }
     }
-
-
-
 });
-
-
-
