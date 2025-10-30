@@ -177,7 +177,14 @@
   color: white;
 }
 
-
+/* ========== REINICIAR ========== */
+#btn-reiniciar{
+  display: none;
+  border: none;
+  background-color: var(--PRIMARY-SHADOW2);
+  color: var(--WHITE_NEUTRAL);
+  cursor: pointer;
+}
 
 /* ========== BOTONES DE PISTA Y AYUDA ========== */
 .pista {

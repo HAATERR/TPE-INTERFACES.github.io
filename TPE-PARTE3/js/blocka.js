@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let record_2x2 = Infinity;
     let record_3x3 = Infinity;
     let record_4x4 = Infinity;
+    let restart = document.getElementById('btn-reiniciar');
+    let currentImageIndex = null;
 
     const levelConfig = [
         { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
@@ -82,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
 
+
+
         help.style.display = 'flex';
         temp.style.color = '#FFFF';
         gameWon = false;
@@ -105,16 +109,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    function getImage() {
+    function getImage(isRestart = false) {
         const canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
         canvas.width = 450;
         canvas.height = 400;
 
+        if (!isRestart || currentImageIndex === null) {
+            currentImageIndex = Math.floor(Math.random() * array_src.length);
+        }
 
-        const randomIndex = Math.floor(Math.random() * array_src.length);
         img = new Image();
-        img.src = array_src[randomIndex];
+        img.src = array_src[currentImageIndex];
 
         img.onload = () => {
 
@@ -158,6 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.getElementById('canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
+        restart.style.display = 'block';
+
         pieces.forEach((p, i) => {
             const col = i % currentCols;
             const row = Math.floor(i / currentCols);
@@ -193,6 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.filter = 'none';
     }
 
+    restart.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        getImage(true);
+    });
 
     document.getElementById('canvas').addEventListener('contextmenu', e => e.preventDefault());
 
@@ -238,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tiempoTranscurrido = tiempoInicial - tiempo;
         record.style.display = 'block';
+        restart.style.display = 'none';
 
         if (selectedSize.rows === 2 && selectedSize.cols === 2) {
             if (tiempoTranscurrido < record_2x2) {
@@ -254,10 +268,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tiempoTranscurrido < record_3x3) {
                 record_3x3 = tiempoTranscurrido;
                 record.innerHTML = `Nuevo récord! ${record_3x3}s`;
-                 record.classList.add('record-break');
+                record.classList.add('record-break');
             } else {
                 record.innerHTML = `Récord de este nivel: ${record_3x3}s`;
-                 record.classList.remove('record-break');
+                record.classList.remove('record-break');
             }
         }
 
@@ -265,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tiempoTranscurrido < record_4x4) {
                 record_4x4 = tiempoTranscurrido;
                 record.innerHTML = `Nuevo récord! ${record_4x4}s`;
-                 record.classList.add('record-break');
+                record.classList.add('record-break');
             } else {
                 record.innerHTML = `Récord de este nivel: ${record_4x4}s`;
             }
@@ -330,13 +344,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (btnCambiar) btnCambiar.style.display = 'flex';
         }
 
-      
+
     }
 
     function playerLost() {
         temp.innerHTML = "¡Se acabó el tiempo!";
         temp.style.color = "#ce1234";
-        gameWon = true;
 
         btnPista.style.display = 'none';
         if (btnAyuda) btnAyuda.style.display = 'none';
