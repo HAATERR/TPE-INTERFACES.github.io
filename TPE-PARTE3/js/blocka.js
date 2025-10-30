@@ -9,16 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentLevel = 0;
     const totalLevels = 6;
     const array_src = [
-        'https://picsum.photos/800/800?random=1',
-        'https://picsum.photos/800/800?random=2',
-        'https://picsum.photos/800/800?random=3',
-        'https://picsum.photos/800/800?random=4',
-        'https://picsum.photos/800/800?random=5',
-        'https://picsum.photos/800/800?random=6',
-        'https://picsum.photos/800/800?random=7',
-        'https://picsum.photos/800/800?random=8',
-        'https://picsum.photos/800/800?random=9',
-        'https://picsum.photos/800/800?random=10'
+        'assets/arco.jpg',
+        'assets/beijing.jpg',
+        'assets/elchalten.jpg',
+        'assets/grancolorado.jpg',
+        'assets/lagodicomo.jpg',
+        'assets/plitvice.jpg',
     ];
 
     let pieces = [];
@@ -45,14 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let restart = document.getElementById('btn-reiniciar');
     let currentImageIndex = null;
 
-    const levelConfig = [
-        { maxTime: 90, filter: 'grayscale(100%)', name: 'Nivel 1 - Escala de Grises' },
-        { maxTime: 85, filter: 'brightness(40%)', name: 'Nivel 2 - Brillo Bajo' },
-        { maxTime: 80, filter: 'sepia(100%)', name: 'Nivel 3 - Sepia' },
-        { maxTime: 75, filter: 'invert(100%)', name: 'Nivel 4 - Negativo' },
-        { maxTime: 70, filter: 'hue-rotate(180deg)', name: 'Nivel 5 - Colores Invertidos' },
-        { maxTime: 65, filter: 'contrast(50%) brightness(60%)', name: 'Nivel 6 - Contraste Bajo' }
-    ];
+    let maxTime = [90, 85, 80, 75, 70, 65];
+    let name = ['Nivel 1 - Escala de Grises', 'Nivel 2 - Brillo Bajo', 'Nivel 3 - Sepia', 'Nivel 4 - Negativo', 'Nivel 5 - Colores Invertidos', 'Nivel 6 - Contraste Bajo'];
 
 
     document.getElementById('btn-2x2').addEventListener('click', () => {
@@ -78,16 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnVolverMenu = document.getElementById('btn-volver-menu');
 
-    // 🔹 Ocultar al iniciar
+   
     btnVolverMenu.style.display = 'none';
 
-    // 🔹 Acción del botón
     btnVolverMenu.addEventListener('click', () => {
         clearInterval(timerInterval);
 
         document.querySelector('.game-container').style.display = 'none';
         document.querySelector('.seleccion-tamano').style.display = 'flex';
-        btnVolverMenu.style.display = 'none'; // se oculta al volver al menú
+        btnVolverMenu.style.display = 'none';
     });
 
 
@@ -96,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function startLevel() {
         document.querySelector('.seleccion-tamano').style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
-        btnVolverMenu.style.display = 'block'; 
+        btnVolverMenu.style.display = 'block';
 
         help.style.display = 'flex';
         temp.style.color = '#FFFF';
@@ -156,29 +145,22 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-
-
-    function getImage(isRestart = false) {
+    function getImage() {
         const canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
         canvas.width = 450;
         canvas.height = 400;
 
-        // Eliminamos el cambio de imagen dentro de getImage
-        // if (!isRestart || currentImageIndex === null) {
-        //     currentImageIndex = Math.floor(Math.random() * array_src.length);
-        // }
-
         img = new Image();
+        img.crossOrigin = 'anonymous';
         img.src = array_src[currentImageIndex];
 
         img.onload = () => {
-
-            const config = levelConfig[currentLevel];
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const filteredData = filter(ctx.getImageData(0, 0, canvas.width, canvas.height), currentLevel);
 
             currentRows = selectedSize.rows;
             currentCols = selectedSize.cols;
-
             pieceW = canvas.width / currentCols;
             pieceH = canvas.height / currentRows;
             pieces = [];
@@ -186,36 +168,76 @@ document.addEventListener("DOMContentLoaded", () => {
             for (let y = 0; y < currentRows; y++) {
                 for (let x = 0; x < currentCols; x++) {
                     pieces.push({
-                        x,
-                        y,
+                        x, y,
                         sx: x * (img.width / currentCols),
                         sy: y * (img.height / currentRows),
-                        rotation: [90, 180, 270][Math.floor(Math.random() * 3)],
-                        filter: config.filter
+                        rotation: [90, 180, 270][Math.floor(Math.random() * 3)]
                     });
                 }
             }
 
-            drawPuzzle();
-
-            let tiempoAjustado = config.maxTime;
-            if (currentRows === 3 && currentCols === 3) {
-                tiempoAjustado = config.maxTime;
-            } else if (currentRows === 4 && currentCols === 4) {
-                tiempoAjustado = config.maxTime;
-            }
-
-            tiempoInicial = tiempoAjustado;
-            timer_on(tiempoAjustado);
+            drawPuzzle(filteredData);
+            tiempoInicial = maxTime[currentLevel];
+            timer_on(tiempoInicial);
         };
+    }
+
+
+    function filter(imageData, level) {
+        const data = imageData.data;
+        const width = imageData.width;
+        const height = imageData.height;
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const index = (y * width + x) * 4;
+
+                const r = data[index];
+                const g = data[index + 1];
+                const b = data[index + 2];
+
+                switch (level) {
+                    case 0:
+                    case 3:
+                        const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                        data[index] = gray;         
+                        data[index + 1] = gray;     
+                        data[index + 2] = gray;     
+                        break;
+
+                    case 1:
+                    case 4:
+                        data[index] = Math.min(r * 1.3, 255);     
+                        data[index + 1] = Math.min(g * 1.3, 255); 
+                        data[index + 2] = Math.min(b * 1.3, 255); 
+                        break;
+
+                    case 2:
+                    case 5:
+                        data[index] = 255 - r;     
+                        data[index + 1] = 255 - g; 
+                        data[index + 2] = 255 - b;
+                        break;
+                }
+            }
+        }
+        return imageData;
     }
 
     function drawPuzzle() {
         const canvas = document.getElementById('canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
         restart.style.display = 'block';
+
+        const tmpCanvas = document.createElement('canvas');
+        tmpCanvas.width = canvas.width;
+        tmpCanvas.height = canvas.height;
+        const tmpCtx = tmpCanvas.getContext('2d');
+        tmpCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const filteredData = filter(tmpCtx.getImageData(0, 0, canvas.width, canvas.height), currentLevel);
+        tmpCtx.putImageData(filteredData, 0, 0); 
 
         pieces.forEach((p, i) => {
             const col = i % currentCols;
@@ -229,28 +251,22 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.translate(col * pieceW + pieceW / 2, row * pieceH + pieceH / 2);
             ctx.rotate((p.rotation * Math.PI) / 180);
 
-            ctx.filter = p.rotation !== 0 ? p.filter : 'none';
-
+           
             ctx.drawImage(
-                img,
-                p.sx,
-                p.sy,
-                img.width / currentCols,
-                img.height / currentRows,
-                -pieceW / 2,
-                -pieceH / 2,
-                pieceW,
-                pieceH
+                tmpCanvas,
+                col * pieceW, row * pieceH, pieceW, pieceH, 
+                -pieceW / 2, -pieceH / 2, pieceW, pieceH    
             );
+
             ctx.restore();
 
             ctx.strokeStyle = '#333';
             ctx.lineWidth = 2;
             ctx.strokeRect(col * pieceW, row * pieceH, pieceW, pieceH);
         });
-
-        ctx.filter = 'none';
     }
+
+
 
     restart.addEventListener('click', () => {
         clearInterval(timerInterval);
@@ -347,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const canvas = document.getElementById('canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.filter = 'none';
+
 
         for (let y = 0; y < currentRows; y++) {
             for (let x = 0; x < currentCols; x++) {
@@ -410,8 +426,9 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(timerInterval);
     }
 
-    function timer_on(maxTime) {
-        tiempo = maxTime;
+    function timer_on() {
+        tiempo = maxTime[currentLevel];
+        let nombre = name[currentLevel];
         temp.style.display = 'block';
         temp.classList.add('timer-show');
 
@@ -470,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pistaActiva = true;
         const canvas = document.getElementById('canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.filter = 'none';
+
 
         for (let y = 0; y < currentRows; y++) {
             for (let x = 0; x < currentCols; x++) {

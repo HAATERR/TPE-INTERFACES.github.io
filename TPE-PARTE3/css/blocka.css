@@ -311,7 +311,7 @@
 }
 
 .record-break{
-    animation: scale_record 3s ease forwards;
+    animation: scale_record .8s ease forwards;
 }
 
 @keyframes scale_record {
