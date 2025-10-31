@@ -1,0 +1,462 @@
+:root {
+  /* COLOR PRINCIPAL */
+  --PRIMARY_COLOR: #1E1B3A;
+  /* LUCES */
+  --PRIMARY_LIGHT: #342F5C;
+  --PRIMARY_LIGHT2: #4C4781;
+  --PRIMARY_LIGHT3: #6662A3;
+  --SECUNDARY_LIGHT: #33F0FF;
+  --SECUNDARY_LIGHT2: #66F5FF;
+  --SECUNDARY_LIGHT3: #99FAFF;
+  --ACCENT_LIGHT1: #FF338B;
+  --ACCENT_LIGHT2: #FF66A8;
+  --ACCENT_LIGHT3: #FF99C5;
+  /* SOMBRAS */
+  --PRIMARY_SHADOW: #181530;
+  --PRIMARY-SHADOW2: #0F0D1C;
+  --PRIMARY_SHADOW3: #07060D;
+  --SECUNDARY_SHADOW1: #216187;
+  --SECUNDARY_SHADOW2: #008593;
+  --SECUNDARY_SHADOW3: #00545F;
+  --ACCENT_SHADOW: #990041;
+  --ACCENT_SHADOW1: #CC0058;
+  --ACCENT_SHADOW3: #66002B;
+  /* ACENTO */
+  --ACENTO: #FF8329;
+  --ACCENT_COLOR: #FF006E;
+  /* NEUTROS */
+  --WHITE_NEUTRAL: #F0DDFF;
+  --BLACK_NEUTRAL: #090011;
+  /* OTROS */
+  --SECUNDARY_COLOR: #2D94D1;
+  --HEADER_BG: #212233;
+  --MENU_PERFIL: #590FAC;
+  --BTN_JUGAR: #534AA0;
+}
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.juego {
+  position: relative;
+  width: 80%;
+  height: 500px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background-image: url('../assets/blocka.jpg');
+  background-size: 100%, 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  background-blend-mode: lighten;
+  overflow: hidden;
+}
+
+.blocka-game {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  position: relative; 
+}
+
+.help {
+  position: absolute;
+  top: 15px;    
+  right: 15px;  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px; 
+  width: auto; 
+}
+
+.help button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.help button img {
+  height: 32px;
+  width: 32px;
+}
+
+#text-help {
+  display: none;
+  color: var(--WHITE_NEUTRAL);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  max-width: 150px;
+  text-align: center;
+}
+
+
+/* ========== SELECCIÓN DE TAMAÑO ========== */
+.seleccion-tamano {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 50px;
+}
+
+.seleccion-tamano h2 {
+  color: var(--WHITE_NEUTRAL);
+  font-size: 24px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.seleccion-tamano p {
+  color: var(--SECUNDARY_LIGHT2);
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.botones-tamano {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.botones-tamano button {
+  background: linear-gradient(135deg, var(--PRIMARY_LIGHT2), var(--PRIMARY_LIGHT3));
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.botones-tamano button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, var(--PRIMARY_LIGHT3), var(--ACCENT_LIGHT1));
+}
+
+#btn-2x2 {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+#btn-2x2:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+#btn-3x3 {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+#btn-3x3:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+#btn-4x4 {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+#btn-4x4:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+/* ========== CANVAS ========== */
+#canvas {
+  display: none;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--PRIMARY-SHADOW2);
+  height: 60%;
+  width: 80%;
+  color: white;
+}
+
+/* ========== REINICIAR ========== */
+#btn-reiniciar{
+  display: none;
+  border: none;
+  background-color: var(--PRIMARY_COLOR);
+  color: var(--WHITE_NEUTRAL);
+  cursor: pointer;
+}
+
+/* ========== BOTONES DE PISTA Y AYUDA ========== */
+.pista {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.pista button {
+  background: var(--SECUNDARY_COLOR);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pista button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#btn-pista {
+  background: var(--SECUNDARY_COLOR);
+}
+
+#btn-pista:hover {
+  background: #3da8e8;
+}
+
+#btn-ayuda {
+  background: var(--ACENTO);
+}
+
+#btn-ayuda:hover:not(:disabled) {
+  background: #ff9a4f;
+}
+
+#btn-ayuda:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== BOTONES DE VICTORIA/DERROTA/MENU ========== */
+.btn-gano,
+.btn-perdio{
+  display: none;
+  flex-direction: row; 
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+
+.btn-gano button,
+.btn-perdio button{
+  background: #333;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gano button:hover,
+.btn-perdio button:hover{
+  background: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.btn-gano a, .btn-gano button a
+.btn-perdio a , .btn-perdio button a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Botón de siguiente nivel */
+#btn-siguiente {
+  background: var(--ACCENT_COLOR);
+}
+
+#btn-siguiente:hover {
+  background: var(--ACCENT_LIGHT1);
+}
+
+/* Botón de cambiar tamaño */
+#btn-cambiar-tamano {
+  background: var(--SECUNDARY_COLOR);
+}
+
+#btn-cambiar-tamano:hover {
+  background: #3da8e8 ;
+}
+
+/* Botón de reintentar */
+#btn-reintentar {
+  background: var(--ACENTO);
+}
+
+#btn-reintentar:hover {
+  background: #ff9a4f;
+}
+
+/* ========== RECORD ========== */
+#record{
+  color: var(--WHITE_NEUTRAL);
+  margin-top: -5px;
+
+}
+
+.record-break{
+    animation: scale_record .8s ease forwards;
+}
+
+@keyframes scale_record {
+    from{opacity: 0 ; scale: 0; color: var(--WHITE_NEUTRAL);}
+    to {opacity: 1; scale: 1.5; color: green;}
+}
+
+/* ========== PANTALLA DE INICIO ========== */
+.juego-inicio {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: rgba(30, 27, 58, 0.95);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+#juego-logo {
+  height: 50%;
+  width: 30%;
+  max-height: 250px;
+  object-fit: contain;
+}
+
+#btn-jugar {
+  background: var(--BTN_JUGAR);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#btn-jugar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+#btn-pantalla-completa {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#btn-pantalla-completa:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+#icon-pantalla-completa {
+  width: 24px;
+  height: 24px;
+}
+
+/* ========== LOADING ========== */
+.loading {
+  display: none;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--WHITE_NEUTRAL);
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.loading img {
+  height: 80px;
+  width: 80px;
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes pulse {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-gano,
+.btn-perdio {
+  animation: fadeIn 0.5s ease;
+  width: 100%;
+}
+#btn-volver-menu {
+    background-color: var(--PRIMARY_LIGHT2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: none;
+}
+
+#btn-volver-menu:hover {
+    background-color: var(--PRIMARY_LIGHT2);
+    transform: scale(1.05);
+}
+
+#btn-volver-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
