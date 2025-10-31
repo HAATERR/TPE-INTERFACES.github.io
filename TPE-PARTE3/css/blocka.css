@@ -181,7 +181,7 @@
 #btn-reiniciar{
   display: none;
   border: none;
-  background-color: var(--PRIMARY-SHADOW2);
+  background-color: var(--PRIMARY_COLOR);
   color: var(--WHITE_NEUTRAL);
   cursor: pointer;
 }
