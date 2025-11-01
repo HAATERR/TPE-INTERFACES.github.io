@@ -1,73 +1,65 @@
 'use strict';
 
-const Model = (() => {
-  const SIZE = 7;
-  let board = [];
-  const INITIAL = [
-    [-1,-1,1,1,1,-1,-1],
-    [-1,-1,1,1,1,-1,-1],
-    [ 1, 1,1,1,1, 1, 1],
-    [ 1, 1,1,0,1, 1, 1],
-    [ 1, 1,1,1,1, 1, 1],
-    [-1,-1,1,1,1,-1,-1],
-    [-1,-1,1,1,1,-1,-1]
-  ];
-
-  function init() {
-    board = JSON.parse(JSON.stringify(INITIAL));
+class Model {
+  constructor() {
+    this.SIZE = 7;
+    this.INITIAL = [
+      [-1,-1,1,1,1,-1,-1],
+      [-1,-1,1,1,1,-1,-1],
+      [ 1, 1,1,1,1, 1, 1],
+      [ 1, 1,1,0,1, 1, 1],
+      [ 1, 1,1,1,1, 1, 1],
+      [-1,-1,1,1,1,-1,-1],
+      [-1,-1,1,1,1,-1,-1]
+    ];
+    this.board = [];
+    this.init();
   }
 
-  function localizeCard(x, y) {
-    return board[x][y];
+  init() {
+    this.board = JSON.parse(JSON.stringify(this.INITIAL));
   }
 
-  function possibleNextSteps(x, y) {
+  localizeCard(x, y) { return this.board[x][y]; }
+
+  possibleNextSteps(x, y) {
     const moves = [];
-    if (board[x][y] !== 1) return moves;
+    if (this.board[x][y] !== 1) return moves;
     const dirs = [[0,2],[0,-2],[2,0],[-2,0]];
     for (let [dx, dy] of dirs) {
       const nx = x + dx, ny = y + dy;
       const mx = x + dx/2, my = y + dy/2;
-      if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE) {
-        if (board[mx][my] === 1 && board[nx][ny] === 0) {
+      if (nx >= 0 && nx < this.SIZE && ny >= 0 && ny < this.SIZE) {
+        if (this.board[mx][my] === 1 && this.board[nx][ny] === 0)
           moves.push({x: nx, y: ny});
-        }
       }
     }
     return moves;
   }
 
-  function applyMove(from, to) {
+  applyMove(from, to) {
     const midX = (from.x + to.x) / 2;
     const midY = (from.y + to.y) / 2;
-    if (board[from.x][from.y] === 1 && board[midX][midY] === 1 && board[to.x][to.y] === 0) {
-      board[from.x][from.y] = 0;
-      board[midX][midY] = 0;
-      board[to.x][to.y] = 1;
+    if (this.board[from.x][from.y] === 1 &&
+        this.board[midX][midY] === 1 &&
+        this.board[to.x][to.y] === 0) {
+      this.board[from.x][from.y] = 0;
+      this.board[midX][midY] = 0;
+      this.board[to.x][to.y] = 1;
       return true;
     }
     return false;
   }
 
-  function stepAvailability() {
-    for (let x=0; x<SIZE; x++) {
-      for (let y=0; y<SIZE; y++) {
-        if (possibleNextSteps(x,y).length > 0) return true;
-      }
-    }
-    return false;
-  }
+  checkWin() { return this.board.flat().filter(v => v === 1).length === 1; }
 
-  function checkWin() {
-    return board.flat().filter(v => v === 1).length === 1;
+  checkLost() {
+    for (let x=0; x<this.SIZE; x++)
+      for (let y=0; y<this.SIZE; y++)
+        if (this.possibleNextSteps(x,y).length > 0) return false;
+    return true;
   }
-
-  function checkLost() {
-    return !stepAvailability();
-  }
-
-  return { init, localizeCard, possibleNextSteps, applyMove, checkWin, checkLost, get board() { return board; } };
-})();
+}
 
 /*
 class Model {

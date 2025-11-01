@@ -19,21 +19,21 @@
                     <div class="categorias-sidebar">
                         <h2>Categorias</h2>
 
-                            <button class="menu-item"><img src="assets/tendencias.png" alt="">Tendencias</button>
-                            <button class="menu-item"><img src="assets/estrategia.png" alt="">Estrategia</button>
-                            <button class="menu-item"><img src="assets/deportes.png" alt="">Deportes</button>
-                            <button class="menu-item"><img src="assets/carreras.png" alt="">Carreras</button>
-                            <button class="menu-item"><img src="assets/accion.png" alt="">Accion</button>
-                            <button class="menu-item"><img src="assets/terror.png" alt="">Terror</button>
-                            <button class="menu-item"><img src="assets/aventura.png" alt="">Aventura</button>
-                            <button class="menu-item"><img src="assets/cat.png" alt="">Todas las categorias</button>
+                        <button class="menu-item"><img src="assets/tendencias.png" alt="">Tendencias</button>
+                        <button class="menu-item"><img src="assets/estrategia.png" alt="">Estrategia</button>
+                        <button class="menu-item"><img src="assets/deportes.png" alt="">Deportes</button>
+                        <button class="menu-item"><img src="assets/carreras.png" alt="">Carreras</button>
+                        <button class="menu-item"><img src="assets/accion.png" alt="">Accion</button>
+                        <button class="menu-item"><img src="assets/terror.png" alt="">Terror</button>
+                        <button class="menu-item"><img src="assets/aventura.png" alt="">Aventura</button>
+                        <button class="menu-item"><img src="assets/cat.png" alt="">Todas las categorias</button>
                     </div>
                     <div class="perfil-sidebar">
                         <h2>Perfil</h2>
-                            <button class="menu-item"><img src="assets/mi_cuenta.png" alt=""> Mi cuenta</button>
-                            <button class="menu-item"><img src="assets/favoritos_game_bar.png" alt=""> Favoritos</button>
-                            <button class="menu-item"><img src="assets/trofeos.png" alt="">Trofeos</button>
-                            <button class="menu-item"><img src="assets/config.png" alt=""> Configuracion</button>      
+                        <button class="menu-item"><img src="assets/mi_cuenta.png" alt=""> Mi cuenta</button>
+                        <button class="menu-item"><img src="assets/favoritos_game_bar.png" alt=""> Favoritos</button>
+                        <button class="menu-item"><img src="assets/trofeos.png" alt="">Trofeos</button>
+                        <button class="menu-item"><img src="assets/config.png" alt=""> Configuracion</button>
                     </div>
                 </div>
             </div>
@@ -81,16 +81,16 @@
         <div class="juego">
 
             <div class="pegsolitaire">
-                 <p id="timer"></p>
+                <p id="timer"></p>
                 <p id="record"></p>
 
-                <canvas id="canvas"></canvas>
+                <canvas id="canvas" width="400" height="400"></canvas>
 
                 <button id="btn-reiniciar">
-                        Reiniciar
-                    </button>
+                    Reiniciar
+                </button>
 
-                 <button id="btn-volver-menu" ><a href="blocka.html">Volver al menú</a></button>
+                <button id="btn-volver-menu"><a href="game-page.html">Volver al menú</a></button>
             </div>
 
             <div class="loading">
@@ -106,7 +106,7 @@
             </button>
         </div>
 
-        
+
 
         <div class="game-bar">
             <div class="game-bar-izq">
@@ -166,7 +166,8 @@
                 </div>
                 <div class="como-jugar">
                     <h3>Como Jugar</h3>
-                    <ol><li>Objetivo: quedarte con una sola ficha (mejor si es en el centro).</li>
+                    <ol>
+                        <li>Objetivo: quedarte con una sola ficha (mejor si es en el centro).</li>
                         <li>Preparación: poné fichas en todos los huecos excepto el central (vacío).</li>
                         <li>Movimiento: elegí una ficha con otra al lado y un hueco vacío justo detrás; la ficha salta 2
                             posiciones y esta se va</li>
@@ -428,9 +429,10 @@
         </div>
     </footer>
     <script src="js/game-page.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/Controller/Controller.js"></script>
     <script src="js/Model/Model.js"></script>
     <script src="js/View/View.js"></script>
+    <script src="js/Controller/Controller.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -1,27 +1,30 @@
 'use strict';
 
-const View = (() => {
-  const canvas = document.getElementById("game-canvas");
-  const ctx = canvas.getContext("2d");
-  const CELL = 55;
-  const OFFSET = 10;
+class View {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas.getContext('2d');
+    this.CELL = 55;
+    this.OFFSET = 10;
+  }
 
-  function renderBoard(boardState) {
+  renderBoard(board) {
+    const ctx = this.ctx;
     ctx.fillStyle = "#c3a778";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    for (let x=0; x<boardState.length; x++) {
-      for (let y=0; y<boardState[x].length; y++) {
-        if (boardState[x][y] === -1) continue;
-        const cx = y * CELL + OFFSET + CELL/2;
-        const cy = x * CELL + OFFSET + CELL/2;
+    for (let x=0; x<board.length; x++) {
+      for (let y=0; y<board[x].length; y++) {
+        if (board[x][y] === -1) continue;
+        const cx = y * this.CELL + this.OFFSET + this.CELL/2;
+        const cy = x * this.CELL + this.OFFSET + this.CELL/2;
 
         ctx.fillStyle = "#b58f61";
         ctx.beginPath();
         ctx.arc(cx, cy, 23, 0, Math.PI*2);
         ctx.fill();
 
-        if (boardState[x][y] === 1) {
+        if (board[x][y] === 1) {
           ctx.fillStyle = "#463b8c";
           ctx.beginPath();
           ctx.arc(cx, cy, 20, 0, Math.PI*2);
@@ -34,32 +37,26 @@ const View = (() => {
     }
   }
 
-  function highlightPiece(x, y) {
-    ctx.strokeStyle = "#FFD700";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(y*CELL + OFFSET + CELL/2, x*CELL + OFFSET + CELL/2, 24, 0, Math.PI*2);
-    ctx.stroke();
+  highlightPiece(x, y) {
+    this.ctx.strokeStyle = "#FFD700";
+    this.ctx.lineWidth = 3;
+    this.ctx.beginPath();
+    this.ctx.arc(y*this.CELL + this.OFFSET + this.CELL/2, x*this.CELL + this.OFFSET + this.CELL/2, 24, 0, Math.PI*2);
+    this.ctx.stroke();
   }
 
-  function showNextSteps(moves) {
-    ctx.strokeStyle = "#66F5FF";
-    ctx.lineWidth = 2;
+  showNextSteps(moves) {
+    this.ctx.strokeStyle = "#66F5FF";
+    this.ctx.lineWidth = 2;
     moves.forEach(m => {
-      const cx = m.y * CELL + OFFSET + CELL/2;
-      const cy = m.x * CELL + OFFSET + CELL/2;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 8, 0, Math.PI*2);
-      ctx.stroke();
+      const cx = m.y * this.CELL + this.OFFSET + this.CELL/2;
+      const cy = m.x * this.CELL + this.OFFSET + this.CELL/2;
+      this.ctx.beginPath();
+      this.ctx.arc(cx, cy, 8, 0, Math.PI*2);
+      this.ctx.stroke();
     });
   }
-
-  return { renderBoard, highlightPiece, showNextSteps };
-})();
-
-
-
-
+}
 
 /*
 class View {

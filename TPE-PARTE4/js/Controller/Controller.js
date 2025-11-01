@@ -1,95 +1,83 @@
 'use strict';
 
-const Controller = (() => {
-  let selected = null;
-  let moves = 0;
-  let timer = 0;
-  let timerInterval = null;
+class Controller {
+  constructor(model, view) {
+    this.model = model;
+    this.view = view;
+    this.selected = null;
+    this.moves = 0;
+    this.timer = 0;
+    this.timerInterval = null;
 
-  function addListeners() {
-    document.getElementById("btn-jugar").addEventListener("click", startGame);
-    document.getElementById("btn-volver-menu").addEventListener("click", returnMenu);
-    document.getElementById("game-canvas").addEventListener("click", handleClick);
+    this.addListeners();
   }
 
-  function startGame() {
-    Model.init();
-    View.renderBoard(Model.board);
+  addListeners() {
+    document.getElementById("btn-jugar").addEventListener("click", () => this.startGame());
+    document.getElementById("btn-volver-menu").addEventListener("click", () => this.returnMenu());
+    document.getElementById("canvas").addEventListener("click", (e) => this.handleClick(e));
+  }
+
+  startGame() {
+    this.model.init();
+    this.view.renderBoard(this.model.board);
 
     document.getElementById("juego-logo").style.display = "none";
     document.getElementById("btn-jugar").style.display = "none";
-    document.getElementById("game-container").style.display = "flex";
+    document.querySelector(".pegsolitaire").style.display = "flex";
     document.getElementById("btn-volver-menu").style.display = "inline-block";
 
-    moves = 0;
-    timer = 0;
-    updateHUD();
-    startTimer();
+    this.moves = 0;
+    this.timer = 0;
+    this.startTimer();
   }
 
-  function startTimer() {
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      timer++;
-      updateHUD();
+  startTimer() {
+    clearInterval(this.timerInterval);
+    this.timerInterval = setInterval(() => {
+      this.timer++;
     }, 1000);
   }
 
-  function updateHUD() {
-    document.getElementById("moves").textContent = `♟ Movimientos: ${moves}`;
-    document.getElementById("timer").textContent = `⏱ Tiempo: ${formatTime(timer)}`;
-  }
-
-  function formatTime(s) {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${m.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
-  }
-
-  function handleClick(e) {
+  handleClick(e) {
     const rect = e.target.getBoundingClientRect();
-    const x = Math.floor((e.clientY - rect.top) / 55);
-    const y = Math.floor((e.clientX - rect.left) / 55);
+    const cell = this.view.CELL;
+    const x = Math.floor((e.clientY - rect.top) / cell);
+    const y = Math.floor((e.clientX - rect.left) / cell);
 
-    if (!selected && Model.localizeCard(x, y) === 1) {
-      selected = { x, y };
-      const movesAvail = Model.possibleNextSteps(x, y);
-      View.renderBoard(Model.board);
-      View.highlightPiece(x, y);
-      View.showNextSteps(movesAvail);
-    } else if (selected) {
-      if (Model.applyMove(selected, { x, y })) {
-        moves++;
-        View.renderBoard(Model.board);
-        updateHUD();
 
-        if (Model.checkWin()) {
-          clearInterval(timerInterval);
-          alert(`🏆 ¡Ganaste! Movimientos: ${moves}, Tiempo: ${formatTime(timer)}`);
-        } else if (Model.checkLost()) {
-          clearInterval(timerInterval);
-          alert("😢 No hay más movimientos. Intentalo otra vez.");
+    if (!this.selected && this.model.localizeCard(x, y) === 1) {
+      this.selected = { x, y };
+      const movesAvail = this.model.possibleNextSteps(x, y);
+      this.view.renderBoard(this.model.board);
+      this.view.highlightPiece(x, y);
+      this.view.showNextSteps(movesAvail);
+    } else if (this.selected) {
+      if (this.model.applyMove(this.selected, { x, y })) {
+        this.moves++;
+        this.view.renderBoard(this.model.board);
+
+        if (this.model.checkWin()) {
+          clearInterval(this.timerInterval);
+          alert(`¡Ganaste! Movimientos: ${this.moves}`);
+        } else if (this.model.checkLost()) {
+          clearInterval(this.timerInterval);
+          alert("No hay más movimientos. Intentalo otra vez.");
         }
       } else {
-        View.renderBoard(Model.board);
+        this.view.renderBoard(this.model.board);
       }
-      selected = null;
+      this.selected = null;
     }
   }
 
-  function returnMenu() {
-    clearInterval(timerInterval);
-    document.getElementById("game-container").style.display = "none";
-    document.getElementById("btn-volver-menu").style.display = "none";
+  returnMenu() {
+    clearInterval(this.timerInterval);
+    document.querySelector(".pegsolitaire").style.display = "none";
     document.getElementById("juego-logo").style.display = "block";
     document.getElementById("btn-jugar").style.display = "flex";
   }
-
-  return { addListeners };
-})();
-
-window.addEventListener("DOMContentLoaded", Controller.addListeners);
-
+}
 
 /*
 class Controller {
