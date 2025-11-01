@@ -1106,12 +1106,10 @@ footer div {
   margin: 8px 4px 0 4px;
   transition: all 0.2s ease-in-out;
   width: auto;
-  /* evita que se estiren */
   height: auto;
-  /* evita que se alarguen */
+  
 }
 
-/* Hover suave */
 #btn-reiniciar:hover,
 #btn-volver-menu:hover {
   background-color: #5b51b0;
@@ -1121,4 +1119,78 @@ footer div {
 #btn-volver-menu a {
   color: #fff;
   text-decoration: none;
+}
+
+
+/* === HUD === */
+.pegsolitaire .hud {
+  display: flex;
+  gap: 16px;
+  background-color: rgba(0,0,0,0.25);
+  border: 1px solid var(--PRIMARY_LIGHT3);
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin: 6px 0 4px;
+}
+
+.pegsolitaire .hud-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--WHITE_NEUTRAL);
+}
+
+.pegsolitaire .hud-item span {
+  opacity: 0.8;
+}
+
+.hud-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.status {
+  margin-top: 8px;
+  width: 350px;
+  max-width: 92vw;
+  background-color: var(--PRIMARY_SHADOW);
+  color: var(--WHITE_NEUTRAL);
+  border: 1px solid var(--PRIMARY_LIGHT3);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  animation: fade-in 0.25s ease;
+}
+
+.status.hidden { display: none; }
+.status.visible { display: block; }
+
+.status h3 {
+  margin: 0 0 4px 0;
+}
+
+.status-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#status-replay {
+  background-color: #463b8c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#status-replay:hover {
+  background-color: #5b51b0;
+  transform: translateY(-2px);
 }
