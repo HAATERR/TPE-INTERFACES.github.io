@@ -51,7 +51,6 @@ class Controller {
   }
 
   restartGame() {
-
     clearInterval(this.timerInterval);
     this.timer = 0;
     this.moves = 0;

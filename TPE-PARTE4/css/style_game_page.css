@@ -1151,7 +1151,10 @@ footer div {
 }
 
 .status {
-  margin-top: 8px;
+  position: absolute;
+  top: 0; 
+  left: 50%;
+  transform: translate(-50%, 100%); /* lo centra horizontalmente y lo sube por encima del tablero */
   width: 350px;
   max-width: 92vw;
   background-color: var(--PRIMARY_SHADOW);
@@ -1162,7 +1165,9 @@ footer div {
   text-align: center;
   box-shadow: 0 8px 24px rgba(0,0,0,0.35);
   animation: fade-in 0.25s ease;
+  z-index: 1000; 
 }
+
 
 .status.hidden { display: none; }
 .status.visible { display: block; }
