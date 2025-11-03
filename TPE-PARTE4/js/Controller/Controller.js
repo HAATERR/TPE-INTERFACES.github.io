@@ -24,7 +24,6 @@ class Controller {
     document.getElementById("btn-reiniciar").addEventListener("click", () => this.restartGame());
     document.getElementById("canvas").addEventListener("click", (e) => this.handleClick(e));
 
-    // elementos HUD/Status
     this.$timer = document.getElementById("timer");
     this.$moves = document.getElementById("moves");
     this.$status = document.getElementById("game-status");
@@ -52,7 +51,7 @@ class Controller {
   }
 
   restartGame() {
- 
+
     clearInterval(this.timerInterval);
     this.timer = 0;
     this.moves = 0;
@@ -103,22 +102,44 @@ class Controller {
   }
 
   handleClick(e) {
-    const rect = e.target.getBoundingClientRect();
+    const rect = this.view.canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+
+    const scaleX = this.view.canvas.width / rect.width;
+    const scaleY = this.view.canvas.height / rect.height;
+
+    const cx = px * scaleX;
+    const cy = py * scaleY;
+
     const cell = this.view.CELL;
-    const x = Math.floor((e.clientY - rect.top) / cell);
-    const y = Math.floor((e.clientX - rect.left) / cell);
+    const pad = this.view.PADDING;
 
-    if (!this.selected && this.model.localizeCard(x, y) === 1) {
-      this.selected = { x, y };
-      const movesAvail = this.model.possibleNextSteps(x, y);
+    const row = Math.floor((cy - pad) / cell);
+    const col = Math.floor((cx - pad) / cell);
+
+
+    if (row < 0 || col < 0 || row >= this.model.SIZE || col >= this.model.SIZE) return;
+    if (this.model.board[row][col] === -1) return;
+
+    //si agarro una ficha, siempre la selecciono,incluso si ya había otra
+    if (this.model.localizeCard(row, col) === 1) {
+      this.selected = { row, col };
+      const movesAvail = this.model.possibleNextSteps(row, col);
       this.view.renderBoard(this.model.board);
-      this.view.highlightPiece(x, y);
+      this.view.highlightPiece(row, col);
       this.view.showNextSteps(movesAvail);
-    } else if (this.selected) {
-      if (this.model.applyMove(this.selected, { x, y })) {
-        this.moves++;
-        this.view.renderBoard(this.model.board);
+      return;
+    }
 
+
+    // 2) mover
+    if (this.selected) {
+      const moved = this.model.applyMove(this.selected, { row, col });
+      this.view.renderBoard(this.model.board);
+
+      if (moved) {
+        this.moves++;
         if (this.model.checkWin()) {
           this.stopTimer();
           this.showStatus('¡Ganaste! 🎉', `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
@@ -126,9 +147,8 @@ class Controller {
           this.stopTimer();
           this.showStatus('Sin más movimientos', `Intentalo otra vez. Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
         }
-      } else {
-        this.view.renderBoard(this.model.board);
       }
+
       this.selected = null;
       this.updateHUD();
     }

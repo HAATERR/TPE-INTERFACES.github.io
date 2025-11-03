@@ -1,4 +1,3 @@
-
 class Ficha {
     constructor(posX, posY, width, height, fill, context, radius) {
         this.posX = posX,
@@ -12,13 +11,17 @@ class Ficha {
 
     draw(selected = false) {
         this.ctx.fillStyle = this.fill;
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height);
+        this.ctx.beginPath();
+        this.ctx.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2);
+        this.ctx.fill();
 
         if (selected) {
-            this.ctx.lineWidth = 4;
-            this.ctx.strokeRect(this.posX, this.posY, this.width, this.height);
+            this.ctx.lineWidth = 3;
+            this.ctx.strokeStyle = "#FFD700";
+            this.ctx.stroke();
         }
     }
+
 
     getPosition() {
         return {
@@ -38,6 +41,4 @@ class Ficha {
 
         return Math.sqrt((pos_x_mouse * pos_x_mouse + pos_y_mouse * pos_y_mouse)) < this.radius;
     }
-
-
 }
