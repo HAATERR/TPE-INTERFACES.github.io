@@ -60,6 +60,7 @@ class Controller {
     this.updateHUD();
     this.startTimer();
     this.hideStatus();
+    this.view.showAmountOfCards(0);
   }
 
   startTimer() {
@@ -122,7 +123,6 @@ class Controller {
     if (row < 0 || col < 0 || row >= this.model.SIZE || col >= this.model.SIZE) return;
     if (this.model.board[row][col] === -1) return;
 
-    //si agarro una ficha, siempre la selecciono,incluso si ya había otra
     if (this.model.localizeCard(row, col) === 1) {
       this.selected = { row, col };
       const movesAvail = this.model.possibleNextSteps(row, col);
@@ -132,14 +132,13 @@ class Controller {
       return;
     }
 
-
-    // 2) mover
     if (this.selected) {
       const moved = this.model.applyMove(this.selected, { row, col });
       this.view.renderBoard(this.model.board);
 
       if (moved) {
         this.moves++;
+        this.view.showAmountOfCards(this.model.getAmountOfCards());
         if (this.model.checkWin()) {
           this.stopTimer();
           this.showStatus('¡Ganaste! 🎉', `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);

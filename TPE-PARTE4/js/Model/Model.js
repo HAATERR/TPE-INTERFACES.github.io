@@ -6,9 +6,9 @@ class Model {
     this.INITIAL = [
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1],
-      [ 1,  1,  1, 1, 1,  1,  1],
-      [ 1,  1,  1, 0, 1,  1,  1],
-      [ 1,  1,  1, 1, 1,  1,  1],
+      [1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 0, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1],
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1]
     ];
@@ -26,12 +26,12 @@ class Model {
 
   possibleNextSteps(row, col) {
     const moves = [];
-    if (this.board[row][col] !== 1) return moves; 
+    if (this.board[row][col] !== 1) return moves;
     const dirs = [
-      [-2, 0], 
-      [2, 0],  
-      [0, -2], 
-      [0, 2]  
+      [-2, 0],
+      [2, 0],
+      [0, -2],
+      [0, 2]
     ];
 
     for (let [dr, dc] of dirs) {
@@ -43,9 +43,9 @@ class Model {
       if (
         newRow >= 0 && newRow < this.SIZE &&
         newCol >= 0 && newCol < this.SIZE &&
-        this.board[midRow][midCol] === 1 && 
-        this.board[newRow][newCol] === 0 && 
-        this.board[row][col] === 1       
+        this.board[midRow][midCol] === 1 &&
+        this.board[newRow][newCol] === 0 &&
+        this.board[row][col] === 1
       ) {
         moves.push({ row: newRow, col: newCol });
       }
@@ -92,5 +92,9 @@ class Model {
       }
     }
     return true;
+  }
+
+  getAmountOfCards() {
+    return this.board.flat().filter(v => v === 1).length;
   }
 }

@@ -71,4 +71,9 @@ class View {
       this.ctx.stroke();
     });
   }
+
+  showAmountOfCards(amount){
+    const am_text = document.getElementById('amount-cards');
+    am_text.innerHTML = ` ${amount}`;
+  }
 }
