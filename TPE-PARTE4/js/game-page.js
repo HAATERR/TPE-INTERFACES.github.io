@@ -144,8 +144,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function pantallaCompleta() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen();
+    document.querySelector('body').style.overflow = 'hidden';
   } else {
     document.exitFullscreen();
+    document.querySelector('body').style.overflow = 'auto';
   }
 }
 
