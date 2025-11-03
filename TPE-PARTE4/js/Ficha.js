@@ -1,8 +1,8 @@
 class Ficha {
     constructor(posX, posY, width, height, fill, context, radius) {
         this.posX = posX,
-            this.posY = posY,
-            this.width = width;
+        this.posY = posY,
+        this.width = width;
         this.height = height;
         this.fill = fill;
         this.ctx = context;
@@ -38,7 +38,6 @@ class Ficha {
     isPointed(x, y) {
         let pos_x_mouse = this.posX - x;
         let pos_y_mouse = this.posY - y;
-
         return Math.sqrt((pos_x_mouse * pos_x_mouse + pos_y_mouse * pos_y_mouse)) < this.radius;
     }
 }

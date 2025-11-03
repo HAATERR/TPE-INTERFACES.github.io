@@ -161,4 +161,5 @@ class Controller {
     document.getElementById("juego-logo").style.display = "block";
     document.getElementById("btn-jugar").style.display = "flex";
   }
+  
 }

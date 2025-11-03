@@ -1194,3 +1194,6 @@ footer div {
   background-color: #5b51b0;
   transform: translateY(-2px);
 }
+#btn-pantalla-completa{
+  cursor: pointer;
+}

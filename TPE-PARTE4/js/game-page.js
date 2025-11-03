@@ -1,4 +1,21 @@
 'use strict'
+//pantalla completa
+document.addEventListener("DOMContentLoaded", () => {
+  const btnPantalla = document.getElementById("btn-pantalla-completa");
+  const juego = document.querySelector(".pegsolitaire"); 
+
+  if (btnPantalla && juego) {
+    btnPantalla.addEventListener("click", () => pantallaCompleta(juego));
+  }
+});
+
+function pantallaCompleta(elemento) {
+  if (!document.fullscreenElement) {
+    elemento.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
 
 // obtengo el comentario
 let input_comentario = document.getElementById('input-comentario-nuevo')
@@ -130,4 +147,26 @@ btn_menu_hamburguesa.addEventListener('click' , ()=> {
     menu_hamburguesa.classList.toggle('sidebar-mostrar')
 
 })
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btnPantalla = document.getElementById("btn-pantalla-completa");
+
+  if (btnPantalla) {
+    btnPantalla.addEventListener("click", pantallaCompleta);
+  }
+});
+
+function pantallaCompleta() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+
+
+
 

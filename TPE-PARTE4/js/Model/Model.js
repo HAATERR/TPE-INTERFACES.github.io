@@ -6,9 +6,9 @@ class Model {
     this.INITIAL = [
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 0, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
+      [ 1,  1,  1, 1, 1,  1,  1],
+      [ 1,  1,  1, 0, 1,  1,  1],
+      [ 1,  1,  1, 1, 1,  1,  1],
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1]
     ];
@@ -20,26 +20,51 @@ class Model {
     this.board = JSON.parse(JSON.stringify(this.INITIAL));
   }
 
-  localizeCard(x, y) { return this.board[x][y]; }
+  localizeCard(row, col) {
+    return this.board[row][col];
+  }
 
-  possibleNextSteps(x, y) {
+  possibleNextSteps(row, col) {
     const moves = [];
-    if (this.board[x][y] !== 1) return moves;
-    const dirs = [[0, 2], [0, -2], [2, 0], [-2, 0]];
-    for (let [dx, dy] of dirs) {
-      const nx = x + dx, ny = y + dy;
-      const mx = x + dx / 2, my = y + dy / 2;
-      if (nx >= 0 && nx < this.SIZE && ny >= 0 && ny < this.SIZE) {
-        if (this.board[mx][my] === 1 && this.board[nx][ny] === 0)
-          moves.push({ x: nx, y: ny });
+    if (this.board[row][col] !== 1) return moves; 
+    const dirs = [
+      [-2, 0], 
+      [2, 0],  
+      [0, -2], 
+      [0, 2]  
+    ];
+
+    for (let [dr, dc] of dirs) {
+      const newRow = row + dr;
+      const newCol = col + dc;
+      const midRow = row + dr / 2;
+      const midCol = col + dc / 2;
+
+      if (
+        newRow >= 0 && newRow < this.SIZE &&
+        newCol >= 0 && newCol < this.SIZE &&
+        this.board[midRow][midCol] === 1 && 
+        this.board[newRow][newCol] === 0 && 
+        this.board[row][col] === 1       
+      ) {
+        moves.push({ row: newRow, col: newCol });
       }
     }
     return moves;
   }
 
   applyMove(from, to) {
-    const midRow = (from.row + to.row) >> 1;
-    const midCol = (from.col + to.col) >> 1;
+    const dr = to.row - from.row;
+    const dc = to.col - from.col;
+
+    const esValido =
+      (Math.abs(dr) === 2 && dc === 0) ||
+      (Math.abs(dc) === 2 && dr === 0);
+
+    if (!esValido) return false;
+
+    const midRow = from.row + dr / 2;
+    const midCol = from.col + dc / 2;
 
     if (
       this.board[from.row][from.col] === 1 &&
@@ -54,47 +79,18 @@ class Model {
     return false;
   }
 
-
-  checkWin() { return this.board.flat().filter(v => v === 1).length === 1; }
+  checkWin() {
+    return this.board.flat().filter(v => v === 1).length === 1;
+  }
 
   checkLost() {
-    for (let x = 0; x < this.SIZE; x++)
-      for (let y = 0; y < this.SIZE; y++)
-        if (this.possibleNextSteps(x, y).length > 0) return false;
+    for (let r = 0; r < this.SIZE; r++) {
+      for (let c = 0; c < this.SIZE; c++) {
+        if (this.possibleNextSteps(r, c).length > 0) {
+          return false;
+        }
+      }
+    }
     return true;
   }
 }
-
-/*
-class Model {
-    constructor(disp_movements) {
-        this.disp_movements = disp_movements;
-    }
-
-    localizeCard(x, y) {
-
-    }
-
-    possibleNextSteps(x, y) {
-
-    }
-
-    stepAvailability() {
-        return this.disp_movements <= 0;
-    }
-
-    applyMove(from, to) {
-
-    }
-
-    checkWin() {
-
-    }
-
-    checkLost() {
-
-    }
-
-
-}
-*/
