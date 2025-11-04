@@ -59,6 +59,7 @@ class Controller {
     this.updateHUD();
     this.startTimer();
     this.hideStatus();
+    this.view.showAmountOfCards(32);
   }
 
   startTimer() {
@@ -121,7 +122,6 @@ class Controller {
     if (row < 0 || col < 0 || row >= this.model.SIZE || col >= this.model.SIZE) return;
     if (this.model.board[row][col] === -1) return;
 
-    //si agarro una ficha, siempre la selecciono,incluso si ya había otra
     if (this.model.localizeCard(row, col) === 1) {
       this.selected = { row, col };
       const movesAvail = this.model.possibleNextSteps(row, col);
@@ -131,20 +131,27 @@ class Controller {
       return;
     }
 
-
-    // 2) mover
     if (this.selected) {
       const moved = this.model.applyMove(this.selected, { row, col });
       this.view.renderBoard(this.model.board);
 
       if (moved) {
         this.moves++;
+        this.view.showAmountOfCards(this.model.getAmountOfCards());
         if (this.model.checkWin()) {
           this.stopTimer();
-          this.showStatus('¡Ganaste! 🎉', `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
+          this.showStatus('¡Ganaste!',
+            `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
         } else if (this.model.checkLost()) {
           this.stopTimer();
-          this.showStatus('Sin más movimientos', `Intentalo otra vez. Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
+          const fichasRestantes = this.model.getAmountOfCards();
+          this.showStatus(
+            'Sin más movimientos',
+            `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)} · Fichas Restantes: ${fichasRestantes}`
+          );
+          // Renderiza tablero y muestra cantidad actualizada
+          this.view.renderBoard(this.model.board);
+          this.view.showAmountOfCards(fichasRestantes);
         }
       }
 
@@ -160,5 +167,4 @@ class Controller {
     document.getElementById("juego-logo").style.display = "block";
     document.getElementById("btn-jugar").style.display = "flex";
   }
-  
 }

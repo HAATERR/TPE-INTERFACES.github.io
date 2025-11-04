@@ -6,18 +6,33 @@ class Model {
     this.INITIAL = [
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1],
-      [ 1,  1,  1, 1, 1,  1,  1],
-      [ 1,  1,  1, 0, 1,  1,  1],
-      [ 1,  1,  1, 1, 1,  1,  1],
+      [1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 0, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1],
       [-1, -1, 1, 1, 1, -1, -1],
       [-1, -1, 1, 1, 1, -1, -1]
     ];
+
     this.board = [];
+    this.types = []; // matriz paralela para el tipo de ficha (0, 1 o 2)
     this.init();
   }
 
   init() {
-    this.board = JSON.parse(JSON.stringify(this.INITIAL));
+    this.board = JSON.parse(JSON.stringify(this.INITIAL)); // copio el tablero inicial
+
+    this.types = [];
+    for (let r = 0; r < this.SIZE; r++) {
+      this.types[r] = [];
+      for (let c = 0; c < this.SIZE; c++) {
+        if (this.board[r][c] === 1) {
+          this.types[r][c] = (r + c) % 3;
+        } else {
+          this.types[r][c] = -1;
+        }
+      }
+    }
+
   }
 
   localizeCard(row, col) {
@@ -26,12 +41,12 @@ class Model {
 
   possibleNextSteps(row, col) {
     const moves = [];
-    if (this.board[row][col] !== 1) return moves; 
+    if (this.board[row][col] !== 1) return moves;
     const dirs = [
-      [-2, 0], 
-      [2, 0],  
-      [0, -2], 
-      [0, 2]  
+      [-2, 0],
+      [2, 0],
+      [0, -2],
+      [0, 2]
     ];
 
     for (let [dr, dc] of dirs) {
@@ -43,9 +58,9 @@ class Model {
       if (
         newRow >= 0 && newRow < this.SIZE &&
         newCol >= 0 && newCol < this.SIZE &&
-        this.board[midRow][midCol] === 1 && 
-        this.board[newRow][newCol] === 0 && 
-        this.board[row][col] === 1       
+        this.board[midRow][midCol] === 1 &&
+        this.board[newRow][newCol] === 0 &&
+        this.board[row][col] === 1
       ) {
         moves.push({ row: newRow, col: newCol });
       }
@@ -71,9 +86,16 @@ class Model {
       this.board[midRow][midCol] === 1 &&
       this.board[to.row][to.col] === 0
     ) {
+      // mover las fichas lógicamente
       this.board[from.row][from.col] = 0;
       this.board[midRow][midCol] = 0;
       this.board[to.row][to.col] = 1;
+
+      // mover también el tipo visual
+      this.types[to.row][to.col] = this.types[from.row][from.col];
+      this.types[from.row][from.col] = -1;
+      this.types[midRow][midCol] = -1;
+
       return true;
     }
     return false;
@@ -92,5 +114,9 @@ class Model {
       }
     }
     return true;
+  }
+
+  getAmountOfCards() {
+    return this.board.flat().filter(v => v === 1).length;
   }
 }

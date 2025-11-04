@@ -8,4 +8,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const model = new Model(cant_movements);
   const view = new View('canvas', canvas_w, canvas_h, duration, temp, 7, 7);
   const controller = new Controller(model, view);
+  view.model = model;
 });
