@@ -51,7 +51,6 @@ class Controller {
   }
 
   restartGame() {
-
     clearInterval(this.timerInterval);
     this.timer = 0;
     this.moves = 0;
@@ -60,7 +59,7 @@ class Controller {
     this.updateHUD();
     this.startTimer();
     this.hideStatus();
-    this.view.showAmountOfCards(0);
+    this.view.showAmountOfCards(32);
   }
 
   startTimer() {
@@ -141,10 +140,18 @@ class Controller {
         this.view.showAmountOfCards(this.model.getAmountOfCards());
         if (this.model.checkWin()) {
           this.stopTimer();
-          this.showStatus('¡Ganaste! 🎉', `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
+          this.showStatus('¡Ganaste! 🎉',
+            `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
         } else if (this.model.checkLost()) {
           this.stopTimer();
-          this.showStatus('Sin más movimientos', `Intentalo otra vez. Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
+          const fichasRestantes = this.model.getAmountOfCards();
+          this.showStatus(
+            'Sin más movimientos 😞',
+            `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)} · Fichas Restantes: ${fichasRestantes}`
+          );
+          // Renderiza tablero y muestra cantidad actualizada
+          this.view.renderBoard(this.model.board);
+          this.view.showAmountOfCards(fichasRestantes);
         }
       }
 
@@ -160,5 +167,5 @@ class Controller {
     document.getElementById("juego-logo").style.display = "block";
     document.getElementById("btn-jugar").style.display = "flex";
   }
-  
+
 }

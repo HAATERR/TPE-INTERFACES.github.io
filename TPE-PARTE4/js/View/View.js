@@ -12,6 +12,8 @@ class View {
     this.ficha1.src = "assets/btngame.png"; // ficha joystick
     this.ficha2 = new Image();
     this.ficha2.src = "assets/fichalogo.png"; // ficha fondo
+    this.ficha3 = new Image();
+    this.ficha3.src = "assets/logoninja.png"; // ficha fondo
   }
 
   renderBoard(board) {
@@ -19,9 +21,10 @@ class View {
     ctx.fillStyle = "#c3a778";
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    if (!this.ficha1.complete || !this.ficha2.complete) {
+    if (!this.ficha1.complete || !this.ficha2.complete || !this.ficha3.complete) {
       this.ficha1.onload = () => this.renderBoard(board);
       this.ficha2.onload = () => this.renderBoard(board);
+      this.ficha3.onload = () => this.renderBoard(board);
       return;
     }
 
@@ -41,39 +44,45 @@ class View {
         // ficha
         if (board[r][c] === 1) {
           const size = this.CELL * 0.92;
-          const ficha = (r + c) % 2 === 0 ? this.ficha1 : this.ficha2;
+
+          // alternar entre 3 fichas
+          const index = (r + c) % 3;
+          let ficha;
+          if (index === 0) ficha = this.ficha1;
+          else if (index === 1) ficha = this.ficha2;
+          else ficha = this.ficha3;
 
           ctx.drawImage(ficha, cx - size / 2, cy - size / 2, size, size);
         }
+
       }
     }
   }
 
+highlightPiece(row, col) {
+  const cx = col * this.CELL + this.PADDING + this.CELL / 2;
+  const cy = row * this.CELL + this.PADDING + this.CELL / 2;
+  this.ctx.strokeStyle = "#FFD700";
+  this.ctx.lineWidth = 3;
+  this.ctx.beginPath();
+  this.ctx.arc(cx, cy, this.CELL * 0.45, 0, Math.PI * 2);
+  this.ctx.stroke();
+}
 
-  highlightPiece(row, col) {
-    const cx = col * this.CELL + this.PADDING + this.CELL / 2;
-    const cy = row * this.CELL + this.PADDING + this.CELL / 2;
-    this.ctx.strokeStyle = "#FFD700";
-    this.ctx.lineWidth = 3;
+showNextSteps(moves) {
+  this.ctx.strokeStyle = "#66F5FF";
+  this.ctx.lineWidth = 2;
+  moves.forEach(m => {
+    const cx = m.col * this.CELL + this.PADDING + this.CELL / 2;
+    const cy = m.row * this.CELL + this.PADDING + this.CELL / 2;
     this.ctx.beginPath();
-    this.ctx.arc(cx, cy, this.CELL * 0.45, 0, Math.PI * 2);
+    this.ctx.arc(cx, cy, this.CELL * 0.15, 0, Math.PI * 2);
     this.ctx.stroke();
-  }
+  });
+}
 
-  showNextSteps(moves) {
-    this.ctx.strokeStyle = "#66F5FF";
-    this.ctx.lineWidth = 2;
-    moves.forEach(m => {
-      const cx = m.col * this.CELL + this.PADDING + this.CELL / 2;
-      const cy = m.row * this.CELL + this.PADDING + this.CELL / 2;
-      this.ctx.beginPath();
-      this.ctx.arc(cx, cy, this.CELL * 0.15, 0, Math.PI * 2);
-      this.ctx.stroke();
-    });
-  }
-
-  showAmountOfCards(amount){
-    const am_text = document.getElementById('amount-cards');
-    am_text.innerHTML = ` ${amount}`;
-  }
+showAmountOfCards(amount){
+  const am_text = document.getElementById('amount-cards');
+  am_text.innerHTML = ` ${amount}`;
+}
 }
