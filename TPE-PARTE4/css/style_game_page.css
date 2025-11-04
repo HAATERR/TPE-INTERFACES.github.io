@@ -1153,7 +1153,7 @@ footer div {
 .status {
   position: absolute;
   left: 50%;
-  transform: translate(-50%, 100%); /* lo centra horizontalmente y lo sube por encima del tablero */
+  transform: translate(-50%, 100%); 
   width: 400px;
   background-color: var(--PRIMARY_SHADOW);
   color: var(--WHITE_NEUTRAL);
