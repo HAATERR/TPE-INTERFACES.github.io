@@ -86,12 +86,10 @@ class Model {
       this.board[midRow][midCol] === 1 &&
       this.board[to.row][to.col] === 0
     ) {
-      // mover las fichas lógicamente
       this.board[from.row][from.col] = 0;
       this.board[midRow][midCol] = 0;
       this.board[to.row][to.col] = 1;
 
-      // mover también el tipo visual
       this.types[to.row][to.col] = this.types[from.row][from.col];
       this.types[from.row][from.col] = -1;
       this.types[midRow][midCol] = -1;

@@ -9,6 +9,11 @@ class Controller {
     this.timer = 0;
     this.timerInterval = null;
 
+    this.dragging = false;
+    this.dragFicha = null;
+    this.dragOrigin = null;
+    this.dragPos = null;
+
     this.$timer = null;
     this.$moves = null;
     this.$status = null;
@@ -22,7 +27,18 @@ class Controller {
     document.getElementById("btn-jugar").addEventListener("click", () => this.startGame());
     document.getElementById("btn-volver-menu").addEventListener("click", () => this.returnMenu());
     document.getElementById("btn-reiniciar").addEventListener("click", () => this.restartGame());
-    document.getElementById("canvas").addEventListener("click", (e) => this.handleClick(e));
+
+    const canvas = document.getElementById("canvas");
+    canvas.addEventListener("click", (e) => this.handleClick(e));
+
+    canvas.addEventListener("mousedown", (e) => this.onMouseDown(e));
+    canvas.addEventListener("mousemove", (e) => this.onMouseMove(e));
+    canvas.addEventListener("mouseup", (e) => this.onMouseUp(e));
+
+    canvas.addEventListener("mousemove", (e) => this.view.changeCursor(e));
+    canvas.addEventListener("mousedown", (e) => this.view.changeCursor(e));
+    canvas.addEventListener("mouseup", (e) => this.view.changeCursor(e));
+
 
     this.$timer = document.getElementById("timer");
     this.$moves = document.getElementById("moves");
@@ -32,6 +48,91 @@ class Controller {
 
     const replayBtn = document.getElementById("status-replay");
     replayBtn.addEventListener("click", () => this.restartGame());
+  }
+
+  getMouseCell(e) {
+    const rect = this.view.canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+
+    const scaleX = this.view.canvas.width / rect.width;
+    const scaleY = this.view.canvas.height / rect.height;
+
+    const cx = px * scaleX;
+    const cy = py * scaleY;
+
+    const row = Math.floor((cy - this.view.PADDING) / this.view.CELL);
+    const col = Math.floor((cx - this.view.PADDING) / this.view.CELL);
+
+    if (row < 0 || col < 0 || row >= this.model.SIZE || col >= this.model.SIZE) return null;
+    if (this.model.board[row][col] === -1) return null;
+    return { row, col, x: px, y: py };
+  }
+
+  // --- DRAG ---
+  onMouseDown(e) {
+    const cell = this.getMouseCell(e);
+    if (!cell) return;
+
+    if (this.model.localizeCard(cell.row, cell.col) === 1) {
+      this.dragging = true;
+      this.dragOrigin = { row: cell.row, col: cell.col };
+      this.dragFicha = { row: cell.row, col: cell.col };
+      this.dragPos = { x: cell.x, y: cell.y };
+    }
+  }
+
+  onMouseMove(e) {
+    if (!this.dragging) return;
+
+    const rect = this.view.canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    this.dragPos = { x, y };
+
+    this.view.renderBoard(this.model.board, this.dragPos, this.dragFicha);
+    if (this.dragOrigin) {
+      const movesAvail = this.model.possibleNextSteps(this.dragOrigin.row, this.dragOrigin.col);
+      this.view.highlightPiece(this.dragOrigin.row, this.dragOrigin.col);
+      this.view.showNextSteps(movesAvail);
+    }
+  }
+
+  onMouseUp(e) {
+    if (!this.dragging) return;
+
+    const cell = this.getMouseCell(e);
+    let moved = false;
+
+    if (cell) {
+      moved = this.model.applyMove(this.dragOrigin, { row: cell.row, col: cell.col });
+    }
+
+    this.dragging = false;
+    this.dragFicha = null;
+    this.dragOrigin = null;
+    this.dragPos = null;
+
+    this.view.renderBoard(this.model.board);
+
+    if (moved) {
+      this.moves++;
+      this.view.showAmountOfCards(this.model.getAmountOfCards());
+      if (this.model.checkWin()) {
+        this.stopTimer();
+        this.showStatus('¡Ganaste!',
+          `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)}`);
+      } else if (this.model.checkLost()) {
+        this.stopTimer();
+        const fichasRestantes = this.model.getAmountOfCards();
+        this.showStatus(
+          'Sin más movimientos',
+          `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)} · Fichas Restantes: ${fichasRestantes}`
+        );
+        this.view.showAmountOfCards(fichasRestantes);
+      }
+    }
+    this.updateHUD();
   }
 
   startGame() {
@@ -102,25 +203,11 @@ class Controller {
   }
 
   handleClick(e) {
-    const rect = this.view.canvas.getBoundingClientRect();
-    const px = e.clientX - rect.left;
-    const py = e.clientY - rect.top;
+    const cell = this.getMouseCell(e);
+    if (!cell) return;
 
-    const scaleX = this.view.canvas.width / rect.width;
-    const scaleY = this.view.canvas.height / rect.height;
-
-    const cx = px * scaleX;
-    const cy = py * scaleY;
-
-    const cell = this.view.CELL;
-    const pad = this.view.PADDING;
-
-    const row = Math.floor((cy - pad) / cell);
-    const col = Math.floor((cx - pad) / cell);
-
-
-    if (row < 0 || col < 0 || row >= this.model.SIZE || col >= this.model.SIZE) return;
-    if (this.model.board[row][col] === -1) return;
+    const row = cell.row;
+    const col = cell.col;
 
     if (this.model.localizeCard(row, col) === 1) {
       this.selected = { row, col };
@@ -149,8 +236,6 @@ class Controller {
             'Sin más movimientos',
             `Movimientos: ${this.moves} · Tiempo: ${this.formatTime(this.timer)} · Fichas Restantes: ${fichasRestantes}`
           );
-          // Renderiza tablero y muestra cantidad actualizada
-          this.view.renderBoard(this.model.board);
           this.view.showAmountOfCards(fichasRestantes);
         }
       }

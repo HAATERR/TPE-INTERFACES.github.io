@@ -4,19 +4,19 @@ const captchaCheckbox = document.getElementById('captcha-check');
 
 // Función para validar email
 function validarEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // chequea que tenga texto, despues un arroba, despues un punto y por ultimo texto
-    return regex.test(email); // retorna si cumple o no
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
 }
 
 // Mostrar tooltip de error
 function mostrarTooltip(input, mensaje) {  
-    ocultarTooltip(input);  // arranca oculto 
+    ocultarTooltip(input); 
 
-    if (!input.parentElement.classList.contains('input-con-tooltip')) {  // si el padre del input no tiene la case input-con-tooltip
-        const wrapper = document.createElement('div'); // crea elemento div
-        wrapper.className = 'input-con-tooltip'; // le pone clase 
-        input.parentNode.insertBefore(wrapper, input); // Llama al input con tooltip
-        wrapper.appendChild(input); // lo suma al padre
+    if (!input.parentElement.classList.contains('input-con-tooltip')) {  
+        const wrapper = document.createElement('div'); 
+        wrapper.className = 'input-con-tooltip'; 
+        input.parentNode.insertBefore(wrapper, input); 
+        wrapper.appendChild(input);
     }
 
     const tooltip = document.createElement('div');
