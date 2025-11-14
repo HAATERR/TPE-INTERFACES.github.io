@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peg Solitaire</title>
+  <link rel="stylesheet" href="css/style_game_page.css">
+  <link rel="icon" type="img/png" href="assets/logo.png">
+</head>
+
+<body>
+  <header>
+    <div>
+      <div class="menu-hamburguesa">
+        <button id="btn-menu-hamburguesa"><img src="assets/menu_hamburguesa.png" alt=""></button>
+        <div class="sidebar">
+          <div class="categorias-sidebar">
+            <h2>Categorias</h2>
+            <button class="menu-item"><img src="assets/tendencias.png" alt="">Tendencias</button>
+            <button class="menu-item"><img src="assets/estrategia.png" alt="">Estrategia</button>
+            <button class="menu-item"><img src="assets/deportes.png" alt="">Deportes</button>
+            <button class="menu-item"><img src="assets/carreras.png" alt="">Carreras</button>
+            <button class="menu-item"><img src="assets/accion.png" alt="">Accion</button>
+            <button class="menu-item"><img src="assets/terror.png" alt="">Terror</button>
+            <button class="menu-item"><img src="assets/aventura.png" alt="">Aventura</button>
+            <button class="menu-item"><img src="assets/cat.png" alt="">Todas las categorias</button>
+          </div>
+          <div class="perfil-sidebar">
+            <h2>Perfil</h2>
+            <button class="menu-item"><img src="assets/mi_cuenta.png" alt=""> Mi cuenta</button>
+            <button class="menu-item"><img src="assets/favoritos_game_bar.png" alt=""> Favoritos</button>
+            <button class="menu-item"><img src="assets/trofeos.png" alt="">Trofeos</button>
+            <button class="menu-item"><img src="assets/config.png" alt=""> Configuracion</button>
+          </div>
+        </div>
+      </div>
+      <div class="logo-home">
+        <a href="index.html" class="logo-home-link">
+          <img src="assets/logo.png" alt="Logo" id="logo">
+          <h1 id="header-titulo">Ninja games</h1>
+        </a>
+      </div>
+    </div>
+    <div class="buscar-header">
+      <input type="text" placeholder="Buscar en Ninja Games..." id="buscar-header-input">
+    </div>
+    <div class="atajos-header">
+      <button id="btn-usuario"><img src="assets/usuario.png" alt=""></button>
+      <div class="menu-perfil">
+        <button>
+          <img src="assets/usuario_menu.png" alt="">
+          <p>Mi perfil</p>
+        </button>
+        <button>
+          <img src="assets/configuracion.png" alt="">
+          <p>Configuracion</p>
+        </button>
+        <a href="registrar.html">
+          <img src="assets/cerrar_cesion.png" alt="">
+          <p>Cerrar cesion</p>
+        </a>
+      </div>
+      <button id="btn-carrito"><img src="assets/carrito.png" alt=""></button>
+    </div>
+  </header>
+
+  <main>
+    <h2 id="titulo-juego">Ninja Games Peg Solitaire</h2>
+    <div class="breadcumb">
+      <p class="breadcumb-link" onclick="window.location.href='index.html'">Juegos</p>
+      <p class="breadcumb-sep"> / </p>
+      <p class="breadcumb-link" onclick="window.location.href='index.html'">Juegos de Estrategia</p>
+      <p class="breadcumb-sep"> / </p>
+      <p class="breadcumb-link">Ninja Games Peg Solitaire</p>
+    </div>
+
+    <div class="juego">
+      <div class="pegsolitaire">
+        <div class="hud" aria-live="polite">
+          <div class="hud-item"><span>Tiempo</span><strong id="timer">00:00</strong></div>
+          <div class="hud-item"><span>Movimientos</span><strong id="moves">0</strong></div>
+          <div class="hud-item"><span>Fichas en tablero:<strong id="amount-cards"> 32</strong></span></div>
+        </div>
+
+        <canvas id="canvas" width="400" height="400"></canvas>
+
+        <div class="hud-buttons">
+          <button id="btn-reiniciar">Reiniciar</button>
+          <button id="btn-volver-menu"><a href="game-page.html">Volver al menú</a></button>
+        </div>
+
+
+        <div id="game-status" class="status hidden" role="dialog" aria-modal="true">
+          <h3 id="status-title"></h3>
+          <p id="status-sub"></p>
+          <div class="status-actions">
+            <button id="status-replay">Jugar de nuevo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading">
+        <img src="https://media.tenor.com/2BLI5EO7yVAAAAAi/loading-image.gif" alt="">
+        <p>Loading...</p>
+      </div>
+
+      <button id="btn-pantalla-completa"><img src="assets/tamano-completo.png" alt=""
+          id="icon-pantalla-completa"></button>
+      <img src="assets/PegSolitaire.png" alt="juego-logo" id="juego-logo">
+      <button id="btn-jugar">Jugar</button>
+    </div>
+
+ <div class="game-bar">
+            <div class="game-bar-izq">
+                <button class="btn-game-bar"><img src="assets/favoritos_game_bar.png" alt=""
+                        id="favoritos-game-bar"></button>
+                <a href="#comentarios"><button class="btn-game-bar"><img src="assets/comentarios_game_bar.png"
+                            alt=""></button></a>
+            </div>
+
+            <div class="game-bar-der">
+                <a href="https://www.youtube.com/watch?v=Hh_pwb7ItTQ"><button class="btn-game-bar"><img
+                            src="assets/video_game_bar.png" alt="">Video explicativo</button></a>
+
+                <button class="btn-game-bar" id="btn-compartir"><img src="assets/compartir_game_bar.png"
+                        alt="">Compartir</button>
+                <div class="compartir">
+                    <button>
+                        <img src="assets/correoelectronico.png" alt="">
+                        <p>Mail</p>
+                    </button>
+
+                    <button>
+                        <img src="assets/SMS.png" alt="">
+                        <p>SMS</p>
+                    </button>
+
+                    <button>
+                        <img src="assets/whatsapp.png" alt="">
+                        <p>WhatsApp</p>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="sobre-el-juego">
+            <div class="sobre-el-juego-izq">
+                <h2>Sobre el juego</h2>
+                <div class="descripcion">
+                    <h3>Descripcion</h3>
+                    <p>Ninja Game Solitarie es la versión moderna del clásico Peg Solitaire: un reto de lógica y
+                        estrategia donde cada movimiento cuenta. Tu misión es eliminar fichas saltando unas sobre otras
+                        hasta quedar con la última en pie. Simple de aprender, difícil de dominar.</p>
+                </div>
+                <div class="controles">
+                    <h3>Controles</h3>
+                    <div class="control-inside">
+                        <ul>
+                            <li>Mouse: Seleccionar ficha</li>
+                            <li>Click: Seleccionar la casilla a la que se va a mover la ficha</li>
+                        </ul>
+                    </div>
+
+                    <div class="controles-img">
+                        <img src="assets/mouse_controles.png" alt="">
+                    </div>
+                </div>
+                <div class="como-jugar">
+                    <h3>Como Jugar</h3>
+                    <ol><li>Objetivo: quedarte con una sola ficha (mejor si es en el centro).</li>
+                        <li>Preparación: poné fichas en todos los huecos excepto el central (vacío).</li>
+                        <li>Movimiento: elegí una ficha con otra al lado y un hueco vacío justo detrás; la ficha salta 2
+                            posiciones y esta se va</li>
+                        <li>Sólo movimientos rectos (arriba/abajo/izquierda/derecha), no diagonales.</li>
+                        <li>Repetí saltos hasta que no queden movimientos. Si queda 1 ficha (ideal en el centro)
+                            ganaste; si quedan más y no podés mover perdiste.</li>
+                    </ol>
+                </div>
+                <div class="Caracteristicas">
+                    <h3>Caracteristicas</h3>
+                    <ul>
+                        <li>Juego clásico de estrategia.</li>
+                        <li>Muchas posibilidades de ganar.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sobre-el-juego-der">
+                <h2>Datos</h2>
+                <div class="Calificacion">
+                    <h3>Calificacion</h3>
+                    <img src="assets/estrellas_calif.png" alt="">
+                    <p>10 / 10 (1 voto)</p>
+                    <a href="" id="a-calificar">Calificar</a>
+                </div>
+                <div class="fecha-publicacion">
+                    <h3>Fecha de publicacion</h3>
+                    <p>30-08-2025</p>
+                    <div class="fecha-publicacion-inside">
+                        <img src="assets/fecha_publicacion.png" alt="">
+                        <p>Hace 2 semanas</p>
+                    </div>
+                </div>
+
+                <div class="categoria">
+                    <h3>Categoria</h3>
+                    <div class="categoria-inside">
+                        <img src="assets/juegos_mesa.png" alt="">
+                        <p>Juegos de mesa</p>
+                    </div>
+                    <a href="" id="a-categorias">Explorar categorias</a>
+                </div>
+
+                <div class="plataforma">
+                    <h3>Plataforma</h3>
+                    <p>Navegador escritorio</p>
+                </div>
+            </div>
+        </div>
+
+
+        <section>
+            <div class="comentarios" id="comentarios">
+                <div class="comentarios-titulo">
+                    <img src="assets/comentarios_logo.png" alt="" id="logo-comentarios">
+                    <h2>Comentarios de la comunidad</h2>
+                </div>
+                <div class="comentario-nuevo">
+                    <img src="assets/foto_perfil_comentarios.png" alt="" id="foto-perfil">
+                    <div class="comentario-nuevo-der">
+                        <form action="" id="comentario-nuevo-form">
+                            <input type="text" placeholder="¿Cuál es tu opinion?" id="input-comentario-nuevo">
+                            <div class="botones-comentario-nuevo">
+                                <button id="btn-cancelar" class="ocultar-boton" type="button"><img
+                                        src="assets/cancelar.png" alt="">Cancelar</button>
+                                <button id="btn-publicar" class="ocultar-boton" type="button"><img
+                                        src="assets/publicar.png" alt="">Publicar</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+                <div class="comentarios-publicados">
+                    <div class="comentarios-publicados-arriba">
+
+                        <div class="comentarios-publicados-arriba-izq">
+                            <img src="assets/foto_perfil_comentarios.png" alt="" id="foto-perfil">
+                            <p>@genialbrand79</p>
+                            <p id="tiempo-comentario">- hace 2 años</p>
+                        </div>
+
+                        <div class="comentarios-publicados-arriba-der">
+                            <img src="assets/opciones_comentario.png" alt="" id="opciones">
+                        </div>
+                    </div>
+
+                    <div class="comentarios-publicados-inside">
+                        <p>Súper adictivo, te hace pensar más de lo que parece. Ideal para matar el tiempo sin tener que
+                            instalar nada pesado</p>
+                    </div>
+
+                    <div class="comentarios-publicados-abajo">
+
+                        <div class="comentarios-publicados-abajo-izq">
+                            <button><img src="assets/upvote.png" alt="" id="upvote">
+                                <p>1</p>
+                            </button>
+                            <button><img src="assets/downvote.png" alt="" id="downvote">
+                                <p>0</p>
+                            </button>
+                            <p>+1 pts</p>
+                        </div>
+
+                        <div class="comentarios-publicados-abajo-der">
+                            <button id="btn-responder-comentario">
+                                <p>Responder</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comentarios-publicados">
+                    <div class="comentarios-publicados-arriba">
+
+                        <div class="comentarios-publicados-arriba-izq">
+                            <img src="assets/foto_perfil_comentarios.png" alt="" id="foto-perfil">
+                            <p>@genialbrand79</p>
+                            <p id="tiempo-comentario">- hace 4 semanas</p>
+
+                        </div>
+
+                        <div class="comentarios-publicados-arriba-der">
+                            <img src="assets/opciones_comentario.png" alt="" id="opciones">
+                        </div>
+
+
+                    </div>
+
+                    <div class="comentarios-publicados-inside">
+                        <p>Excelente juego, muy didáctico, me encantó!</p>
+                    </div>
+
+                    <div class="comentarios-publicados-abajo">
+                        <div class="comentarios-publicados-abajo-izq">
+                            <button><img src="assets/upvote.png" alt="" id="upvote">
+                                <p>0</p>
+                            </button>
+                            <button><img src="assets/downvote.png" alt="" id="downvote">
+                                <p>0</p>
+                            </button>
+                            <p>0 pts</p>
+                        </div>
+
+                        <div class="comentarios-publicados-abajo-der">
+                            <button id="btn-responder-comentario">
+                                <p>Responder</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="comentarios-publicados">
+                    <div class="comentarios-publicados-arriba">
+
+                        <div class="comentarios-publicados-arriba-izq">
+                            <img src="assets/foto_perfil_comentarios.png" alt="" id="foto-perfil">
+                            <p>@genialbrand79</p>
+                            <p id="tiempo-comentario">- hace 3 dias</p>
+
+                        </div>
+
+                        <div class="comentarios-publicados-arriba-der">
+                            <img src="assets/opciones_comentario.png" alt="" id="opciones">
+                        </div>
+
+
+                    </div>
+
+                    <div class="comentarios-publicados-inside">
+                        <p>No sabía que un juego tan simple me iba a tener dando vueltas tanto rato</p>
+                    </div>
+
+                    <div class="comentarios-publicados-abajo">
+                        <div class="comentarios-publicados-abajo-izq">
+                            <button><img src="assets/upvote.png" alt="" id="upvote">
+                                <p>0</p>
+                            </button>
+                            <button><img src="assets/downvote.png" alt="" id="downvote">
+                                <p>0</p>
+                            </button>
+                            <p>0 pts</p>
+                        </div>
+
+                        <div class="comentarios-publicados-abajo-der">
+                            <button id="btn-responder-comentario">
+                                <p>Responder</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <div class="mensaje">
+            <p id="mensaje-inside"></p>
+
+            <button id="btn-cancelar-comentario">
+                <p id="mensaje-deshacer">Deshacer</p>
+            </button>
+            <button id="btn-aceptar">
+                <p>Aceptar</p>
+            </button>
+            <button id="btn-cerrar-mensaje">
+                <p>x</p>
+            </button>
+
+        </div>
+
+        <div class="comentario-vacio">
+            <div class="advertencia">
+                <img src="assets/advertencia.png" alt="">
+                <p>No se puede insertar comentarios vacios</p>
+            </div>
+
+            <button id="btn-cerrar-advertencia">OK</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inside">
+            <div class="footer-enlaces">
+                <h3>Enlaces</h3>
+                <p>Home</p>
+                <p>Biblioteca</p>
+                <p>Juegos Gratis</p>
+                <p>Juegos en oferta</p>
+            </div>
+
+            <div class="footer-compania">
+                <h3>Compania</h3>
+                <p>Sobre Nosotros</p>
+                <p>Nuestros servicios</p>
+                <p>Politica de privacidad</p>
+                <p>Programa de afiliados</p>
+            </div>
+
+
+            <div class="footer-ayuda">
+                <h3>Ayuda</h3>
+                <p>FAQ</p>
+                <P>Envios</P>
+                <p>Devoluciones</p>
+                <p>Estado del pedido</p>
+            </div>
+
+            <div class="footer-contacto">
+
+                <h3>Contacto</h3>
+                <button class="button-contacto"><img src="assets/gmail.png" alt="">Correo Electrónico</button>
+                <button class="button-contacto"><img src="assets/instagram.png" alt="">Instagram</button>
+                <button class="button-contacto"><img src="assets/facebook.png" alt="">Facebook</button>
+                <button class="button-contacto"><img src="assets/twitter-x.png" alt="">X</button>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <img src="assets/logo.png" alt="">
+            <p id="footer-derechos">Ninja Games todos los derechos reservados ®</p>
+        </div>
+    </footer>
+    <script src="js/game-page.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/P4/Controller/Controller.js"></script>
+    <script src="js/P4/Model/Model.js"></script>
+    <script src="js/P4/View/View.js"></script>
+    <script src="js/P4/Ficha.js"></script>
+</body>
+</html>
