@@ -2,7 +2,7 @@ class View {
     constructor() {
 
     }
-
+    
     showGame() {
         document.getElementById("juego-logo").style.display = "none";
         document.getElementById("btn-jugar").style.display = "none";

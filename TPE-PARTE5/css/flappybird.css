@@ -45,8 +45,30 @@
 .flappy {
     display: none;
     width: 100%;
-    overflow-x: hidden;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
 }
+
+#bird {
+    width: 104px;
+    height: 104px;
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url("/TPE-PARTE5/assets/birds.png"); 
+    background-repeat: no-repeat;
+    background-size: 312px 104px;
+    animation: birdFly 0.5s steps(3) infinite;
+    z-index: 50;
+}
+
+@keyframes birdFly {
+    from { background-position-x: 0; }
+    to   { background-position-x: -312px; } 
+}
+ 
 
 .layer {
     min-height: 500px;
@@ -58,71 +80,71 @@
     background-repeat: repeat-x;
     overflow-x: hidden;
     background-size: auto 100%;
+    z-index: 1;
 }
 
 
 .layer1 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_1.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_1.png');
     animation: movement 4s linear infinite;
 }
 
 .layer2 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_2.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_2.png');
     animation: movement 5s linear infinite;
 }
 
 .layer3 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_3.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_3.png');
     animation: movement 8s linear infinite;
 }
 
 .layer4 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_4.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_4.png');
     animation: movement 10s linear infinite;
 }
 
 .layer5 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_5.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_5.png');
     animation: movement 14s linear infinite;
 }
 
 .layer6 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_6.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_6.png');
     animation: movement 18s linear infinite;
 }
 
 .layer7 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_7.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_7.png');
     animation: movement 25s linear infinite;
 }
 
 .layer8 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_8.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_8.png');
     animation: movement 40s linear infinite;
 }
 
 .layer9 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_9.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_9.png');
     animation: movement 60s linear infinite;
 }
 
 .layer10 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_10.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_10.png');
     animation: movement 80s linear infinite;
 }
 
 
 .layer11 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_1.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_1.png');
     animation: movement 120s linear infinite;
 }
 
 .layer12 {
-    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_12.png');
+    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_12.png');
     animation: movement 10s linear infinite;
 }
 
-/* animation: movement 1.5s linear infinite;*/
 @keyframes movement {
     from {
         background-position-x: 0;
@@ -131,6 +153,15 @@
     to {
         background-position-x: -200%;
     }
+}
+.loading {
+    position: absolute;
+    display: none;
+    z-index: 2000; 
+    background: radial-gradient(var(--BLACK_NEUTRAL), var(--PRIMARY-SHADOW2));
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .pause {
