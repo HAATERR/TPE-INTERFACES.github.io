@@ -1,0 +1,242 @@
+:root {
+
+    /* COLOR PRINCIPAL */
+    --PRIMARY_COLOR: #1E1B3A;
+
+    /* LUCES */
+    --PRIMARY_LIGHT: #342F5C;
+    --PRIMARY_LIGHT2: #4C4781;
+    --PRIMARY_LIGHT3: #6662A3;
+    --SECUNDARY_LIGHT: #33F0FF;
+    --SECUNDARY_LIGHT2: #66F5FF;
+    --SECUNDARY_LIGHT3: #99FAFF;
+    --ACCENT_LIGHT1: #FF338B;
+    --ACCENT_LIGHT2: #FF66A8;
+    --ACCENT_LIGHT3: #FF99C5;
+
+    /* SOMBRAS */
+    --PRIMARY_SHADOW: #181530;
+    --PRIMARY-SHADOW2: #0F0D1C;
+    --PRIMARY_SHADOW3: #07060D;
+    --SECUNDARY_SHADOW1: #216187;
+    --SECUNDARY_SHADOW2: #008593;
+    --SECUNDARY_SHADOW3: #00545F;
+    --ACCENT_SHADOW: #990041;
+    --ACCENT_SHADOW1: #CC0058;
+
+    --ACCENT_SHADOW3: #66002B;
+
+    /* ACENTO */
+    --ACENTO: #FF8329;
+    --ACCENT_COLOR: #FF006E;
+
+    /* NEUTROS */
+    --WHITE_NEUTRAL: #F0DDFF;
+    --BLACK_NEUTRAL: #090011;
+
+    /* OTROS */
+    --SECUNDARY_COLOR: #2D94D1;
+    --HEADER_BG: #212233;
+    --MENU_PERFIL: #590FAC;
+    --BTN_JUGAR: #534AA0;
+
+}
+
+.flappy {
+    display: none;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.layer {
+    min-height: 500px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: repeat-x;
+    overflow-x: hidden;
+    background-size: auto 100%;
+}
+
+
+.layer1 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_1.png');
+    animation: movement 4s linear infinite;
+}
+
+.layer2 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_2.png');
+    animation: movement 5s linear infinite;
+}
+
+.layer3 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_3.png');
+    animation: movement 8s linear infinite;
+}
+
+.layer4 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_4.png');
+    animation: movement 10s linear infinite;
+}
+
+.layer5 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_5.png');
+    animation: movement 14s linear infinite;
+}
+
+.layer6 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_6.png');
+    animation: movement 18s linear infinite;
+}
+
+.layer7 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_7.png');
+    animation: movement 25s linear infinite;
+}
+
+.layer8 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_8.png');
+    animation: movement 40s linear infinite;
+}
+
+.layer9 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_9.png');
+    animation: movement 60s linear infinite;
+}
+
+.layer10 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_10.png');
+    animation: movement 80s linear infinite;
+}
+
+
+.layer11 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_1.png');
+    animation: movement 120s linear infinite;
+}
+
+.layer12 {
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg-layers/bg_12.png');
+    animation: movement 10s linear infinite;
+}
+
+/* animation: movement 1.5s linear infinite;*/
+@keyframes movement {
+    from {
+        background-position-x: 0;
+    }
+
+    to {
+        background-position-x: -200%;
+    }
+}
+
+.pause {
+    background: radial-gradient(at center, var(--PRIMARY_LIGHT2) 10%, var(--PRIMARY_COLOR));
+    position: absolute;
+    display: none;
+    width: 40%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--WHITE_NEUTRAL);
+    border-radius: 20px;
+    border: 1px solid var(--WHITE_NEUTRAL);
+    z-index: 9999;
+    animation: fade 1s forwards;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    align-items: center;
+}
+
+#close-menu {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.pause-header {
+    display: flex;
+    gap: 6px;
+    background-color: transparent;
+    align-items: center;
+    font-size: larger;
+}
+
+.pause-header img {
+    height: 40px;
+    width: 40px;
+}
+
+.pause-content {
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#btn-restart,
+#btn-continue {
+    width: 60%;
+    height: 40%;
+    cursor: pointer;
+    font-size: larger;
+    color: var(--WHITE_NEUTRAL);
+    border-radius: 20px;
+    border: 0.7ps solid var(--WHITE_NEUTRAL);
+    margin: 5px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-continue{
+    background: radial-gradient(at center, var(--BTN_JUGAR), var(--MENU_PERFIL));
+}
+
+#btn-restart{
+    background: radial-gradient(at center, var(--PRIMARY-SHADOW2), var(--HEADER_BG));
+}
+
+#btn-restart img, #btn-continue img{
+    height: 20px;
+    width: 20px;
+}
+
+.btn-menu-show {
+    background-color: var(--PRIMARY-SHADOW2);
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    animation: fade 1.5s forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-menu-show img {
+    height: 30px;
+    width: 30px;
+}
+
+@Keyframes fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
