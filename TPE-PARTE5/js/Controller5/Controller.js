@@ -17,6 +17,17 @@ class Controller {
         const btn_full_menu = document.getElementById('btn-pantalla-completa');
         btn_full_menu.addEventListener('click', () => this.evaluateScreenMenu());
 
+        const btn_restart = document.getElementById('btn-restart');
+        btn_restart.addEventListener('click' , () => this.restartGame());
+
+        const btn_continue = document.getElementById('btn-continue');
+        btn_continue.addEventListener('click' , () => this.continueGame());
+
+        const close_menu = document.getElementById('close-menu');
+        close_menu.addEventListener('click' , () => this.view.closeMenu());
+
+        const continue_menu = document.getElementById('btn-continue');
+        continue_menu.addEventListener('click' , () => this.continueGame());
 
 
     }
@@ -30,6 +41,9 @@ class Controller {
         this.view.showRestart();
     }
 
+    continueGame(){
+        this.view.continueGame();
+    }
 
   
     evaluateScreenMenu() {

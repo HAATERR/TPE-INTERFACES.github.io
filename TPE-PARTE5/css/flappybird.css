@@ -176,7 +176,7 @@
 }
 
 .pause-content {
-    padding: 30px;
+    padding: 10px;
     border-radius: 10px;
     text-align: center;
 }
@@ -217,12 +217,12 @@
     top: 5px;
     border-radius: 20px;
     border: none;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
     animation: fade 1.5s forwards;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;  
 }
 
 .btn-menu-show img {

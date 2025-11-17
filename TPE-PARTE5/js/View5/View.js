@@ -30,21 +30,46 @@ class View {
 
     showRestart() {
         const flappy = document.querySelector('.flappy');
-        const front = document.querySelector('.juego');
-
+        const btn_play = document.getElementById('btn-jugar');
+        const img_icon = document.getElementById('juego-logo');
+        const btn_full_screen = document.getElementById('btn-pantalla-completa');
+        
+        this.closeMenu();
         flappy.style.display = 'none';
-        front.style.display = 'block';
+        btn_play.style.display = 'block';
+        img_icon.style.display = 'block';
+        btn_full_screen.style.display = 'block';
+    }
+
+    continueGame(){
+        this.closeMenu();
+    }
+
+    closeMenu(){
+        const menu = document.querySelector('.pause');
+        menu.style.display = 'none';
+        const layers = document.querySelectorAll('.layer');
+        document.getElementById('btn-pantalla-completa').style.visibility = 'visible';
+        layers.forEach(layer => {
+            // layer.style.animationPlayState = 'none';
+            layer.style.filter = "none";
+
+        });
     }
 
     showMenu() {
         document.querySelector('.pause').style.display = 'flex';
-
+        document.getElementById('btn-pantalla-completa').style.visibility = 'hidden';
+        const game_div = document.querySelector('.juego');
         const layers = document.querySelectorAll('.layer');
 
 
         layers.forEach(layer => {
             layer.style.animationPlayState = 'none';
+            layer.style.filter = 'blur(2px)';
         });
+
+        game_div.style.border= '1px solid black';
     }
 
     fullScreen() {
