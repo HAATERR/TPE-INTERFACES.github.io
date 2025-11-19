@@ -44,7 +44,7 @@ class Model {
 
         const random_height = Math.floor(Math.random() * max_height);
 
-        if ((this.newTubeMoment() || this.currentTube === 0) && 
+        if ((this.newTubeMoment() || this.currentTube === 0) &&
             this.currentTube < this.amountTube) {
 
             return new Tube(width, random_height, randomPosX);
@@ -66,7 +66,7 @@ class Model {
 
         const pos = tube.getPosX() - this.tubeMovementVel;
 
-        if (!tube.outOfScreen()) 
+        if (!tube.outOfScreen())
             tube.setPosX(pos);
     }
 
@@ -74,8 +74,19 @@ class Model {
         this.score += 1;
     }
 
-    checkFlappyTouch() {
-        return false; // por ahora
+    checkFlappyTouch(bird, tube) {
+
+        const bird_data = bird.getBoundingClientRect();
+        const tube_data = tube.getBoundingClientRect();
+
+        if (bird_data.left <= tube_data.right && bird_data.right >= tube_data.left) {
+            if (bird_data.top <= tube_data.bottom && bird_data.bottom >= tube_data.top) {
+                this.birdState = "dead";
+                return true;
+            }
+        }
+
+        return false;
     }
 
     checkWin() {
@@ -85,4 +96,18 @@ class Model {
     checkLost() {
         return this.checkFlappyTouch();
     }
+
+    tubePassed(bird, tube) {
+        const birdBox = bird.getBoundingClientRect();
+        const tubeBox = tube.getBoundingClientRect();
+
+        if (birdBox.left > tubeBox.right) {
+            this.updateScore();
+        }
+
+    }
+
+
+
 }
+
