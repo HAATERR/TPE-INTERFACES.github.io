@@ -68,9 +68,23 @@ class Model {
     }
 
     // chequee si salio o no del juego
-    checkFlappyOutGame(birdBox, game_div_top, game_div_bottom){
-        
+   checkFlappyOutGame(birdBox, gameBox) {
+
+    // Toca el techo del juego
+    if (birdBox.top <= gameBox.top) {
+        this.birdState = "dead";
+        return true;
     }
+
+    // Toca el piso del juego
+    if (birdBox.bottom >= gameBox.bottom) {
+        this.birdState = "dead";
+        return true;
+    }
+
+    return false;
+}
+
 
     checkLost() {
         return this.birdState === "dead";

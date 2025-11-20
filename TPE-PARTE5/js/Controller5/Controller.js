@@ -70,7 +70,8 @@ class Controller {
         const bird = document.getElementById('bird');
 
         this.view.changeBirdPos(bird, newY);
-        this.checkCollisions();
+        if(this.model.checkLost())
+            this.endGame();
     }
 
     moveDownBird() {
@@ -80,6 +81,8 @@ class Controller {
 
         this.view.changeBirdPos(bird, newY);
         this.checkCollisions();
+        if(this.model.checkLost())
+            this.endGame();
     }
 
     checkCollisions() {
@@ -97,8 +100,7 @@ class Controller {
     }
 
     endGame() {
-        console.log("GAME OVER");
-        this.view.showRestart();
+        alert('perdio');
     }
 
     timerOn(timestamp) {

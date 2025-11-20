@@ -70,26 +70,34 @@ class View {
         document.getElementById('btn-pantalla-completa').style.visibility = 'hidden';
         const game_div = document.querySelector('.juego');
         const layers = document.querySelectorAll('.layer');
-
+        const bird = document.getElementById('bird');
 
         layers.forEach(layer => {
-            layer.style.animationPlayState = 'none';
+            layer.style.animationPlayState = 'paused';
             layer.style.filter = 'blur(2px)';
         });
 
+        bird.style.animationPlayState = 'paused';
+        bird.style.filter = 'blur(2px)';
         game_div.style.border = '1px solid black';
     }
 
     closeMenu() {
         const menu = document.querySelector('.pause');
         menu.style.display = 'none';
+
+        const bird = document.getElementById('bird');
+
         const layers = document.querySelectorAll('.layer');
         document.getElementById('btn-pantalla-completa').style.visibility = 'visible';
         layers.forEach(layer => {
-            // layer.style.animationPlayState = 'none';
+            layer.style.animationPlayState = 'running';
             layer.style.filter = "none";
 
         });
+
+        bird.style.animationPlayState = 'running';
+        bird.style.filter = 'none';
     }
 
     continueGame() {
