@@ -10,14 +10,14 @@ class Model {
 
         this.minTubeDistance = 30;
 
-        this.birdMovementDif = 10;
+        this.birdMovementDif = 20;
         this.birdMovementVel = 1;
 
         this.tubeMovementVel = 3;
         this.lastTubeMade = 0;
 
         this.birdState = "alive";
-
+        this.birdY = 200; 
         this.init();
     }
 
@@ -25,89 +25,54 @@ class Model {
         this.score = 0;
         this.currentTube = 0;
         this.tubes = [];
-
-        const tube = this.createTube();
-
-        if (tube) {
-            this.tubes.push(tube);
-            this.lastTubeMade = 0;
-            this.moveTube(tube);
-        }
     }
 
-    createTube() {
-        const margin = Math.floor(Math.random() * 10);
-        const randomPosX = this.game_width + margin;
+    
+    birdUp(gameHeight) {
+        const newY = this.birdY - this.birdMovementDif;
 
-        const max_height = 80;
-        const width = 40;
-
-        const random_height = Math.floor(Math.random() * max_height);
-
-        if ((this.newTubeMoment() || this.currentTube === 0) &&
-            this.currentTube < this.amountTube) {
-
-            return new Tube(width, random_height, randomPosX);
+        if (newY < 0) {
+            this.birdState = "dead";
         }
 
-        return null;
+        this.birdY = newY;
+        return this.birdY;
     }
 
-    newTubeMoment() {
-        if (this.tubes.length === 0) return true;
+    birdDown(gameHeight) {
+        const newY = this.birdY + this.birdMovementDif;
 
-        const lastTube = this.tubes[this.tubes.length - 1];
-
-        return lastTube.getPosX() < (this.game_width - this.minTubeDistance);
-    }
-
-    moveTube(tube) {
-        if (!tube) return;
-
-        const pos = tube.getPosX() - this.tubeMovementVel;
-
-        if (!tube.outOfScreen())
-            tube.setPosX(pos);
-    }
-
-    updateScore() {
-        this.score += 1;
-    }
-
-    checkFlappyTouch(bird, tube) {
-
-        const bird_data = bird.getBoundingClientRect();
-        const tube_data = tube.getBoundingClientRect();
-
-        if (bird_data.left <= tube_data.right && bird_data.right >= tube_data.left) {
-            if (bird_data.top <= tube_data.bottom && bird_data.bottom >= tube_data.top) {
-                this.birdState = "dead";
-                return true;
-            }
+        if (newY > gameHeight) {
+            this.birdState = "dead";
         }
 
+        this.birdY = newY;
+        return this.birdY;
+    }
+
+   
+    checkFlappyTouch(birdBox, tubeBox) {
+        const overlapX =
+            birdBox.left <= tubeBox.right &&
+            birdBox.right >= tubeBox.left;
+
+        const overlapY =
+            birdBox.top <= tubeBox.bottom &&
+            birdBox.bottom >= tubeBox.top;
+
+        if (overlapX && overlapY) {
+            this.birdState = "dead";
+            return true;
+        }
         return false;
     }
 
-    checkWin() {
-        return !this.checkFlappyTouch() && this.score >= this.amountTube;
+    // chequee si salio o no del juego
+    checkFlappyOutGame(birdBox, game_div_top, game_div_bottom){
+        
     }
 
     checkLost() {
-        return this.checkFlappyTouch();
+        return this.birdState === "dead";
     }
-
-    tubePassed(bird, tube) {
-        const birdBox = bird.getBoundingClientRect();
-        const tubeBox = tube.getBoundingClientRect();
-
-        if (birdBox.left > tubeBox.right) {
-            this.updateScore();
-        }
-
-    }
-
-
-
 }
-
