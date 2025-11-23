@@ -11,7 +11,7 @@ class View {
         return document.getElementById("bird").getBoundingClientRect();
     }
 
-    getTubeBox(tubeEl) {
+    getBox(tubeEl) {
         return tubeEl.getBoundingClientRect();
     }
 
@@ -39,7 +39,6 @@ class View {
             loading.style.display = 'none';
         }, 1200);
 
-        this.showCount();
 
         const btn_change = document.getElementById('btn-pantalla-completa');
         btn_change.style.display = 'block';
@@ -101,6 +100,32 @@ class View {
         return el;
     }
 
+    showAltBirds(altBird) {
+        const el = document.createElement("div");
+        el.classList.add("alternative-bird");
+
+        el.style.position = "absolute";
+        el.style.width = altBird.getWidth() + "px";
+        el.style.height = altBird.getHeight() + "px";
+        el.style.left = altBird.getPosX() + "px";
+        el.style.top = altBird.posY + "px";
+
+        document.querySelector(".juego").appendChild(el);
+    }
+
+    updateAltBirds(birds) {
+    const domBirds = document.querySelectorAll(".alternative-bird");
+
+    domBirds.forEach((dom, i) => {
+        const bird = birds[i];
+
+        if (bird) {
+            dom.style.left = bird.getPosX() + "px";
+        } else {
+            dom.remove();
+        }
+    });
+}
 
 
 
@@ -196,11 +221,11 @@ class View {
 
         }, 500);
 
-        setTimeout( () => {
+        setTimeout(() => {
             document.querySelectorAll('.layer')
-            .forEach(l => l.style.animationPlayState = "paused");
+                .forEach(l => l.style.animationPlayState = "paused");
         }, 15000);
-        
+
 
         setTimeout(() => {
             gameOver.style.display = 'flex';
@@ -209,6 +234,7 @@ class View {
         }, 2000);
     }
 
+    /* NO VA
     showCount() {
         const div = document.querySelector('.timer-start');
         const timer = document.getElementById('timer');
@@ -221,6 +247,8 @@ class View {
 
         div.style.display = 'none';
     }
+
+    */
 
     showScore(score, score_div) {
         score_div.innerHTML = `Puntaje = ${score}`;

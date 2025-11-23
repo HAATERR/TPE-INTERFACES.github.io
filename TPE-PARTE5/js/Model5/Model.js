@@ -1,11 +1,14 @@
 class Model {
-    constructor(tube) {
+    constructor(tube, altBird) {
         this.tube = tube; // el objeto tubo
+        this.altBird = altBird;
 
         this.score = 0; // el puntaje del usuario (cuantos tubos paso + bonus)
         this.amountTube = 20; // la cantidad de tubos del nivel
         this.currentTube = 0; // el tubo por el que va el usuario
         this.tubes = []; // la lista de tubos
+        this.altBirds = []; // lista de pajaros alt
+        this.AltBirdsMade = 0;
 
         this.minTubeDistance = 200; // la distancia entre tubos
 
@@ -31,6 +34,7 @@ class Model {
     init() {
         this.score = 0;
         this.currentTube = 0;
+        this.lastAltBirdMade = 0;
         this.restartTubes();
         this.birdState = "alive";
         this.birdY = 200;
@@ -40,6 +44,7 @@ class Model {
 
     restartTubes() {
         this.tubes = [];
+        this.altBirds = [];
     }
 
     createTube() {
@@ -63,7 +68,34 @@ class Model {
         this.amountTubesCreated += 1;
     }
 
+    createAltBird(game_height) {
+        const height = 100;
+        const width = 100;
 
+        const posY = Math.floor(Math.random() * game_height);
+
+        const newAltBird = new AltBird(width, height, this.game_width, posY);
+        this.altBirds.push(newAltBird);
+        return newAltBird;
+    }
+
+    updateAltBirds(timestamp) {
+    const game_height = document.querySelector(".juego").getBoundingClientRect().height;
+
+    // crear un alt bird cada 2 segundos
+    if (timestamp - this.lastAltBirdMade > 2000) {
+        this.createAltBird(game_height);
+        this.lastAltBirdMade = timestamp;
+    }
+
+    // moverlos hacia la izquierda
+    this.altBirds.forEach(b => {
+        b.setPosX(b.getPosX() - this.tubeMovementVel);
+    });
+
+    // borrar los que salen de pantalla
+    this.altBirds = this.altBirds.filter(b => b.getPosX() > -b.getWidth());
+}
 
 
     updateTubes(timestamp) {

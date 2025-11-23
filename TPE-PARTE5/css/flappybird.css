@@ -109,15 +109,17 @@
     transition: top 0.15s ease-out;
 }
 
-.alternative-bird{
+.alternative-bird {
     position: absolute;
-    height: 200px;
-    width: 200px;
+    width: 100px;
+    height: 100px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-image: url('/TPE-PARTE5/assets/bird2.png');
     z-index: 1000;
 }
+
+
 
 .explosion {
     background-image: url('/TPE-PARTE5/assets/explosion.png') !important;

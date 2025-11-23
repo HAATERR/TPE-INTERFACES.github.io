@@ -6,6 +6,7 @@ class Controller {
 
         this.addListeners();
         this.lastTubeCount = 0;
+        this.lastAltBirdCount = 0;
 
     }
 
@@ -41,8 +42,8 @@ class Controller {
         });
 
         document.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.model.jump();
+            e.preventDefault();
+            this.model.jump();
         });
 
 
@@ -66,17 +67,13 @@ class Controller {
     restartGame() {
         this.onpause = false;
 
-        // Resetear modelo
         this.model.init();
 
-        // Resetear vista
         this.view.resetBirdPos();
         this.view.hideTubes();
 
-        // Resetear contador de tubos nuevos
         this.lastTubeCount = 0;
 
-        // Empezar desde cero
         this.startGame(this.model.tubes);
     }
 
@@ -98,29 +95,6 @@ class Controller {
 
     }
 
-    /*
-    moveUpBird() {
-        const game = document.querySelector('.juego');
-        const newY = this.model.jump();
-        const bird = document.getElementById('bird');
-
-
-        this.view.changeBirdPos(bird, newY);
-        if (this.model.checkLost())
-            this.endGame();
-    }
-
-    moveDownBird() {
-        const game = document.querySelector('.juego');
-        const newY = this.model.birdDown(game.getBoundingClientRect().height);
-        const bird = document.getElementById('bird');
-
-        this.view.changeBirdPos(bird, newY);
-
-        if (this.model.checkLost())
-            this.endGame();
-    }
-        */
 
     checkCollisions() {
         const birdBox = this.view.getBirdBox();
@@ -129,12 +103,22 @@ class Controller {
         const tubeElements = document.querySelectorAll(".tube");
         tubeElements.forEach((tubeEl) => {
 
-            const tubeBox = this.view.getTubeBox(tubeEl);
+            const tubeBox = this.view.getBox(tubeEl);
 
             if (this.model.checkFlappyTouch(birdBox, tubeBox) || this.model.checkFlappyOutGame(birdBox, gameBox)) {
                 this.endGame();
             }
         });
+
+        const altBirds = document.querySelectorAll('.alternative-bird');
+        altBirds.forEach((alt_bird) => {
+            const altBirdBox = this.view.getBox(alt_bird);
+
+            if (this.model.checkFlappyTouch(birdBox, altBirdBox) || this.model.checkFlappyOutGame(birdBox, gameBox)) {
+                this.endGame();
+            }
+        }
+        )
     }
 
     endGame() {
@@ -153,36 +137,41 @@ class Controller {
     timerOn(timestamp) {
         if (this.onpause) return;
 
-        /*
-        const game_height = document.querySelector('.juego').getBoundingClientRect().top;
-        this.model.birdDown(game_height);
-        */
         const bird = document.getElementById('bird');
         this.model.applyGravity();
         this.view.changeBirdPos(bird, this.model.birdY);
 
 
         this.model.updateTubes(timestamp);
+        this.model.updateAltBirds(timestamp);
 
-        // Detectar si pasó un tubo y sumar score
-        this.model.tubePassed(
-            this.view.getBirdBox().left
-        );
-
-        // Crear elementos visuales solo para tubos nuevos
         if (this.model.tubes.length > this.lastTubeCount) {
 
             for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
-                this.view.showTube(this.model.tubes[i]);
+                this.view.showTube(this.model.tubes[i]);   
             }
 
             this.lastTubeCount = this.model.tubes.length;
         }
 
-        // Mover tubos en pantalla
+
+        if (this.model.altBirds.length > this.lastAltBirdCount) {
+
+            for (let i = this.lastAltBirdCount; i < this.model.altBirds.length; i++) {
+                this.view.showAltBirds(this.model.altBirds[i]);
+            }
+
+            this.lastAltBirdCount = this.model.altBirds.length;
+        }
+
+        this.view.updateAltBirds(this.model.altBirds);
+
+        this.model.tubePassed(
+            this.view.getBirdBox().left
+        );
+
         this.view.updateTubes(this.model.tubes);
 
-        // Colisiones
         if (this.checkCollisions()) {
             this.endGame();
             return;
@@ -197,10 +186,6 @@ class Controller {
             requestAnimationFrame((t) => this.timerOn(t));
         }
 
-
-
-
-        // Actualizar marcador en pantalla
         this.playerScore();
     }
 
