@@ -33,16 +33,18 @@ class Controller {
         retry.addEventListener('click', () => this.restartGame());
 
         document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowUp") {
-                e.preventDefault();
-                this.moveUpBird();
-            }
 
-            if (e.key === "ArrowDown") {
+            if (e.key === "ArrowUp" || e.code === "Space") {
                 e.preventDefault();
-                this.moveDownBird();
+                this.model.jump();
             }
         });
+
+        document.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.model.jump();
+        });
+
 
         this.onpause = false;
 
@@ -50,8 +52,14 @@ class Controller {
 
     startGame() {
         this.pause_visibility = true;
+        const bird = document.getElementById('bird');
+        bird.style.animationPlayState = 'running';
+        bird.style.filter = 'none';
+
         this.view.showGame();
-        requestAnimationFrame((t) => this.timerOn(t));
+        setTimeout(() => {
+            requestAnimationFrame((t) => this.timerOn(t));
+        }, 1200);
 
     }
 
@@ -90,10 +98,12 @@ class Controller {
 
     }
 
+    /*
     moveUpBird() {
         const game = document.querySelector('.juego');
-        const newY = this.model.birdUp(game.getBoundingClientRect().height);
+        const newY = this.model.jump();
         const bird = document.getElementById('bird');
+
 
         this.view.changeBirdPos(bird, newY);
         if (this.model.checkLost())
@@ -110,6 +120,7 @@ class Controller {
         if (this.model.checkLost())
             this.endGame();
     }
+        */
 
     checkCollisions() {
         const birdBox = this.view.getBirdBox();
@@ -142,6 +153,14 @@ class Controller {
     timerOn(timestamp) {
         if (this.onpause) return;
 
+        /*
+        const game_height = document.querySelector('.juego').getBoundingClientRect().top;
+        this.model.birdDown(game_height);
+        */
+        const bird = document.getElementById('bird');
+        this.model.applyGravity();
+        this.view.changeBirdPos(bird, this.model.birdY);
+
 
         this.model.updateTubes(timestamp);
 
@@ -169,9 +188,17 @@ class Controller {
             return;
         }
 
+        if (this.model.checkLost()) {
+            this.endGame();
+            return;
+        }
+
         if (!this.model.checkLost()) {
             requestAnimationFrame((t) => this.timerOn(t));
         }
+
+
+
 
         // Actualizar marcador en pantalla
         this.playerScore();

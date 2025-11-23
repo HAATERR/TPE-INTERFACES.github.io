@@ -1,25 +1,29 @@
 class Model {
     constructor(tube) {
-        this.tube = tube;
+        this.tube = tube; // el objeto tubo
 
-        this.score = 0;
-        this.amountTube = 20;
-        this.currentTube = 0;
-        this.tubes = [];
+        this.score = 0; // el puntaje del usuario (cuantos tubos paso + bonus)
+        this.amountTube = 20; // la cantidad de tubos del nivel
+        this.currentTube = 0; // el tubo por el que va el usuario
+        this.tubes = []; // la lista de tubos
 
-        this.minTubeDistance = 30;
+        this.minTubeDistance = 200; // la distancia entre tubos
 
-        this.birdMovementDif = 20;
-        this.birdMovementVel = 1;
+        this.birdMovementDif = 20; // salto del pajaro
+        this.birdMovementVel = 1; // segundos que tarda el bird en moverse
 
-        this.tubeMovementVel = 3;
-        this.lastTubeMade = 0;
+        this.tubeMovementVel = 3; // velocidad del tubo
+        this.lastTubeMade = 0; // el ultimo tubo hecho
 
-        this.birdState = "alive";
-        this.birdY = 200;
-        this.game_width = document.querySelector(".juego").getBoundingClientRect().width;
+        this.birdState = "alive"; // estado del pajaro
+        this.birdY = 200; // pos inicial del pajaro
+        this.game_width = document.querySelector(".juego").getBoundingClientRect().width; // ancho del juego
 
-        this.amountTubesCreated = 0;
+        this.amountTubesCreated = 0; // cantidad de tubos creados por el momento
+
+        this.gravity = 0.5;
+        this.jumpStrength = -8;
+        this.birdVelocity = 0;
 
         this.init();
     }
@@ -29,8 +33,9 @@ class Model {
         this.currentTube = 0;
         this.restartTubes();
         this.birdState = "alive";
-        bird.style.top = "200px"; 
         this.birdY = 200;
+        const bird = document.getElementById("bird");
+        bird.style.top = "200px";
     }
 
     restartTubes() {
@@ -41,7 +46,7 @@ class Model {
 
         if (this.amountTubesCreated >= this.amountTube) return;
 
-        const gap = 200;
+        const gap = this.minTubeDistance;
         const totalHeight = document.querySelector(".juego").getBoundingClientRect().height;
 
         const topHeight = Math.floor(Math.random() * 200) + 50;
@@ -72,15 +77,12 @@ class Model {
             tube.setPosX(tube.getPosX() - this.tubeMovementVel);
         });
 
-        // Guardar cantidad ANTES de filtrar
         const oldLength = this.tubes.length;
 
-        // Borrar tubos fuera de pantalla
         this.tubes = this.tubes.filter(tube =>
             tube.getPosX() > -tube.getWidth()
         );
 
-        // Ajustar currentTube si se borraron tubos delante de él
         const removed = oldLength - this.tubes.length;
 
         if (removed > 0) {
@@ -89,9 +91,14 @@ class Model {
     }
 
 
+    generateSecondaryCharacter() {
+        // idea: crear un personaje secundario en un momento random
+        // agregar una funcion que verifique si no lo toco
+        // si no lo toco, bonus
+        // modificar la forma de subir puntaje y de evaluar si ganaste
+    }
 
-
-
+    /*
     birdUp(gameHeight) {
         const newY = this.birdY - this.birdMovementDif;
 
@@ -104,7 +111,7 @@ class Model {
     }
 
     birdDown(gameHeight) {
-        const newY = this.birdY + this.birdMovementDif;
+        const newY = this.birdY + this.gravity;
 
         if (newY > gameHeight) {
             this.birdState = "dead";
@@ -113,7 +120,23 @@ class Model {
         this.birdY = newY;
         return this.birdY;
     }
+        */
 
+    applyGravity() {
+
+        // agregar gravedad a la velocidad
+        this.birdVelocity += this.gravity;
+
+        // mover
+        this.birdY += this.birdVelocity;
+
+        return this.birdY;
+    }
+
+    jump() {
+        // impulso instantáneo
+        this.birdVelocity = this.jumpStrength;
+    }
 
     checkFlappyTouch(birdBox, tubeBox) {
         const overlapX =
@@ -131,37 +154,30 @@ class Model {
         return false;
     }
 
-    // chequee si salio o no del juego
     checkFlappyOutGame(birdBox, gameBox) {
-
-        // Toca el techo del juego
         if (birdBox.top <= gameBox.top) {
             this.birdState = "dead";
-            this.birdY = 200;
             return true;
         }
 
-        // Toca el piso del juego
         if (birdBox.bottom >= gameBox.bottom) {
             this.birdState = "dead";
-            this.birdY = 200;
             return true;
         }
 
         return false;
     }
 
+
     tubePassed(bird_left) {
 
         const tube = this.tubes[this.currentTube];
 
-        // Si el tubo no existe → no se hace nada
         if (!tube) return false;
 
         const passed = bird_left > (tube.getPosX() + tube.getWidth());
 
         if (passed) {
-            // Sumar punto solo cuando pasa el tubo BOTTOM
             if (tube.type === "bottom") {
                 this.updateScore();
             }
@@ -175,9 +191,6 @@ class Model {
         this.score++;
     }
 
-
-
-
     checkLost() {
         return this.birdState === "dead";
     }
@@ -185,6 +198,25 @@ class Model {
     checkWin() {
         return this.score === this.amountTube;
     }
+
+    checkCollisions() {
+        const birdBox = this.view.getBirdBox();
+        const gameBox = document.querySelector('.juego').getBoundingClientRect();
+
+        const tubeElements = document.querySelectorAll(".tube");
+        for (const tubeEl of tubeElements) {
+
+            const tubeBox = this.view.getTubeBox(tubeEl);
+
+            if (this.model.checkFlappyTouch(birdBox, tubeBox) ||
+                this.model.checkFlappyOutGame(birdBox, gameBox)) {
+                return true; // <──✔
+            }
+        }
+
+        return false;
+    }
+
 
 
 

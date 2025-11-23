@@ -178,9 +178,11 @@ class View {
         const bird = document.getElementById("bird");
         const flappy = document.querySelector(".flappy");
         const gameOver = document.getElementById("game-over");
+        const btn_pause = document.getElementById('btn-pantalla-completa');
 
-        document.querySelectorAll('.layer')
-            .forEach(l => l.style.animationPlayState = "paused");
+        btn_pause.style.visibility = 'hidden';
+
+
 
         const birdTop = bird.getBoundingClientRect().top;
         bird.style.setProperty('--bird-top', birdTop + "px");
@@ -189,10 +191,16 @@ class View {
 
         setTimeout(() => {
 
-            bird.classList.remove('explosion');  
-            bird.classList.add('deadBird');       
+            bird.classList.remove('explosion');
+            bird.classList.add('deadBird');
 
         }, 500);
+
+        setTimeout( () => {
+            document.querySelectorAll('.layer')
+            .forEach(l => l.style.animationPlayState = "paused");
+        }, 15000);
+        
 
         setTimeout(() => {
             gameOver.style.display = 'flex';
