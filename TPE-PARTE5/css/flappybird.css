@@ -43,24 +43,48 @@
 }
 
 .juego {
-  position: relative;
-  width: 80%;
-  height: 500px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  background-image: url('../assets/flappylogo.jpg');
-  background-size: 100%, 100%;  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-  background-blend-mode: lighten;
+    position: relative;
+    width: 80%;
+    height: 500px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-image: url('../assets/flappylogo.jpg');
+    background-size: 100% 100%;
+    background-color: black;
+    background-blend-mode: lighten;
+    overflow-x: hidden;
 }
 
-#juego-logo{
+#juego-logo {
     border: 1px solid var(--MENU_PERFIL);
 }
+
+.score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    color: var(--ACCENT_COLOR);
+    font-size: 20px;
+}
+
+.tube {
+    display: block;
+    bottom: 0px;
+    position: absolute;
+    bottom: 0;
+    background-image: url('/TPE-PARTE5/assets/tube2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 999;
+    background-position: center bottom;
+    image-rendering: pixelated;
+}
+
+.tube-top {
+    transform: rotate(180deg);
+}
+
 
 .flappy {
     display: none;
@@ -75,21 +99,51 @@
     height: 104px;
     position: absolute;
     left: 20%;
-    top: 50%;
+    top: var(--bird-top, 50%);
     transform: translate(-50%, -50%);
-    background-image: url("/TPE-PARTE5/assets/birds.png"); 
+    background-image: url("/TPE-PARTE5/assets/birds.png");
     background-repeat: no-repeat;
     background-size: 312px 104px;
     animation: birdFly 0.5s steps(3) infinite;
     z-index: 50;
-     transition: top 0.15s ease-out;
+    transition: top 0.15s ease-out;
+}
+
+
+.explosion {
+    background-image: url('/TPE-PARTE5/assets/explosion.png') !important;
+    background-size: 104px 104px !important;
+    animation: none !important;
+}
+
+.deadBird {
+    background-image: url('/TPE-PARTE5/assets/deadflappy.png') !important;
+    background-size: 104px 104px !important;
+    animation: birdFall 1.5s ease-in forwards !important;
+}
+
+
+@keyframes birdFall {
+   from {
+        top: var(--bird-top); /* El punto real donde está al morir */
+    }
+
+    to {
+        top: 120%;  /* Cae más allá de la parte inferior del div */
+    }
+
 }
 
 @keyframes birdFly {
-    from { background-position-x: 0; }
-    to   { background-position-x: -312px; } 
+    from {
+        background-position-x: 0;
+    }
+
+    to {
+        background-position-x: -312px;
+    }
 }
- 
+
 
 .layer {
     min-height: 500px;
@@ -102,54 +156,56 @@
     overflow-x: hidden;
     background-size: auto 100%;
     z-index: 1;
+    background-repeat: cover;
 }
 
 
 .layer1 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_1.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/9.png');
     animation: movement 4s linear infinite;
 }
 
 .layer2 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_2.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/8.png');
     animation: movement 5s linear infinite;
 }
 
 .layer3 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_3.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/7.png');
     animation: movement 8s linear infinite;
 }
 
 .layer4 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_4.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/6.png');
     animation: movement 10s linear infinite;
 }
 
 .layer5 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_5.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/5.png');
     animation: movement 14s linear infinite;
 }
 
 .layer6 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_6.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/4.png');
     animation: movement 18s linear infinite;
 }
 
 .layer7 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_7.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/3.png');
     animation: movement 25s linear infinite;
 }
 
 .layer8 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_8.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/2.png');
     animation: movement 40s linear infinite;
 }
 
 .layer9 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_9.png');
+    background-image: url('/TPE-PARTE5/assets/bg4/1.png');
     animation: movement 60s linear infinite;
 }
 
+/*
 .layer10 {
     background-image: url('/TPE-PARTE5/assets/bg-layers/bg_10.png');
     animation: movement 80s linear infinite;
@@ -165,7 +221,7 @@
     background-image: url('/TPE-PARTE5/assets/bg-layers/bg_12.png');
     animation: movement 10s linear infinite;
 }
-
+*/
 @keyframes movement {
     from {
         background-position-x: 0;
@@ -175,10 +231,11 @@
         background-position-x: -200%;
     }
 }
+
 .loading {
     position: absolute;
     display: none;
-    z-index: 2000; 
+    z-index: 2000;
     background: radial-gradient(var(--BLACK_NEUTRAL), var(--PRIMARY-SHADOW2));
     justify-content: center;
     align-items: center;
@@ -249,15 +306,16 @@
     justify-content: center;
 }
 
-#btn-continue{
+#btn-continue {
     background: radial-gradient(at center, var(--BTN_JUGAR), var(--MENU_PERFIL));
 }
 
-#btn-restart{
+#btn-restart {
     background: radial-gradient(at center, var(--PRIMARY-SHADOW2), var(--HEADER_BG));
 }
 
-#btn-restart img, #btn-continue img{
+#btn-restart img,
+#btn-continue img {
     height: 20px;
     width: 20px;
 }
@@ -274,7 +332,7 @@
     animation: fade 1.5s forwards;
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
 }
 
 .btn-menu-show img {
@@ -282,7 +340,63 @@
     width: 30px;
 }
 
-@Keyframes fade {
+
+/* El pájaro cae girando */
+.deadBirdCinematic {
+    animation: birdFall 1.5s ease-in forwards;
+}
+
+
+
+.show {
+    display: block;
+}
+
+/* Fondo congelado */
+.freezeLayers .layer {
+    animation-play-state: paused !important;
+}
+
+/* Pantalla de Game Over (aparece después) */
+.game-over-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-out;
+    color: var(--WHITE_NEUTRAL);
+}
+
+.game-over-screen.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+.game-over-screen button {
+    margin-top: 20px;
+    padding: 12px 28px;
+    font-size: 1.4rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: #ffe66d;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .3);
+    transition: transform .2s ease;
+}
+
+.game-over-screen button:hover {
+    transform: scale(1.08);
+}
+
+
+
+@keyframes fade {
     from {
         opacity: 0;
     }
@@ -291,4 +405,3 @@
         opacity: 1;
     }
 }
-

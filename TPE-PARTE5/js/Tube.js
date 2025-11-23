@@ -1,8 +1,9 @@
 class Tube{
-    constructor(width, height, posX){
+    constructor(width, height, posX, type){
         this.width = width;
         this.height = height;
         this.posX = posX;
+        this.type = type;
     }
 
     getHeight(){
@@ -28,10 +29,5 @@ class Tube{
     setPosX(newPosX){
         this.posX = newPosX;
     }
-
-    touched(){
-
-    }
-
  
 }

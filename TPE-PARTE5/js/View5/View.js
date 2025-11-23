@@ -1,7 +1,7 @@
 class View {
     constructor() {
         this.pause_visibility = false;
-     }
+    }
 
     changeBirdPos(bird, newY) {
         bird.style.top = newY + "px";
@@ -15,13 +15,20 @@ class View {
         return tubeEl.getBoundingClientRect();
     }
 
+    resetBirdPos() {
+        const bird = document.getElementById('bird');
+        bird.style.top = "200px";
+    }
+
+
     showGame() {
         document.getElementById("juego-logo").style.display = "none";
         document.getElementById("btn-jugar").style.display = "none";
-        document.querySelector(".flappy").style.display = "flex";
+        document.querySelector(".flappy").style.display = 'block';
         document.querySelector('.juego').style.background = 'none';
+        document.getElementById('game-over').style.display = 'none';
         const icon = document.getElementById('icon-pantalla-completa');
-        
+
 
 
         const loading = document.querySelector(".loading");
@@ -31,6 +38,8 @@ class View {
         setTimeout(() => {
             loading.style.display = 'none';
         }, 1200);
+
+        this.showCount();
 
         const btn_change = document.getElementById('btn-pantalla-completa');
         btn_change.style.display = 'block';
@@ -49,6 +58,10 @@ class View {
         const game_div = document.querySelector('.juego');
         const icon = document.getElementById('icon-pantalla-completa');
         const btn_change = document.getElementById("btn-pantalla-completa");
+        const bird = document.getElementById('bird');
+        document.getElementById('game-over').style.display = 'none';
+        bird.classList.remove('deadeBird');
+        bird.classList.remove('show');
 
         this.closeMenu();
         flappy.style.display = 'none';
@@ -64,6 +77,53 @@ class View {
         btn_change.classList.remove('btn-menu-show');
         this.pause_visibility = false;
     }
+
+
+    showTube(tube) {
+        const el = document.createElement("div");
+        el.classList.add("tube");
+
+        if (tube.type === "top") {
+            el.classList.add("tube-top");
+            el.style.bottom = "auto";
+            el.style.top = "0";
+        } else {
+            el.classList.add("tube-bottom");
+            el.style.bottom = "0";
+        }
+
+        document.querySelector(".juego").prepend(el);
+
+        el.style.width = tube.getWidth() + "px";
+        el.style.height = tube.getHeight() + "px";
+        el.style.left = tube.getPosX() + "px";
+
+        return el;
+    }
+
+
+
+
+    updateTubes(tubes) {
+        const domTubes = document.querySelectorAll(".tube");
+
+        domTubes.forEach((dom, i) => {
+            const tube = tubes[i];
+
+            if (tube) {
+                dom.style.left = tube.getPosX() + "px";
+                dom.style.height = tube.getHeight() + "px";
+            } else {
+                dom.remove(); // tubo salió de pantalla → eliminar
+            }
+        });
+    }
+
+    hideTubes(tubes) {
+        document.querySelectorAll(".tube").forEach(t => t.remove());
+        this.closeMenu();
+    }
+
 
     showMenu() {
         document.querySelector('.pause').style.display = 'flex';
@@ -111,5 +171,50 @@ class View {
         } else {
             this.showMenu();
         }
+    }
+
+    showLost() {
+
+        const bird = document.getElementById("bird");
+        const flappy = document.querySelector(".flappy");
+        const gameOver = document.getElementById("game-over");
+
+        document.querySelectorAll('.layer')
+            .forEach(l => l.style.animationPlayState = "paused");
+
+        const birdTop = bird.getBoundingClientRect().top;
+        bird.style.setProperty('--bird-top', birdTop + "px");
+
+        bird.classList.add('explosion');
+
+        setTimeout(() => {
+
+            bird.classList.remove('explosion');  
+            bird.classList.add('deadBird');       
+
+        }, 500);
+
+        setTimeout(() => {
+            gameOver.style.display = 'flex';
+            flappy.style.display = 'none';
+            gameOver.classList.add("show");
+        }, 2000);
+    }
+
+    showCount() {
+        const div = document.querySelector('.timer-start');
+        const timer = document.getElementById('timer');
+
+        div.style.display = 'block';
+
+        for (let i = 1; i <= 3; i++) {
+            timer.innerHTML = `${i}`;
+        }
+
+        div.style.display = 'none';
+    }
+
+    showScore(score, score_div) {
+        score_div.innerHTML = `Puntaje = ${score}`;
     }
 }

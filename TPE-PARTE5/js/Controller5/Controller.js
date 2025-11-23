@@ -5,6 +5,8 @@ class Controller {
         this.view = view;
 
         this.addListeners();
+        this.lastTubeCount = 0;
+
     }
 
     addListeners() {
@@ -27,6 +29,9 @@ class Controller {
         const continue_menu = document.getElementById('btn-continue');
         continue_menu.addEventListener('click', () => this.continueGame());
 
+        const retry = document.getElementById('retry-btn');
+        retry.addEventListener('click', () => this.restartGame());
+
         document.addEventListener("keydown", (e) => {
             if (e.key === "ArrowUp") {
                 e.preventDefault();
@@ -39,29 +44,50 @@ class Controller {
             }
         });
 
+        this.onpause = false;
+
     }
 
     startGame() {
         this.pause_visibility = true;
         this.view.showGame();
+        requestAnimationFrame((t) => this.timerOn(t));
+
     }
 
-     restartGame() {
-        this.view.showRestart();
+    restartGame() {
+        this.onpause = false;
+
+        // Resetear modelo
+        this.model.init();
+
+        // Resetear vista
+        this.view.resetBirdPos();
+        this.view.hideTubes();
+
+        // Resetear contador de tubos nuevos
+        this.lastTubeCount = 0;
+
+        // Empezar desde cero
+        this.startGame(this.model.tubes);
     }
 
-    continueGame(){
+
+    continueGame() {
+        this.onpause = false;
         this.view.continueGame();
+        requestAnimationFrame((t) => this.timerOn(t));
     }
 
-     evaluateScreenMenu() {
+    evaluateScreenMenu() {
         if (this.view.pause_visibility) {
+            this.onpause = true;
             this.view.showMenu();
-        }else{
+        } else {
             this.view.fullScreen();
         }
 
-        
+
     }
 
     moveUpBird() {
@@ -70,7 +96,7 @@ class Controller {
         const bird = document.getElementById('bird');
 
         this.view.changeBirdPos(bird, newY);
-        if(this.model.checkLost())
+        if (this.model.checkLost())
             this.endGame();
     }
 
@@ -80,38 +106,89 @@ class Controller {
         const bird = document.getElementById('bird');
 
         this.view.changeBirdPos(bird, newY);
-        this.checkCollisions();
-        if(this.model.checkLost())
+
+        if (this.model.checkLost())
             this.endGame();
     }
 
     checkCollisions() {
         const birdBox = this.view.getBirdBox();
+        const gameBox = document.querySelector('.juego').getBoundingClientRect();
 
         const tubeElements = document.querySelectorAll(".tube");
         tubeElements.forEach((tubeEl) => {
 
             const tubeBox = this.view.getTubeBox(tubeEl);
 
-            if (this.model.checkFlappyTouch(birdBox, tubeBox)) {
+            if (this.model.checkFlappyTouch(birdBox, tubeBox) || this.model.checkFlappyOutGame(birdBox, gameBox)) {
                 this.endGame();
             }
         });
     }
 
     endGame() {
-        alert('perdio');
+        if (this.model.checkLost()) {
+            this.model.restartTubes();
+            this.view.hideTubes(this.model.tubes);
+            this.handleGameLost();
+            return;
+        }
+
+        if (this.model.checkWin()) {
+            this.handleGameWin();
+        }
     }
 
     timerOn(timestamp) {
+        if (this.onpause) return;
 
+
+        this.model.updateTubes(timestamp);
+
+        // Detectar si pasó un tubo y sumar score
+        this.model.tubePassed(
+            this.view.getBirdBox().left
+        );
+
+        // Crear elementos visuales solo para tubos nuevos
+        if (this.model.tubes.length > this.lastTubeCount) {
+
+            for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
+                this.view.showTube(this.model.tubes[i]);
+            }
+
+            this.lastTubeCount = this.model.tubes.length;
+        }
+
+        // Mover tubos en pantalla
+        this.view.updateTubes(this.model.tubes);
+
+        // Colisiones
+        if (this.checkCollisions()) {
+            this.endGame();
+            return;
+        }
+
+        if (!this.model.checkLost()) {
+            requestAnimationFrame((t) => this.timerOn(t));
+        }
+
+        // Actualizar marcador en pantalla
+        this.playerScore();
     }
 
-    handleGameOver() {
 
+    playerScore() {
+        const score_div = document.querySelector('.score');
+        const actual_score = this.model.score;
+        this.view.showScore(actual_score, score_div);
     }
 
     handleGameWin() {
 
+    }
+
+    handleGameLost() {
+        this.view.showLost();
     }
 }

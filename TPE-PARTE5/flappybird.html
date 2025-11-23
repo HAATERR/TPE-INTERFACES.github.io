@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flappy Bird</title>
     <link rel="stylesheet" href="css/style_game_page.css">
-    <link rel="icon" type="img/png" href="assets/birds.png">
+    <link rel="icon" type="img/png" href="assets/deadflappy.png">
     <link rel="stylesheet" href="css/flappybird.css">
 </head>
 
@@ -85,6 +85,7 @@
             <button id="btn-jugar">Jugar</button>
 
             <div class="flappy">
+                <p class="score">Puntaje: </p>
                 <div id="bird"></div>
                 <div class="layer layer12"></div>
                 <div class="layer layer11"></div>
@@ -98,8 +99,12 @@
                 <div class="layer layer3"></div>
                 <div class="layer layer2"></div>
                 <div class="layer layer1"></div>
+
+                <div class="timer-start">
+                    <p id="timer"></p>
+                </div>
             </div>
-            
+
             <div class="pause">
                 <img src="assets/close_menu.png" alt="" id="close-menu">
                 <div class="pause-header">
@@ -116,6 +121,13 @@
                 <img src="https://media.tenor.com/2BLI5EO7yVAAAAAi/loading-image.gif" alt="">
                 <p>Loading...</p>
             </div>
+
+            <div class="game-over-screen" id="game-over">
+                <img src="assets/deadflappy.png" alt="">
+                <div>GAME OVER</div>
+                <button id="retry-btn">Reiniciar</button>
+            </div>
+
         </div>
         </div>
         <div class="game-bar">
@@ -439,6 +451,7 @@
         </div>
     </footer>
     <script src="js/game-page.js"></script>
+    <script src="js/Tube.js"></script>
     <script src="js/main5.js"></script>
     <script src="js/Controller5/Controller.js"></script>
     <script src="js/Model5/Model.js"></script>

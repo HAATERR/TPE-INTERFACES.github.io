@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const cant_movements = 31;
-  const canvas_w = 800;
-  const canvas_h = 800;
-  const duration = 35000;
-  const temp = document.getElementById('timer');
+  
+  const canvas_width = 800;
 
-  const model = new Model();
+ 
+  const model = new Model(canvas_width, Tube);
+
   const view = new View();
-  const controller = new Controller(model, view);
-  view.model = model;
-});
 
+  const controller = new Controller(model, view);
+
+});
