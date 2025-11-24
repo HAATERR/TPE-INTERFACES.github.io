@@ -85,9 +85,10 @@
             <button id="btn-jugar">Jugar</button>
 
             <div class="flappy">
-                <p class="score">Puntaje: </p>
-                <div class="alternative-bird"></div>
+                <p class="score"> Puntaje: </p>
+                <div id="bird-wrapper">
                 <div id="bird"></div>
+                </div>
                 <div class="layer layer12"></div>
                 <div class="layer layer11"></div>
                 <div class="layer layer10"></div>
@@ -102,8 +103,10 @@
                 <div class="layer layer1"></div>
 
                 <div class="timer-start">
-                    <p id="timer"></p>
+                    <span class="timer-label"></span>
+                    <span id="timer"></span>
                 </div>
+
             </div>
 
             <div class="pause">
@@ -128,8 +131,12 @@
                 <div>GAME OVER</div>
                 <button id="retry-btn">Reiniciar</button>
             </div>
-
-        </div>
+            <div class="game-win-screen" id="game-win">
+                <img src="assets/bird-happy.png" alt="" width="238" height="208">
+                <div>¡GANASTE!</div>
+                <p id="win-score"></p>
+                <button id="win-retry-btn">Reiniciar</button>
+            </div>
         </div>
         <div class="game-bar">
             <div class="game-bar-izq">

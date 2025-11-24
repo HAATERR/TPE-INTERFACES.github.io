@@ -62,10 +62,10 @@
 .score {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5px;
     z-index: 1000;
     color: var(--ACCENT_COLOR);
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .tube {
@@ -94,19 +94,32 @@
     overflow: hidden;
 }
 
+/* ENVOLTORIO QUE SE MUEVE CON LA GRAVEDAD */
+#bird-wrapper {
+    position: absolute;
+    left: 20%;
+    top: 50%;                 /* SIEMPRE arranca centrado */
+    transform: translate(-50%, -50%);
+    width: 104px;
+    height: 104px;
+    z-index: 50;
+    pointer-events: none;
+}
+
 #bird {
     width: 104px;
     height: 104px;
     position: absolute;
-    left: 20%;
-    top: var(--bird-top, 50%);
-    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;                   /* SIEMPRE 0, el que se mueve es el wrapper */
     background-image: url("/TPE-PARTE5/assets/birds.png");
     background-repeat: no-repeat;
     background-size: 312px 104px;
-    animation: birdFly 0.5s steps(3) infinite;
     z-index: 50;
-    transition: top 0.15s ease-out;
+}
+
+.bird-fly {
+    animation: birdFly 0.5s steps(3) infinite;
 }
 
 .alternative-bird {
@@ -416,3 +429,68 @@
         opacity: 1;
     }
 }
+
+.timer-start {
+    position: absolute;
+    top: 50px;                /* justo debajo del puntaje */
+    left: 0px;
+    z-index: 1000;
+    color: var(--ACCENT_COLOR);
+    font-size: 25px;          /* mismo tamaño que .score */
+    font-family: inherit;
+    padding-left: 5px;        /* igual al score */
+}
+
+.game-win-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-out;
+    color: var(--WHITE_NEUTRAL);
+    font-size: 2rem;
+}
+
+.game-win-screen.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.game-win-screen button {
+    margin-top: 20px;
+    padding: 12px 28px;
+    font-size: 1.4rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: #a5ff8f;
+    box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+
+/* ANIMACIÓN REALISTA DE VICTORIA */
+.win-celebrate {
+    background-image: url("/TPE-PARTE5/assets/birds.png") ;
+    animation: birdBackflip 1.2s ease-out forwards;
+}
+
+@keyframes birdBackflip {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        top: var(--bird-top);
+    }
+    30% {
+        transform: translate(-50%, -60%) rotate(180deg) scale(1.2);
+    }
+    60% {
+        transform: translate(-50%, -45%) rotate(360deg) scale(1.15);
+    }
+    100% {
+        transform: translate(-50%, -40%) rotate(360deg) scale(1.2);
+    }
+}
+

@@ -1,28 +1,28 @@
 class Model {
     constructor(tube, altBird) {
-        this.tube = tube; // el objeto tubo
+        this.tube = tube;
         this.altBird = altBird;
 
-        this.score = 0; // el puntaje del usuario (cuantos tubos paso + bonus)
-        this.amountTube = 20; // la cantidad de tubos del nivel
-        this.currentTube = 0; // el tubo por el que va el usuario
-        this.tubes = []; // la lista de tubos
-        this.altBirds = []; // lista de pajaros alt
+        this.score = 0;
+        this.amountTube = 20;
+        this.currentTube = 0;
+        this.tubes = [];
+        this.altBirds = [];
         this.AltBirdsMade = 0;
 
-        this.minTubeDistance = 200; // la distancia entre tubos
+        this.minTubeDistance = 200;
 
-        this.birdMovementDif = 20; // salto del pajaro
-        this.birdMovementVel = 1; // segundos que tarda el bird en moverse
+        this.birdMovementDif = 20;
+        this.birdMovementVel = 1;
 
-        this.tubeMovementVel = 3; // velocidad del tubo
-        this.lastTubeMade = 0; // el ultimo tubo hecho
+        this.tubeMovementVel = 3;
+        this.lastTubeMade = 0;
 
-        this.birdState = "alive"; // estado del pajaro
-        this.birdY = 200; // pos inicial del pajaro
-        this.game_width = document.querySelector(".juego").getBoundingClientRect().width; // ancho del juego
+        this.birdState = "alive";
+        this.birdY = 250;
+        this.game_width = document.querySelector(".juego").getBoundingClientRect().width;
 
-        this.amountTubesCreated = 0; // cantidad de tubos creados por el momento
+        this.amountTubesCreated = 0;
 
         this.gravity = 0.5;
         this.jumpStrength = -8;
@@ -32,15 +32,30 @@ class Model {
     }
 
     init() {
+        // PUNTAJE / PROGRESO
         this.score = 0;
         this.currentTube = 0;
+
+        // CONTADORES PARA CREAR COSAS
+        this.amountTubesCreated = 0;
+        this.lastTubeMade = 0;
         this.lastAltBirdMade = 0;
-        this.restartTubes();
+
+        // ESTADO DEL PÁJARO
         this.birdState = "alive";
-        this.birdY = 200;
+        this.birdY = 250;
+        this.birdVelocity = 0;
+
+        // LISTAS
+        this.restartTubes(); // tubes = [] y altBirds = []
+
+        /* (ya no usa) // posición visual del pájaro
         const bird = document.getElementById("bird");
-        bird.style.top = "200px";
+        if (bird) {
+            bird.style.top = "200px";
+        }*/
     }
+
 
     restartTubes() {
         this.tubes = [];
@@ -48,7 +63,6 @@ class Model {
     }
 
     createTube() {
-
         if (this.amountTubesCreated >= this.amountTube) return;
 
         const gap = this.minTubeDistance;
@@ -72,7 +86,11 @@ class Model {
         const height = 100;
         const width = 100;
 
-        const posY = Math.floor(Math.random() * game_height);
+        // AltBird aparece entre los tubos actuales
+        let gapTop = 80;
+        let gapBottom = game_height - 180;
+
+        const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
 
         const newAltBird = new AltBird(width, height, this.game_width, posY);
         this.altBirds.push(newAltBird);
@@ -80,22 +98,22 @@ class Model {
     }
 
     updateAltBirds(timestamp) {
-    const game_height = document.querySelector(".juego").getBoundingClientRect().height;
+        const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
-    // crear un alt bird cada 2 segundos
-    if (timestamp - this.lastAltBirdMade > 2000) {
-        this.createAltBird(game_height);
-        this.lastAltBirdMade = timestamp;
+        // crear un alt bird cada 2 segundos
+        if (timestamp - this.lastAltBirdMade > 2000) {
+            this.createAltBird(game_height);
+            this.lastAltBirdMade = timestamp;
+        }
+
+        // moverlos hacia la izquierda
+        this.altBirds.forEach(b => {
+            b.setPosX(b.getPosX() - this.tubeMovementVel);
+        });
+
+        // borrar los que salen de pantalla
+        this.altBirds = this.altBirds.filter(b => b.getPosX() > -b.getWidth());
     }
-
-    // moverlos hacia la izquierda
-    this.altBirds.forEach(b => {
-        b.setPosX(b.getPosX() - this.tubeMovementVel);
-    });
-
-    // borrar los que salen de pantalla
-    this.altBirds = this.altBirds.filter(b => b.getPosX() > -b.getWidth());
-}
 
 
     updateTubes(timestamp) {
@@ -230,27 +248,5 @@ class Model {
     checkWin() {
         return this.score === this.amountTube;
     }
-
-    checkCollisions() {
-        const birdBox = this.view.getBirdBox();
-        const gameBox = document.querySelector('.juego').getBoundingClientRect();
-
-        const tubeElements = document.querySelectorAll(".tube");
-        for (const tubeEl of tubeElements) {
-
-            const tubeBox = this.view.getTubeBox(tubeEl);
-
-            if (this.model.checkFlappyTouch(birdBox, tubeBox) ||
-                this.model.checkFlappyOutGame(birdBox, gameBox)) {
-                return true; // <──✔
-            }
-        }
-
-        return false;
-    }
-
-
-
-
 
 }

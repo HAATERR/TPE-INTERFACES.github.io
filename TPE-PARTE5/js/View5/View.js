@@ -3,17 +3,43 @@ class View {
         this.pause_visibility = false;
     }
 
-    changeBirdPos(bird, newY) {
-        bird.style.top = newY + "px";
+    changeBirdPos(newY) {
+        const wrapper = document.getElementById("bird-wrapper");
+        wrapper.style.top = newY + "px";
     }
+
 
     getBirdBox() {
-        return document.getElementById("bird").getBoundingClientRect();
+        const bird = document.getElementById("bird");
+        return bird.getBoundingClientRect();
     }
 
-    getBox(tubeEl) {
+    getTubeBox(tubeEl) {
         return tubeEl.getBoundingClientRect();
     }
+
+    getReducedBirdBox() {
+        const box = this.getBirdBox();
+        const reduce = 5;
+        return {
+            top: box.top + reduce,
+            bottom: box.bottom - reduce,
+            left: box.left + reduce,
+            right: box.right - reduce
+        };
+    }
+
+    getReducedTubeBox(tubeEl) {
+        const box = tubeEl.getBoundingClientRect();
+        return {
+            top: box.top + 5,
+            bottom: box.bottom - 5,
+            left: box.left + 5,
+            right: box.right - 5
+        };
+    }
+
+
 
     resetBirdPos() {
         const bird = document.getElementById('bird');
@@ -114,18 +140,18 @@ class View {
     }
 
     updateAltBirds(birds) {
-    const domBirds = document.querySelectorAll(".alternative-bird");
+        const domBirds = document.querySelectorAll(".alternative-bird");
 
-    domBirds.forEach((dom, i) => {
-        const bird = birds[i];
+        domBirds.forEach((dom, i) => {
+            const bird = birds[i];
 
-        if (bird) {
-            dom.style.left = bird.getPosX() + "px";
-        } else {
-            dom.remove();
-        }
-    });
-}
+            if (bird) {
+                dom.style.left = bird.getPosX() + "px";
+            } else {
+                dom.remove();
+            }
+        });
+    }
 
 
 
@@ -144,10 +170,10 @@ class View {
         });
     }
 
-    hideTubes(tubes) {
+    hideTubes() {
         document.querySelectorAll(".tube").forEach(t => t.remove());
-        this.closeMenu();
     }
+
 
 
     showMenu() {
@@ -161,6 +187,11 @@ class View {
             layer.style.animationPlayState = 'paused';
             layer.style.filter = 'blur(2px)';
         });
+        document.querySelectorAll('.layer').forEach(layer => {
+            layer.style.animationPlayState = 'running';
+            layer.style.filter = "none";
+        });
+
 
         bird.style.animationPlayState = 'paused';
         bird.style.filter = 'blur(2px)';
@@ -198,6 +229,13 @@ class View {
         }
     }
 
+    hideLost() {
+        const gameOver = document.getElementById("game-over");
+        gameOver.style.display = "none";
+        gameOver.classList.remove("show");
+    }
+
+
     showLost() {
 
         const bird = document.getElementById("bird");
@@ -207,7 +245,8 @@ class View {
 
         btn_pause.style.visibility = 'hidden';
 
-
+        // OCULTAR pájaros alternativos cuando pierde
+        document.querySelectorAll(".alternative-bird").forEach(el => el.style.display = "none");
 
         const birdTop = bird.getBoundingClientRect().top;
         bird.style.setProperty('--bird-top', birdTop + "px");
@@ -215,17 +254,9 @@ class View {
         bird.classList.add('explosion');
 
         setTimeout(() => {
-
             bird.classList.remove('explosion');
             bird.classList.add('deadBird');
-
         }, 500);
-
-        setTimeout(() => {
-            document.querySelectorAll('.layer')
-                .forEach(l => l.style.animationPlayState = "paused");
-        }, 15000);
-
 
         setTimeout(() => {
             gameOver.style.display = 'flex';
@@ -233,6 +264,46 @@ class View {
             gameOver.classList.add("show");
         }, 2000);
     }
+
+    showWin(score) {
+        const bird = document.getElementById("bird");
+        const wrapper = document.getElementById("bird-wrapper");
+        const win = document.getElementById("game-win");
+        const flappy = document.querySelector(".flappy");
+
+        flappy.style.display = "block";
+
+        // Limpiar animaciones anteriores del pájaro
+        bird.classList.remove("explosion", "deadBird");
+
+        // Resetear animación del wrapper
+        wrapper.classList.remove("win-celebrate");
+        void wrapper.offsetHeight;
+        wrapper.classList.add("win-celebrate");
+
+        // Ocultar elementos del juego
+        document.querySelectorAll(".tube").forEach(el => el.remove());
+        document.querySelectorAll(".alternative-bird").forEach(el => el.remove());
+
+        // Mostrar cartel de victoria después del tiempo de la animación
+        setTimeout(() => {
+            win.querySelector("#win-score").textContent = `Puntaje final: ${score}`;
+            win.style.display = "flex";
+            win.classList.add("show");
+
+            flappy.style.display = "none";
+        }, 1600); // coincide con duración de la animación
+    }
+
+
+    hideWin() {
+        const gameWin = document.getElementById("game-win");
+        gameWin.classList.remove("show");
+        gameWin.style.display = "none";
+    }
+
+
+
 
     /* NO VA
     showCount() {

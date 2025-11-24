@@ -4,14 +4,24 @@ class Controller {
         this.model = model;
         this.view = view;
 
-        this.addListeners();
         this.lastTubeCount = 0;
         this.lastAltBirdCount = 0;
 
+        this.onpause = true;
+        this.frameId = null;
+
+        this.gameStartTime = null;
+
+        this.allowGravity = false;
+
+        // TIMER
+        this.timeLeft = 10;
+        this.intervalTimer = null;
+
+        this.addListeners();
     }
 
     addListeners() {
-
         const btn_play = document.getElementById('btn-jugar');
         btn_play.addEventListener('click', () => this.startGame());
 
@@ -19,69 +29,152 @@ class Controller {
         btn_full_menu.addEventListener('click', () => this.evaluateScreenMenu());
 
         const btn_restart = document.getElementById('btn-restart');
-        btn_restart.addEventListener('click', () => this.restartGame());
+        if (btn_restart)
+            btn_restart.addEventListener('click', () => this.restartGame());
 
         const btn_continue = document.getElementById('btn-continue');
-        btn_continue.addEventListener('click', () => this.continueGame());
+        if (btn_continue)
+            btn_continue.addEventListener('click', () => this.continueGame());
 
         const close_menu = document.getElementById('close-menu');
-        close_menu.addEventListener('click', () => this.view.closeMenu());
-
-        const continue_menu = document.getElementById('btn-continue');
-        continue_menu.addEventListener('click', () => this.continueGame());
+        if (close_menu)
+            close_menu.addEventListener('click', () => this.view.closeMenu());
 
         const retry = document.getElementById('retry-btn');
-        retry.addEventListener('click', () => this.restartGame());
+        if (retry)
+            retry.addEventListener('click', () => this.restartGame());
+
+        const winRetry = document.getElementById("win-retry-btn");
+        if (winRetry)
+            winRetry.addEventListener("click", () => this.restartGame());
+
 
         document.addEventListener("keydown", (e) => {
-
             if (e.key === "ArrowUp" || e.code === "Space") {
                 e.preventDefault();
-                this.model.jump();
+                if (!this.onpause) this.model.jump();
             }
         });
 
         document.addEventListener('click', (e) => {
             e.preventDefault();
-            this.model.jump();
+            if (!this.onpause) this.model.jump();
         });
-
-
-        this.onpause = false;
-
     }
 
     startGame() {
+        this.onpause = false;
         this.pause_visibility = true;
+        this.gameStartTime = null;
+
         const bird = document.getElementById('bird');
-        bird.style.animationPlayState = 'running';
-        bird.style.filter = 'none';
+        if (bird) {
+            // Aca activar animación de vuelo
+            bird.classList.add("bird-fly");
+
+            bird.style.animationPlayState = 'running';
+            bird.style.filter = 'none';
+        }
 
         this.view.showGame();
+        this.startVisibleTimer();
+
         setTimeout(() => {
-            requestAnimationFrame((t) => this.timerOn(t));
+            if (this.onpause) return;
+
+            this.allowGravity = true;
+            this.frameId = requestAnimationFrame((t) => this.timerOn(t));
         }, 1200);
-
     }
 
-    restartGame() {
-        this.onpause = false;
+    // --- TIMER DE 10 SEGUNDOS ---
+    startVisibleTimer() {
+        const timerText = document.getElementById("timer");
 
-        this.model.init();
+        if (this.intervalTimer) clearInterval(this.intervalTimer);
 
-        this.view.resetBirdPos();
-        this.view.hideTubes();
+        this.timeLeft = 10;
+        timerText.textContent = "0:" + String(this.timeLeft).padStart(2, "0");
 
+        this.intervalTimer = setInterval(() => {
+
+            if (this.onpause) return;
+
+            this.timeLeft--;
+            timerText.textContent = "0:" + String(this.timeLeft).padStart(2, "0");
+
+            if (this.timeLeft <= 0) {
+                clearInterval(this.intervalTimer);
+                this.winByTime();
+            }
+
+        }, 1000);
+    }
+
+
+    winByTime() {
+        this.onpause = true;
+
+        if (this.frameId) cancelAnimationFrame(this.frameId);
+
+        // Frenar cosas
+        this.model.restartTubes();
         this.lastTubeCount = 0;
+        this.lastAltBirdCount = 0;
 
-        this.startGame(this.model.tubes);
+        // Mostrar pantalla de victoria
+        this.handleGameWin();
     }
+
 
 
     continueGame() {
         this.onpause = false;
-        this.view.continueGame();
-        requestAnimationFrame((t) => this.timerOn(t));
+        this.view.closeMenu();
+        this.frameId = requestAnimationFrame(t => this.timerOn(t));
+    }
+
+
+    restartGame() {
+        this.onpause = true;
+        this.allowGravity = false;
+
+        if (this.frameId) cancelAnimationFrame(this.frameId);
+
+        this.model.init();
+        this.lastTubeCount = 0;
+        this.lastAltBirdCount = 0;
+        this.model.altBirds = [];
+
+        document.querySelectorAll(".tube").forEach(el => el.remove());
+        document.querySelectorAll(".alternative-bird").forEach(el => el.remove());
+
+        const bird = document.getElementById('bird');
+
+        bird.classList.remove("explosion", "deadBird", "win-celebrate");
+        bird.classList.add("bird-fly");   // ← AQUI
+
+        bird.style.opacity = "1";
+        bird.style.display = "block";
+        bird.style.filter = "none";
+
+        this.view.closeMenu();
+        if (this.view.hideLost) this.view.hideLost();
+        if (this.view.hideWin) this.view.hideWin();
+        this.view.showGame();
+
+        this.gameStartTime = null;
+        this.onpause = false;
+
+        if (this.intervalTimer) clearInterval(this.intervalTimer);
+        this.startVisibleTimer();
+
+        setTimeout(() => {
+            if (!this.onpause) {
+                this.allowGravity = true;
+                this.frameId = requestAnimationFrame((t) => this.timerOn(t));
+            }
+        }, 1200);
     }
 
     evaluateScreenMenu() {
@@ -91,45 +184,59 @@ class Controller {
         } else {
             this.view.fullScreen();
         }
-
-
     }
 
 
     checkCollisions() {
-        const birdBox = this.view.getBirdBox();
+        // usamos las cajas reducidas para que no pierda "por cercanía"
+        const birdBox = this.view.getReducedBirdBox();
         const gameBox = document.querySelector('.juego').getBoundingClientRect();
 
+        // 1) ¿Se sale del juego por arriba/abajo?
+        if (this.model.checkFlappyOutGame(birdBox, gameBox)) {
+            return true; // adentro de esta función ya se pone birdState = "dead"
+        }
+
+        // 2) ¿Choca con algún tubo?
         const tubeElements = document.querySelectorAll(".tube");
-        tubeElements.forEach((tubeEl) => {
+        for (const tubeEl of tubeElements) {
+            const tubeBox = this.view.getReducedTubeBox(tubeEl);
 
-            const tubeBox = this.view.getBox(tubeEl);
-
-            if (this.model.checkFlappyTouch(birdBox, tubeBox) || this.model.checkFlappyOutGame(birdBox, gameBox)) {
-                this.endGame();
-            }
-        });
-
-        const altBirds = document.querySelectorAll('.alternative-bird');
-        altBirds.forEach((alt_bird) => {
-            const altBirdBox = this.view.getBox(alt_bird);
-
-            if (this.model.checkFlappyTouch(birdBox, altBirdBox) || this.model.checkFlappyOutGame(birdBox, gameBox)) {
-                this.endGame();
+            if (this.model.checkFlappyTouch(birdBox, tubeBox)) {
+                return true; // también setea birdState = "dead"
             }
         }
-        )
+
+        return false;
     }
 
+
     endGame() {
-        if (this.model.checkLost()) {
+        this.onpause = true;
+
+        if (this.frameId) {
+            cancelAnimationFrame(this.frameId);
+            this.frameId = null;
+        }
+        if (this.intervalTimer) clearInterval(this.intervalTimer);
+
+        const lost = this.model.checkLost();
+
+        if (lost) {
+            // frenar lógica de tubos y bonus
             this.model.restartTubes();
-            this.view.hideTubes(this.model.tubes);
+            this.lastTubeCount = 0;
+            this.lastAltBirdCount = 0;
+
+            document.querySelectorAll(".tube").forEach(el => el.remove());
+
+            // la view se encarga de explosión + caída + game over
             this.handleGameLost();
             return;
         }
 
-        if (this.model.checkWin()) {
+        const win = this.model.checkWin();
+        if (win) {
             this.handleGameWin();
         }
     }
@@ -137,70 +244,59 @@ class Controller {
     timerOn(timestamp) {
         if (this.onpause) return;
 
-        const bird = document.getElementById('bird');
-        this.model.applyGravity();
-        this.view.changeBirdPos(bird, this.model.birdY);
+        if (this.gameStartTime === null) {
+            this.gameStartTime = timestamp;
+        }
 
+        const elapsed = timestamp - this.gameStartTime;
+        const bird = document.getElementById('bird');
+
+        if (this.allowGravity) {
+            this.model.applyGravity();
+            this.view.changeBirdPos(this.model.birdY);  // solo esto
+        }
 
         this.model.updateTubes(timestamp);
         this.model.updateAltBirds(timestamp);
 
         if (this.model.tubes.length > this.lastTubeCount) {
-
             for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
-                this.view.showTube(this.model.tubes[i]);   
+                this.view.showTube(this.model.tubes[i]);
             }
-
             this.lastTubeCount = this.model.tubes.length;
         }
 
-
         if (this.model.altBirds.length > this.lastAltBirdCount) {
-
             for (let i = this.lastAltBirdCount; i < this.model.altBirds.length; i++) {
                 this.view.showAltBirds(this.model.altBirds[i]);
             }
-
             this.lastAltBirdCount = this.model.altBirds.length;
         }
 
         this.view.updateAltBirds(this.model.altBirds);
-
-        this.model.tubePassed(
-            this.view.getBirdBox().left
-        );
-
         this.view.updateTubes(this.model.tubes);
 
-        if (this.checkCollisions()) {
-            this.endGame();
-            return;
-        }
-
-        if (this.model.checkLost()) {
-            this.endGame();
-            return;
-        }
-
-        if (!this.model.checkLost()) {
-            requestAnimationFrame((t) => this.timerOn(t));
-        }
-
+        this.model.tubePassed(this.view.getBirdBox().left);
         this.playerScore();
+
+        if (elapsed > 500 && (this.checkCollisions() || this.model.checkLost() || this.model.checkWin())) {
+            this.endGame();
+            return;
+        }
+
+        this.frameId = requestAnimationFrame((t) => this.timerOn(t));
     }
 
 
     playerScore() {
         const score_div = document.querySelector('.score');
-        const actual_score = this.model.score;
-        this.view.showScore(actual_score, score_div);
+        this.view.showScore(this.model.score, score_div);
     }
 
     handleGameWin() {
-
+        this.view.showWin(this.model.score);
     }
 
-    handleGameLost() {
-        this.view.showLost();
-    }
+
+    handleGameLost() { this.view.showLost(); }
 }
