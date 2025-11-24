@@ -50,11 +50,6 @@ class Model {
         // LISTAS
         this.restartTubes(); // tubes = [] y altBirds = []
 
-        /* (ya no usa) // posición visual del pájaro
-        const bird = document.getElementById("bird");
-        if (bird) {
-            bird.style.top = "200px";
-        }*/
     }
 
 

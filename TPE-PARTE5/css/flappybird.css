@@ -48,7 +48,7 @@
     height: 500px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    background-image: url('/assets/flappylogo.jpg');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/flappylogo.jpg');
     background-size: 100% 100%;
     background-color: black;
     background-blend-mode: lighten;
@@ -73,7 +73,7 @@
     bottom: 0px;
     position: absolute;
     bottom: 0;
-    background-image: url('/TPE-PARTE5/assets/tube2.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/tube2.png');
     background-repeat: no-repeat;
     background-size: cover;
     z-index: 999;
@@ -112,7 +112,7 @@
     position: absolute;
     left: 0;
     top: 0;                   /* SIEMPRE 0, el que se mueve es el wrapper */
-    background-image: url("/TPE-PARTE5/assets/birds.png");
+    background-image: url("/TPE-INTERFACES.github.io/TPE-PARTE5/assets/birds.png");
     background-repeat: no-repeat;
     background-size: 312px 104px;
     z-index: 50;
@@ -128,20 +128,20 @@
     height: 100px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-image: url('/TPE-PARTE5/assets/bird2.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bird2.png');
     z-index: 1000;
 }
 
 
 
 .explosion {
-    background-image: url('/TPE-PARTE5/assets/explosion.png') !important;
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/explosion.png') !important;
     background-size: 104px 104px !important;
     animation: none !important;
 }
 
 .deadBird {
-    background-image: url('/TPE-PARTE5/assets/deadflappy.png') !important;
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/deadflappy.png') !important;
     background-size: 104px 104px !important;
     animation: birdFall 1.5s ease-in forwards !important;
 }
@@ -185,48 +185,48 @@
 
 
 .layer1 {
-   background-image: url('/TPE-PARTE5/assets/bg4/9.png');
+   background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/9.png');
 
     animation: movement 4s linear infinite;
 }
 
 .layer2 {
-    background-image: url('/TPE-PARTE5/assets/bg4/8.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/8.png');
     animation: movement 5s linear infinite;
 }
 
 .layer3 {
-    background-image: url('/TPE-PARTE5/assets/bg4/7.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/7.png');
     animation: movement 8s linear infinite;
 }
 
 .layer4 {
-    background-image: url('/TPE-PARTE5/assets/bg4/6.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/6.png');
     animation: movement 10s linear infinite;
 }
 
 .layer5 {
-    background-image: url('/TPE-PARTE5/assets/bg4/5.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/5.png');
     animation: movement 14s linear infinite;
 }
 
 .layer6 {
-    background-image: url('/TPE-PARTE5/assets/bg4/4.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/4.png');
     animation: movement 18s linear infinite;
 }
 
 .layer7 {
-    background-image: url('/TPE-PARTE5/assets/bg4/3.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/3.png');
     animation: movement 25s linear infinite;
 }
 
 .layer8 {
-    background-image: url('/TPE-PARTE5/assets/bg4/2.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/2.png');
     animation: movement 40s linear infinite;
 }
 
 .layer9 {
-    background-image: url('/TPE-PARTE5/assets/bg4/1.png');
+    background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bg4/1.png');
     animation: movement 60s linear infinite;
 }
 
@@ -475,7 +475,7 @@
 
 /* ANIMACIÓN REALISTA DE VICTORIA */
 .win-celebrate {
-    background-image: url("../TPE-PARTE5/assets/birds.png") ;
+    background-image: url("/TPE-INTERFACES.github.io/TPE-PARTE5/assets/birds.png") ;
     animation: birdBackflip 1.2s ease-out forwards;
 }
 
@@ -494,4 +494,3 @@
         transform: translate(-50%, -40%) rotate(360deg) scale(1.2);
     }
 }
-
