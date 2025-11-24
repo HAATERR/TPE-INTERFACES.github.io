@@ -27,6 +27,7 @@ class Model {
         this.gravity = 0.5;
         this.jumpStrength = -8;
         this.birdVelocity = 0;
+        this.secBirdVelocity = 10;
 
         this.init();
     }
@@ -108,7 +109,7 @@ class Model {
 
         // moverlos hacia la izquierda
         this.altBirds.forEach(b => {
-            b.setPosX(b.getPosX() - this.tubeMovementVel);
+            b.setPosX(b.getPosX() - this.secBirdVelocity);
         });
 
         // borrar los que salen de pantalla
