@@ -191,6 +191,8 @@ class Controller {
         // usamos las cajas reducidas para que no pierda "por cercanía"
         const birdBox = this.view.getReducedBirdBox();
         const gameBox = document.querySelector('.juego').getBoundingClientRect();
+        const tubeElements = document.querySelectorAll(".tube");
+        const altBirds = document.querySelectorAll('.alternative-bird');
 
         // 1) ¿Se sale del juego por arriba/abajo?
         if (this.model.checkFlappyOutGame(birdBox, gameBox)) {
@@ -198,7 +200,7 @@ class Controller {
         }
 
         // 2) ¿Choca con algún tubo?
-        const tubeElements = document.querySelectorAll(".tube");
+        
         for (const tubeEl of tubeElements) {
             const tubeBox = this.view.getReducedTubeBox(tubeEl);
 
@@ -207,6 +209,13 @@ class Controller {
             }
         }
 
+        for(const bird of altBirds){
+            const altBirdBox = this.view.getReducedTubeBox(bird);
+
+            if(this.model.checkFlappyTouch(birdBox, altBirdBox)){
+                return true;
+            }
+        }
         return false;
     }
 
