@@ -48,7 +48,7 @@
     height: 500px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    background-image: url('../assets/flappylogo.jpg');
+    background-image: url('/assets/flappylogo.jpg');
     background-size: 100% 100%;
     background-color: black;
     background-blend-mode: lighten;
@@ -185,7 +185,8 @@
 
 
 .layer1 {
-    background-image: url('/TPE-PARTE5/assets/bg4/9.png');
+   background-image: url('/TPE-PARTE5/assets/bg4/9.png');
+
     animation: movement 4s linear infinite;
 }
 
@@ -474,7 +475,7 @@
 
 /* ANIMACIÓN REALISTA DE VICTORIA */
 .win-celebrate {
-    background-image: url("/TPE-PARTE5/assets/birds.png") ;
+    background-image: url("../TPE-PARTE5/assets/birds.png") ;
     animation: birdBackflip 1.2s ease-out forwards;
 }
 
