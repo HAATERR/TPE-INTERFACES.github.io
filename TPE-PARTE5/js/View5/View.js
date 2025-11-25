@@ -165,7 +165,7 @@ class View {
                 dom.style.left = tube.getPosX() + "px";
                 dom.style.height = tube.getHeight() + "px";
             } else {
-                dom.remove(); // tubo salió de pantalla → eliminar
+                dom.remove(); 
             }
         });
     }
@@ -302,24 +302,6 @@ class View {
         gameWin.style.display = "none";
     }
 
-
-
-
-    /* NO VA
-    showCount() {
-        const div = document.querySelector('.timer-start');
-        const timer = document.getElementById('timer');
-
-        div.style.display = 'block';
-
-        for (let i = 1; i <= 3; i++) {
-            timer.innerHTML = `${i}`;
-        }
-
-        div.style.display = 'none';
-    }
-
-    */
 
     showScore(score, score_div) {
         score_div.innerHTML = `Puntaje = ${score}`;

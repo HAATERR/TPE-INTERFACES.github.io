@@ -94,11 +94,10 @@
     overflow: hidden;
 }
 
-/* ENVOLTORIO QUE SE MUEVE CON LA GRAVEDAD */
 #bird-wrapper {
     position: absolute;
     left: 20%;
-    top: 50%;                 /* SIEMPRE arranca centrado */
+    top: 50%;                
     transform: translate(-50%, -50%);
     width: 104px;
     height: 104px;
@@ -111,7 +110,7 @@
     height: 104px;
     position: absolute;
     left: 0;
-    top: 0;                   /* SIEMPRE 0, el que se mueve es el wrapper */
+    top: 0;                   
     background-image: url("/TPE-INTERFACES.github.io/TPE-PARTE5/assets/birds.png");
     background-repeat: no-repeat;
     background-size: 312px 104px;
@@ -130,6 +129,7 @@
     background-repeat: no-repeat;
     background-image: url('/TPE-INTERFACES.github.io/TPE-PARTE5/assets/bird2.png');
     z-index: 1000;
+    top: var(--bird-top , 50%);
 }
 
 
@@ -149,11 +149,11 @@
 
 @keyframes birdFall {
    from {
-        top: var(--bird-top); /* El punto real donde está al morir */
+        top: var(--bird-top); 
     }
 
     to {
-        top: 120%;  /* Cae más allá de la parte inferior del div */
+        top: 120%;  
     }
 
 }
@@ -230,23 +230,7 @@
     animation: movement 60s linear infinite;
 }
 
-/*
-.layer10 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_10.png');
-    animation: movement 80s linear infinite;
-}
 
-
-.layer11 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_1.png');
-    animation: movement 120s linear infinite;
-}
-
-.layer12 {
-    background-image: url('/TPE-PARTE5/assets/bg-layers/bg_12.png');
-    animation: movement 10s linear infinite;
-}
-*/
 @keyframes movement {
     from {
         background-position-x: 0;
@@ -433,13 +417,13 @@
 
 .timer-start {
     position: absolute;
-    top: 50px;                /* justo debajo del puntaje */
+    top: 50px;               
     left: 0px;
     z-index: 1000;
     color: var(--ACCENT_COLOR);
-    font-size: 25px;          /* mismo tamaño que .score */
+    font-size: 25px;          
     font-family: inherit;
-    padding-left: 5px;        /* igual al score */
+    padding-left: 5px;       
 }
 
 .game-win-screen {

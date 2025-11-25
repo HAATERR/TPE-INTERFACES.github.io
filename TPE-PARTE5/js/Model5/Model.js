@@ -82,11 +82,11 @@ class Model {
         const height = 100;
         const width = 100;
 
-        // AltBird aparece entre los tubos actuales
         let gapTop = 80;
         let gapBottom = game_height - 180;
 
         const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
+        console.log(posY);
 
         const newAltBird = new AltBird(width, height, this.game_width, posY);
         this.altBirds.push(newAltBird);
@@ -96,18 +96,15 @@ class Model {
     updateAltBirds(timestamp) {
         const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
-        // crear un alt bird cada 2 segundos
         if (timestamp - this.lastAltBirdMade > 2000) {
             this.createAltBird(game_height);
             this.lastAltBirdMade = timestamp;
         }
 
-        // moverlos hacia la izquierda
         this.altBirds.forEach(b => {
             b.setPosX(b.getPosX() - this.secBirdVelocity);
         });
 
-        // borrar los que salen de pantalla
         this.altBirds = this.altBirds.filter(b => b.getPosX() > -b.getWidth());
     }
 
@@ -137,36 +134,7 @@ class Model {
     }
 
 
-    generateSecondaryCharacter() {
-        // idea: crear un personaje secundario en un momento random
-        // agregar una funcion que verifique si no lo toco
-        // si no lo toco, bonus
-        // modificar la forma de subir puntaje y de evaluar si ganaste
-    }
-
-    /*
-    birdUp(gameHeight) {
-        const newY = this.birdY - this.birdMovementDif;
-
-        if (newY < 0) {
-            this.birdState = "dead";
-        }
-
-        this.birdY = newY;
-        return this.birdY;
-    }
-
-    birdDown(gameHeight) {
-        const newY = this.birdY + this.gravity;
-
-        if (newY > gameHeight) {
-            this.birdState = "dead";
-        }
-
-        this.birdY = newY;
-        return this.birdY;
-    }
-        */
+   
 
     applyGravity() {
 

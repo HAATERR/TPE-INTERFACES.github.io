@@ -14,8 +14,7 @@ class Controller {
 
         this.allowGravity = false;
 
-        // TIMER
-        this.timeLeft = 10;
+        this.timeLeft = 90000;
         this.intervalTimer = null;
 
         this.addListeners();
@@ -69,7 +68,6 @@ class Controller {
 
         const bird = document.getElementById('bird');
         if (bird) {
-            // Aca activar animación de vuelo
             bird.classList.add("bird-fly");
 
             bird.style.animationPlayState = 'running';
@@ -87,7 +85,6 @@ class Controller {
         }, 1200);
     }
 
-    // --- TIMER DE 10 SEGUNDOS ---
     startVisibleTimer() {
         const timerText = document.getElementById("timer");
 
@@ -117,12 +114,10 @@ class Controller {
 
         if (this.frameId) cancelAnimationFrame(this.frameId);
 
-        // Frenar cosas
         this.model.restartTubes();
         this.lastTubeCount = 0;
         this.lastAltBirdCount = 0;
 
-        // Mostrar pantalla de victoria
         this.handleGameWin();
     }
 
@@ -188,24 +183,21 @@ class Controller {
 
 
     checkCollisions() {
-        // usamos las cajas reducidas para que no pierda "por cercanía"
         const birdBox = this.view.getReducedBirdBox();
         const gameBox = document.querySelector('.juego').getBoundingClientRect();
         const tubeElements = document.querySelectorAll(".tube");
         const altBirds = document.querySelectorAll('.alternative-bird');
 
-        // 1) ¿Se sale del juego por arriba/abajo?
         if (this.model.checkFlappyOutGame(birdBox, gameBox)) {
-            return true; // adentro de esta función ya se pone birdState = "dead"
+            return true;
         }
 
-        // 2) ¿Choca con algún tubo?
         
         for (const tubeEl of tubeElements) {
             const tubeBox = this.view.getReducedTubeBox(tubeEl);
 
             if (this.model.checkFlappyTouch(birdBox, tubeBox)) {
-                return true; // también setea birdState = "dead"
+                return true;
             }
         }
 
@@ -232,14 +224,12 @@ class Controller {
         const lost = this.model.checkLost();
 
         if (lost) {
-            // frenar lógica de tubos y bonus
             this.model.restartTubes();
             this.lastTubeCount = 0;
             this.lastAltBirdCount = 0;
 
             document.querySelectorAll(".tube").forEach(el => el.remove());
 
-            // la view se encarga de explosión + caída + game over
             this.handleGameLost();
             return;
         }
