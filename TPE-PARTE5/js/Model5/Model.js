@@ -1,5 +1,5 @@
 class Model {
-    constructor(tube, altBird, Bonus) {
+    constructor(tube, altBird, bonus) {
         this.tube = tube;
         this.altBird = altBird;
         this.bonus = bonus;
