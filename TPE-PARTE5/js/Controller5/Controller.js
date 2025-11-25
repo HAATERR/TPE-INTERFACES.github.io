@@ -86,26 +86,7 @@ class Controller {
     }
 
     startVisibleTimer() {
-        const timerText = document.getElementById("timer");
-
-        if (this.intervalTimer) clearInterval(this.intervalTimer);
-
-        this.timeLeft = 10;
-        timerText.textContent = "0:" + String(this.timeLeft).padStart(2, "0");
-
-        this.intervalTimer = setInterval(() => {
-
-            if (this.onpause) return;
-
-            this.timeLeft--;
-            timerText.textContent = "0:" + String(this.timeLeft).padStart(2, "0");
-
-            if (this.timeLeft <= 0) {
-                clearInterval(this.intervalTimer);
-                this.winByTime();
-            }
-
-        }, 1000);
+        this.view.startTimer();
     }
 
 
@@ -120,8 +101,6 @@ class Controller {
 
         this.handleGameWin();
     }
-
-
 
     continueGame() {
         this.onpause = false;
@@ -257,6 +236,7 @@ class Controller {
 
         this.model.updateTubes(timestamp);
         this.model.updateAltBirds(timestamp);
+        this.model.updateBonus(timestamp);
 
         if (this.model.tubes.length > this.lastTubeCount) {
             for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
@@ -274,6 +254,7 @@ class Controller {
 
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
+        this.view.updateBonues(this.model.bonus);
 
         this.model.tubePassed(this.view.getBirdBox().left);
         this.playerScore();

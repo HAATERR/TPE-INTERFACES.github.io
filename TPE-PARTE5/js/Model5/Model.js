@@ -1,13 +1,15 @@
 class Model {
-    constructor(tube, altBird) {
+    constructor(tube, altBird, Bonus) {
         this.tube = tube;
         this.altBird = altBird;
+        this.bonus = bonus;
 
         this.score = 0;
         this.amountTube = 20;
         this.currentTube = 0;
         this.tubes = [];
         this.altBirds = [];
+        this.bonus = [];
         this.AltBirdsMade = 0;
 
         this.minTubeDistance = 200;
@@ -29,26 +31,26 @@ class Model {
         this.birdVelocity = 0;
         this.secBirdVelocity = 10;
 
+        this.maxAmountBonus = 3;
+        this.lastBonusMade = 0;
+        this.currentBonus = 0;
+
         this.init();
     }
 
     init() {
-        // PUNTAJE / PROGRESO
         this.score = 0;
         this.currentTube = 0;
 
-        // CONTADORES PARA CREAR COSAS
         this.amountTubesCreated = 0;
         this.lastTubeMade = 0;
         this.lastAltBirdMade = 0;
 
-        // ESTADO DEL PÁJARO
         this.birdState = "alive";
         this.birdY = 250;
         this.birdVelocity = 0;
 
-        // LISTAS
-        this.restartTubes(); // tubes = [] y altBirds = []
+        this.restartTubes(); 
 
     }
 
@@ -56,6 +58,7 @@ class Model {
     restartTubes() {
         this.tubes = [];
         this.altBirds = [];
+        this.bonus = [];
     }
 
     createTube() {
@@ -86,11 +89,23 @@ class Model {
         let gapBottom = game_height - 180;
 
         const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
-        console.log(posY);
 
         const newAltBird = new AltBird(width, height, this.game_width, posY);
         this.altBirds.push(newAltBird);
         return newAltBird;
+    }
+
+    createBonus(game_height) {
+        const height = 60;
+        const width = 60;
+
+        let gapTop = 80;
+        let gapBottom = game_height - 60;
+        const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
+        const newBonus = new Bonus(width, height, this.game_width, posY);
+        this.bonus.push(newBonus);
+        return newBonus;
+
     }
 
     updateAltBirds(timestamp) {
@@ -133,8 +148,33 @@ class Model {
         }
     }
 
+    updateBonus(timestamp){
+        if (timestamp - this.lastTubeMade > 1000) {
+            this.createBonus();
+            this.lastBonusMade = timestamp;
+        }
 
-   
+        this.bonus.forEach(bon => {
+            bon.setPosX(tube.getPosX() - this.tubeMovementVel);
+        });
+
+        const oldLength = this.bonus.length;
+
+        this.bouns = this.bonus.filter(bon =>
+            bon.getPosX() > - bon.getWidth()
+        );
+
+        const removed = oldLength - this.bonus.length;
+
+        if (removed > 0) {
+            this.currentBonus = Math.max(0, this.currentBonus - removed);
+        }
+    }
+
+
+    gotBonus() {
+
+    }
 
     applyGravity() {
 
@@ -193,7 +233,7 @@ class Model {
 
         if (passed) {
             if (tube.type === "bottom") {
-                this.updateScore();
+                this.updateScore(1);
             }
             this.currentTube++;
         }
@@ -201,8 +241,8 @@ class Model {
         return passed;
     }
 
-    updateScore() {
-        this.score++;
+    updateScore(amount) {
+        this.score += amount;
     }
 
     checkLost() {

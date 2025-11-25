@@ -139,6 +139,18 @@ class View {
         document.querySelector(".juego").appendChild(el);
     }
 
+    showBonus(bonus){
+        const el = document.createElement("div");
+        el.classList.add("bonus");
+
+        el.style.position = "absolute";
+        el.style.width = altBird.getWidth() + "px";
+        el.style.height = altBird.getHeight() + "px";
+        el.style.left = altBird.getPosX() + "px";
+        el.style.top = altBird.posY + "px";
+
+        document.querySelector(".flappy").appendChild(el);
+    }
     updateAltBirds(birds) {
         const domBirds = document.querySelectorAll(".alternative-bird");
 
@@ -164,6 +176,21 @@ class View {
             if (tube) {
                 dom.style.left = tube.getPosX() + "px";
                 dom.style.height = tube.getHeight() + "px";
+            } else {
+                dom.remove(); 
+            }
+        });
+    }
+
+    updateBonus(bonus){
+        const domBonus = document.querySelectorAll(".bonus");
+
+        domTubes.forEach((dom, i) => {
+            const bon = bonus[i];
+
+            if (bon) {
+                dom.style.left = bon.getPosX() + "px";
+                dom.style.height = bon.getHeight() + "px";
             } else {
                 dom.remove(); 
             }
@@ -305,5 +332,9 @@ class View {
 
     showScore(score, score_div) {
         score_div.innerHTML = `Puntaje = ${score}`;
+    }
+
+    startTimer(){
+
     }
 }
