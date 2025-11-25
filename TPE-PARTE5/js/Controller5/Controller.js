@@ -286,7 +286,7 @@ class Controller {
 
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
-        tthis.view.updateBonus(this.model.bonus);
+        this.view.updateBonus(this.model.bonus);
 
 
         this.model.tubePassed(this.view.getBirdBox().left);
