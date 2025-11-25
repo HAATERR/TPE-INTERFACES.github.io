@@ -311,7 +311,7 @@ class Controller {
 
     playerScore() {
         const score_div = document.querySelector('.score');
-        this.view.showScore(this.model.score, score_div);
+        this.view.showScore(this.model.score, score_div, this.model.amountTube);
     }
 
     handleGameWin() {

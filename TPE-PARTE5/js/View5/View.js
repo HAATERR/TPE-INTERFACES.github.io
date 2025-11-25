@@ -333,11 +333,10 @@ class View {
     }
 
 
-    showScore(score, score_div) {
-        score_div.innerHTML = `Puntaje = ${score}`;
+    showScore(score, score_div, amount) {
+        score_div.innerHTML = `Tubos = ${score}/${amount}` ;
     }
 
     startTimer() {
-        /* VER ESTO */
     }
 }
