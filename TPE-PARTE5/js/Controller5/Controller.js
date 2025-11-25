@@ -194,7 +194,10 @@ class Controller {
         for (let i = 0; i < this.model.bonus.length; i++) {
             const bon = this.model.bonus[i];
             const dom = bonusElements[i];
+            if (!dom) continue;   // ← evita el error
+
             const bonBox = dom.getBoundingClientRect();
+
 
             if (this.model.checkFlappyBonus(birdBox, bonBox)) {
 
@@ -210,7 +213,7 @@ class Controller {
 
                 break; // evitar saltos de índice
             }
-        } 
+        }
         return false;
     }
 
