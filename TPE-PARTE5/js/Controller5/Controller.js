@@ -171,7 +171,7 @@ class Controller {
             return true;
         }
 
-        
+
         for (const tubeEl of tubeElements) {
             const tubeBox = this.view.getReducedTubeBox(tubeEl);
 
@@ -180,13 +180,37 @@ class Controller {
             }
         }
 
-        for(const bird of altBirds){
+        for (const bird of altBirds) {
             const altBirdBox = this.view.getReducedTubeBox(bird);
 
-            if(this.model.checkFlappyTouch(birdBox, altBirdBox)){
+            if (this.model.checkFlappyTouch(birdBox, altBirdBox)) {
                 return true;
             }
         }
+
+        // 3) ¿Toca un bonus?
+        const bonusElements = document.querySelectorAll(".bonus");
+
+        for (let i = 0; i < this.model.bonus.length; i++) {
+            const bon = this.model.bonus[i];
+            const dom = bonusElements[i];
+            const bonBox = dom.getBoundingClientRect();
+
+            if (this.model.checkFlappyBonus(birdBox, bonBox)) {
+
+                // sumar puntos
+                this.model.updateScore(5);
+
+                // animación visual
+                this.view.playBonusEffect(bon.getPosX(), bon.getPosY());
+
+                // eliminar bonus del model y del DOM
+                this.model.bonus.splice(i, 1);
+                dom.remove();
+
+                break; // evitar saltos de índice
+            }
+        } 
         return false;
     }
 
@@ -252,9 +276,18 @@ class Controller {
             this.lastAltBirdCount = this.model.altBirds.length;
         }
 
+        if (this.model.bonus.length > this.lastBonusCount) {
+            for (let i = this.lastBonusCount; i < this.model.bonus.length; i++) {
+                this.view.showBonus(this.model.bonus[i]);
+            }
+            this.lastBonusCount = this.model.bonus.length;
+        }
+
+
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
-        this.view.updateBonues(this.model.bonus);
+        tthis.view.updateBonus(this.model.bonus);
+
 
         this.model.tubePassed(this.view.getBirdBox().left);
         this.playerScore();

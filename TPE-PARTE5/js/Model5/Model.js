@@ -50,7 +50,7 @@ class Model {
         this.birdY = 250;
         this.birdVelocity = 0;
 
-        this.restartTubes(); 
+        this.restartTubes();
 
     }
 
@@ -148,32 +148,38 @@ class Model {
         }
     }
 
-    updateBonus(timestamp){
-        if (timestamp - this.lastTubeMade > 1000) {
-            this.createBonus();
+    updateBonus(timestamp) {
+        const game_height = document.querySelector(".juego").getBoundingClientRect().height;
+
+        // crear cada 1.5 segundos
+        if (timestamp - this.lastBonusMade > 1500) {
+            this.createBonus(game_height);
             this.lastBonusMade = timestamp;
         }
 
+        // mover bonus
         this.bonus.forEach(bon => {
-            bon.setPosX(tube.getPosX() - this.tubeMovementVel);
+            bon.setPosX(bon.getPosX() - this.tubeMovementVel);
         });
 
-        const oldLength = this.bonus.length;
-
-        this.bouns = this.bonus.filter(bon =>
-            bon.getPosX() > - bon.getWidth()
+        // limpiar bonus que salen
+        this.bonus = this.bonus.filter(bon =>
+            bon.getPosX() > -bon.getWidth()
         );
-
-        const removed = oldLength - this.bonus.length;
-
-        if (removed > 0) {
-            this.currentBonus = Math.max(0, this.currentBonus - removed);
-        }
     }
 
 
-    gotBonus() {
 
+    checkFlappyBonus(birdBox, bonusBox) {
+        const overlapX =
+            birdBox.left <= bonusBox.right &&
+            birdBox.right >= bonusBox.left;
+
+        const overlapY =
+            birdBox.top <= bonusBox.bottom &&
+            birdBox.bottom >= bonusBox.top;
+
+        return overlapX && overlapY;
     }
 
     applyGravity() {
