@@ -188,7 +188,7 @@ class Controller {
             }
         }
 
-        // 3) ¿Toca un bonus?
+       /*
         const bonusElements = document.querySelectorAll(".bonus");
 
         for (let i = 0; i < this.model.bonus.length; i++) {
@@ -214,6 +214,7 @@ class Controller {
                 break; // evitar saltos de índice
             }
         }
+            */
         return false;
     }
 
@@ -263,7 +264,7 @@ class Controller {
 
         this.model.updateTubes(timestamp);
         this.model.updateAltBirds(timestamp);
-        this.model.updateBonus(timestamp);
+        /* this.model.updateBonus(timestamp); */
 
         if (this.model.tubes.length > this.lastTubeCount) {
             for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
@@ -279,6 +280,7 @@ class Controller {
             this.lastAltBirdCount = this.model.altBirds.length;
         }
 
+        /*
         if (this.model.bonus.length > this.lastBonusCount) {
             for (let i = this.lastBonusCount; i < this.model.bonus.length; i++) {
                 this.view.showBonus(this.model.bonus[i]);
@@ -286,10 +288,11 @@ class Controller {
             this.lastBonusCount = this.model.bonus.length;
         }
 
+        */
 
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
-        this.view.updateBonus(this.model.bonus);
+       /* this.view.updateBonus(this.model.bonus); */
 
 
         this.model.tubePassed(this.view.getBirdBox().left);

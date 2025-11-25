@@ -94,7 +94,7 @@ class Model {
         this.altBirds.push(newAltBird);
         return newAltBird;
     }
-
+/*
     createBonus(game_height) {
         const height = 60;
         const width = 60;
@@ -107,7 +107,7 @@ class Model {
         return newBonus;
 
     }
-
+*/
     updateAltBirds(timestamp) {
         const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
@@ -148,6 +148,7 @@ class Model {
         }
     }
 
+    /*
     updateBonus(timestamp) {
         const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
@@ -181,6 +182,7 @@ class Model {
 
         return overlapX && overlapY;
     }
+        */
 
     applyGravity() {
 

@@ -138,7 +138,7 @@ class View {
 
         document.querySelector(".juego").appendChild(el);
     }
-
+/*
     showBonus(bonus) {
         const el = document.createElement("div");
         el.classList.add("bonus");
@@ -151,6 +151,7 @@ class View {
 
         document.querySelector(".juego").appendChild(el);
     }
+        */
 
     updateAltBirds(birds) {
         const domBirds = document.querySelectorAll(".alternative-bird");
@@ -182,7 +183,7 @@ class View {
             }
         });
     }
-
+/*
     updateBonus(bonus) {
         const domBonus = document.querySelectorAll(".bonus");
 
@@ -196,7 +197,7 @@ class View {
             }
         });
     }
-
+*/
 
     hideTubes() {
         document.querySelectorAll(".tube").forEach(t => t.remove());
