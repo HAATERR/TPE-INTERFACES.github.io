@@ -17,7 +17,7 @@ class Model {
         this.birdMovementDif = 20;
         this.birdMovementVel = 1;
 
-        this.tubeMovementVel = 5;
+        this.tubeMovementVel = 3;
         this.lastTubeMade = 0;
 
         this.birdState = "alive";
@@ -29,7 +29,7 @@ class Model {
         this.gravity = 0.5;
         this.jumpStrength = -8;
         this.birdVelocity = 0;
-        this.secBirdVelocity = 14;
+        this.secBirdVelocity = 10;
 
         this.maxAmountBonus = 3;
         this.lastBonusMade = 0;

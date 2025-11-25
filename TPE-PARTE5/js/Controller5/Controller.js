@@ -65,6 +65,8 @@ class Controller {
         this.onpause = false;
         this.pause_visibility = true;
         this.gameStartTime = null;
+        this.lastAltBirdCount = 0;
+
 
         const bird = document.getElementById('bird');
         if (bird) {
