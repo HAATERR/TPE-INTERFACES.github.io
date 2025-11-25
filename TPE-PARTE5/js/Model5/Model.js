@@ -17,7 +17,7 @@ class Model {
         this.birdMovementDif = 20;
         this.birdMovementVel = 1;
 
-        this.tubeMovementVel = 3;
+        this.tubeMovementVel = 5;
         this.lastTubeMade = 0;
 
         this.birdState = "alive";
@@ -29,7 +29,7 @@ class Model {
         this.gravity = 0.5;
         this.jumpStrength = -8;
         this.birdVelocity = 0;
-        this.secBirdVelocity = 10;
+        this.secBirdVelocity = 14;
 
         this.maxAmountBonus = 3;
         this.lastBonusMade = 0;
@@ -90,7 +90,7 @@ class Model {
 
         const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
 
-        const newAltBird = new AltBird(width, height, this.game_width, posY);
+        const newAltBird = new AltBird(width, height, this.game_width+100, posY);
         this.altBirds.push(newAltBird);
         return newAltBird;
     }

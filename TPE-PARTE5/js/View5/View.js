@@ -161,6 +161,7 @@ class View {
 
             if (bird) {
                 dom.style.left = bird.getPosX() + "px";
+                dom.style.top = bird.getPosY() + "px";
             } else {
                 dom.remove();
             }
@@ -337,6 +338,6 @@ class View {
     }
 
     startTimer() {
-
+        /* VER ESTO */
     }
 }
