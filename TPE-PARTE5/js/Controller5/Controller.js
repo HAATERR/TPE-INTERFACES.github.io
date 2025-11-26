@@ -16,6 +16,7 @@ class Controller {
 
         this.timeLeft = 90000;
         this.intervalTimer = null;
+        this.lastBonusCount = 0;
 
         this.addListeners();
     }
@@ -92,18 +93,6 @@ class Controller {
     }
 
 
-    winByTime() {
-        this.onpause = true;
-
-        if (this.frameId) cancelAnimationFrame(this.frameId);
-
-        this.model.restartTubes();
-        this.lastTubeCount = 0;
-        this.lastAltBirdCount = 0;
-
-        this.handleGameWin();
-    }
-
     continueGame() {
         this.onpause = false;
         this.view.closeMenu();
@@ -124,6 +113,8 @@ class Controller {
 
         document.querySelectorAll(".tube").forEach(el => el.remove());
         document.querySelectorAll(".alternative-bird").forEach(el => el.remove());
+        document.querySelectorAll(".bonus").forEach(b => b.remove());
+
 
         const bird = document.getElementById('bird');
 
@@ -190,7 +181,6 @@ class Controller {
             }
         }
 
-       /*
         const bonusElements = document.querySelectorAll(".bonus");
 
         for (let i = 0; i < this.model.bonus.length; i++) {
@@ -207,7 +197,7 @@ class Controller {
                 this.model.updateScore(5);
 
                 // animación visual
-                this.view.playBonusEffect(bon.getPosX(), bon.getPosY());
+                // this.view.playBonusEffect(bon.getPosX(), bon.getPosY());
 
                 // eliminar bonus del model y del DOM
                 this.model.bonus.splice(i, 1);
@@ -216,7 +206,7 @@ class Controller {
                 break; // evitar saltos de índice
             }
         }
-            */
+            
         return false;
     }
 
@@ -266,7 +256,7 @@ class Controller {
 
         this.model.updateTubes(timestamp);
         this.model.updateAltBirds(timestamp);
-        /* this.model.updateBonus(timestamp); */
+        this.model.updateBonus(timestamp);
 
         if (this.model.tubes.length > this.lastTubeCount) {
             for (let i = this.lastTubeCount; i < this.model.tubes.length; i++) {
@@ -282,7 +272,7 @@ class Controller {
             this.lastAltBirdCount = this.model.altBirds.length;
         }
 
-        /*
+        
         if (this.model.bonus.length > this.lastBonusCount) {
             for (let i = this.lastBonusCount; i < this.model.bonus.length; i++) {
                 this.view.showBonus(this.model.bonus[i]);
@@ -290,11 +280,12 @@ class Controller {
             this.lastBonusCount = this.model.bonus.length;
         }
 
-        */
+    
 
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
-       /* this.view.updateBonus(this.model.bonus); */
+        this.view.updateBonus(this.model.bonus);
+
 
 
         this.model.tubePassed(this.view.getBirdBox().left);

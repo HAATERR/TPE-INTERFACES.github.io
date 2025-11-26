@@ -31,9 +31,10 @@ class Model {
         this.birdVelocity = 0;
         this.secBirdVelocity = 10;
 
-        this.maxAmountBonus = 3;
+        this.maxAmountBonus = 5;
         this.lastBonusMade = 0;
         this.currentBonus = 0;
+
 
         this.init();
     }
@@ -90,24 +91,28 @@ class Model {
 
         const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
 
-        const newAltBird = new AltBird(width, height, this.game_width+100, posY);
+        const newAltBird = new AltBird(width, height, this.game_width + 100, posY);
         this.altBirds.push(newAltBird);
         return newAltBird;
     }
-/*
-    createBonus(game_height) {
-        const height = 60;
-        const width = 60;
 
-        let gapTop = 80;
-        let gapBottom = game_height - 60;
-        const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
-        const newBonus = new Bonus(width, height, this.game_width, posY);
-        this.bonus.push(newBonus);
+    createBonus(game_height) {
+        let newBonus = null;
+        if (this.currentBonus < this.maxAmountBonus) {
+            const height = 40;
+            const width = 40;
+
+            let gapTop = 80;
+            let gapBottom = game_height - 60;
+            const posY = Math.floor(Math.random() * (gapBottom - gapTop)) + gapTop;
+            const newBonus = new Bonus(width, height, this.game_width, posY);
+            this.bonus.push(newBonus);
+            this.currentBonus++;
+        }
         return newBonus;
 
     }
-*/
+
     updateAltBirds(timestamp) {
         const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
@@ -148,12 +153,12 @@ class Model {
         }
     }
 
-    /*
+
     updateBonus(timestamp) {
         const game_height = document.querySelector(".juego").getBoundingClientRect().height;
 
         // crear cada 1.5 segundos
-        if (timestamp - this.lastBonusMade > 1500) {
+        if (timestamp - this.lastBonusMade > 3000) {
             this.createBonus(game_height);
             this.lastBonusMade = timestamp;
         }
@@ -182,7 +187,7 @@ class Model {
 
         return overlapX && overlapY;
     }
-        */
+
 
     applyGravity() {
 

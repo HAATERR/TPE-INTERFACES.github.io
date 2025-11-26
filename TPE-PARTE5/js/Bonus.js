@@ -18,6 +18,10 @@ class Bonus{
         return this.posX;
     }
 
+    getPosY(){
+        return this.posY;
+    }
+
     setHeight(new_height){
         this.height = new_height;
     }

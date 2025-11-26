@@ -85,7 +85,7 @@ class View {
         const btn_change = document.getElementById("btn-pantalla-completa");
         const bird = document.getElementById('bird');
         document.getElementById('game-over').style.display = 'none';
-        bird.classList.remove('deadeBird');
+        bird.classList.remove('deadBird');
         bird.classList.remove('show');
 
         this.closeMenu();
@@ -138,20 +138,19 @@ class View {
 
         document.querySelector(".juego").appendChild(el);
     }
-    /*
-        showBonus(bonus) {
-            const el = document.createElement("div");
-            el.classList.add("bonus");
-    
-            el.style.position = "absolute";
-            el.style.width = bonus.getWidth() + "px";
-            el.style.height = bonus.getHeight() + "px";
-            el.style.left = bonus.getPosX() + "px";
-            el.style.top = bonus.getPosY() + "px";
-    
-            document.querySelector(".juego").appendChild(el);
-        }
-            */
+
+    showBonus(bonus) {
+        const el = document.createElement("div");
+        el.classList.add("bonus");
+
+        el.style.position = "absolute";
+        el.style.width = bonus.getWidth() + "px";
+        el.style.height = bonus.getHeight() + "px";
+        el.style.left = bonus.getPosX() + "px";
+        el.style.top = bonus.getPosY() + "px";
+
+        document.querySelector(".juego").appendChild(el);
+    }
 
     updateAltBirds(birds) {
         const domBirds = document.querySelectorAll(".alternative-bird");
@@ -184,26 +183,39 @@ class View {
             }
         });
     }
-    /*
-        updateBonus(bonus) {
-            const domBonus = document.querySelectorAll(".bonus");
-    
-            domBonus.forEach((dom, i) => {
-                const bon = bonus[i];
-    
-                if (bon) {
-                    dom.style.left = bon.getPosX() + "px";
-                } else {
-                    dom.remove();
-                }
-            });
-        }
-    */
+
+    updateBonus(bonus) {
+        const domBonus = document.querySelectorAll(".bonus");
+
+        domBonus.forEach((dom, i) => {
+            const bon = bonus[i];
+
+            if (bon) {
+                dom.style.left = bon.getPosX() + "px";
+            } else {
+                dom.remove();
+            }
+        });
+    }
+
 
     hideTubes() {
         document.querySelectorAll(".tube").forEach(t => t.remove());
+        document.querySelectorAll('.bonus').forEach(t => t.remove());
     }
 
+
+    playBonusEffect(x, y) {
+        const fx = document.createElement("div");
+        fx.classList.add("bonus-effect");
+
+        fx.style.left = x + "px";
+        fx.style.top = y + "px";
+
+        document.querySelector(".juego").appendChild(fx);
+
+        setTimeout(() => fx.remove(), 500);
+    }
 
 
     showMenu() {
@@ -275,6 +287,8 @@ class View {
         btn_pause.style.visibility = 'hidden';
 
         document.querySelectorAll(".alternative-bird").forEach(el => el.style.display = "none");
+        document.querySelectorAll(".bonus").forEach(el => el.style.display = "none");
+
 
         const birdTop = bird.getBoundingClientRect().top;
         bird.style.setProperty('--bird-top', birdTop + "px");
@@ -283,6 +297,8 @@ class View {
 
         // MOSTRAR PUNTAJE 
         document.getElementById("final-score").textContent = score;
+
+
 
         setTimeout(() => {
             bird.classList.remove('explosion');
@@ -317,6 +333,7 @@ class View {
         // Ocultar elementos del juego
         document.querySelectorAll(".tube").forEach(el => el.remove());
         document.querySelectorAll(".alternative-bird").forEach(el => el.remove());
+        document.querySelectorAll('.bonus').forEach(el => el.remove());
 
         // Mostrar cartel de victoria después del tiempo de la animación
         setTimeout(() => {
@@ -337,7 +354,18 @@ class View {
 
 
     showScore(score, score_div, amount) {
-        score_div.innerHTML = `Tubos = ${score}/${amount}`;
+        score_div.innerHTML = `
+            <div class="score-box">
+                <span class="score-label">PUNTAJE</span>
+                <span class="score-value">${score}</span>
+                <span class="score-total">/ ${amount}</span>
+            </div>
+            `; 
+
+        // Animación de "pop" al sumar punto
+        score_div.classList.remove("score-pop");
+        void score_div.offsetWidth;
+        score_div.classList.add("score-pop");
     }
 
     startTimer() {
