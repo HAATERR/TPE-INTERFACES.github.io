@@ -138,20 +138,20 @@ class View {
 
         document.querySelector(".juego").appendChild(el);
     }
-/*
-    showBonus(bonus) {
-        const el = document.createElement("div");
-        el.classList.add("bonus");
-
-        el.style.position = "absolute";
-        el.style.width = bonus.getWidth() + "px";
-        el.style.height = bonus.getHeight() + "px";
-        el.style.left = bonus.getPosX() + "px";
-        el.style.top = bonus.getPosY() + "px";
-
-        document.querySelector(".juego").appendChild(el);
-    }
-        */
+    /*
+        showBonus(bonus) {
+            const el = document.createElement("div");
+            el.classList.add("bonus");
+    
+            el.style.position = "absolute";
+            el.style.width = bonus.getWidth() + "px";
+            el.style.height = bonus.getHeight() + "px";
+            el.style.left = bonus.getPosX() + "px";
+            el.style.top = bonus.getPosY() + "px";
+    
+            document.querySelector(".juego").appendChild(el);
+        }
+            */
 
     updateAltBirds(birds) {
         const domBirds = document.querySelectorAll(".alternative-bird");
@@ -184,21 +184,21 @@ class View {
             }
         });
     }
-/*
-    updateBonus(bonus) {
-        const domBonus = document.querySelectorAll(".bonus");
-
-        domBonus.forEach((dom, i) => {
-            const bon = bonus[i];
-
-            if (bon) {
-                dom.style.left = bon.getPosX() + "px";
-            } else {
-                dom.remove();
-            }
-        });
-    }
-*/
+    /*
+        updateBonus(bonus) {
+            const domBonus = document.querySelectorAll(".bonus");
+    
+            domBonus.forEach((dom, i) => {
+                const bon = bonus[i];
+    
+                if (bon) {
+                    dom.style.left = bon.getPosX() + "px";
+                } else {
+                    dom.remove();
+                }
+            });
+        }
+    */
 
     hideTubes() {
         document.querySelectorAll(".tube").forEach(t => t.remove());
@@ -266,8 +266,7 @@ class View {
     }
 
 
-    showLost() {
-
+    showLost(score) {
         const bird = document.getElementById("bird");
         const flappy = document.querySelector(".flappy");
         const gameOver = document.getElementById("game-over");
@@ -275,13 +274,15 @@ class View {
 
         btn_pause.style.visibility = 'hidden';
 
-        // OCULTAR pájaros alternativos cuando pierde
         document.querySelectorAll(".alternative-bird").forEach(el => el.style.display = "none");
 
         const birdTop = bird.getBoundingClientRect().top;
         bird.style.setProperty('--bird-top', birdTop + "px");
 
         bird.classList.add('explosion');
+
+        // MOSTRAR PUNTAJE 
+        document.getElementById("final-score").textContent = score;
 
         setTimeout(() => {
             bird.classList.remove('explosion');
@@ -294,6 +295,8 @@ class View {
             gameOver.classList.add("show");
         }, 2000);
     }
+
+
 
     showWin(score) {
         const bird = document.getElementById("bird");
@@ -334,9 +337,10 @@ class View {
 
 
     showScore(score, score_div, amount) {
-        score_div.innerHTML = `Tubos = ${score}/${amount}` ;
+        score_div.innerHTML = `Tubos = ${score}/${amount}`;
     }
 
     startTimer() {
     }
+
 }

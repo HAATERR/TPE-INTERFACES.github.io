@@ -319,5 +319,8 @@ class Controller {
     }
 
 
-    handleGameLost() { this.view.showLost(); }
+    handleGameLost() {
+    this.view.showLost(this.model.score);
+}
+
 }
