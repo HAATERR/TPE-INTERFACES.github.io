@@ -115,11 +115,16 @@ class Controller {
         document.querySelectorAll(".alternative-bird").forEach(el => el.remove());
         document.querySelectorAll(".bonus").forEach(b => b.remove());
 
+        this.model.bonus = [];               // vacía el array en el modelo
+        this.model.currentBonus = 0;         // contador de bonus en el modelo (si lo usás)
+        this.model.lastBonusMade = 0;        // tiempo del último bonus (evita waiting)
+        this.lastBonusCount = 0;
+
 
         const bird = document.getElementById('bird');
 
         bird.classList.remove("explosion", "deadBird", "win-celebrate");
-        bird.classList.add("bird-fly");   // ← AQUI
+        bird.classList.add("bird-fly");
 
         bird.style.opacity = "1";
         bird.style.display = "block";
@@ -206,7 +211,7 @@ class Controller {
                 break; // evitar saltos de índice
             }
         }
-            
+
         return false;
     }
 
@@ -272,7 +277,7 @@ class Controller {
             this.lastAltBirdCount = this.model.altBirds.length;
         }
 
-        
+
         if (this.model.bonus.length > this.lastBonusCount) {
             for (let i = this.lastBonusCount; i < this.model.bonus.length; i++) {
                 this.view.showBonus(this.model.bonus[i]);
@@ -280,7 +285,7 @@ class Controller {
             this.lastBonusCount = this.model.bonus.length;
         }
 
-    
+
 
         this.view.updateAltBirds(this.model.altBirds);
         this.view.updateTubes(this.model.tubes);
@@ -311,7 +316,7 @@ class Controller {
 
 
     handleGameLost() {
-    this.view.showLost(this.model.score);
-}
+        this.view.showLost(this.model.score);
+    }
 
 }
